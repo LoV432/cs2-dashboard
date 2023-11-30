@@ -1,4 +1,3 @@
-//@ts-ignore
 import { Server } from '@fabricio-191/valve-server-query';
 
 export const csServer = await Server({

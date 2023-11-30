@@ -6,11 +6,13 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@fabricio-191/valve-server-query": "^4.1.9",
 		"next": "14.0.3",
+		"patch-package": "^8.0.0",
 		"react": "^18",
 		"react-dom": "^18"
 	},

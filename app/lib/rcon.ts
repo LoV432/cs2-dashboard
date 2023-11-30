@@ -1,4 +1,3 @@
-//@ts-ignore
 import { RCON } from '@fabricio-191/valve-server-query';
 
 export const rcon = await RCON({

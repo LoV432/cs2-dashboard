@@ -1,0 +1,12 @@
+diff --git a/node_modules/@fabricio-191/valve-server-query/package.json b/node_modules/@fabricio-191/valve-server-query/package.json
+index e736924..0e9ff19 100644
+--- a/node_modules/@fabricio-191/valve-server-query/package.json
++++ b/node_modules/@fabricio-191/valve-server-query/package.json
+@@ -19,6 +19,7 @@
+   "module": "./lib/index.js",
+   "main": "./lib/index.js",
+   "exports": {
++    "types": "./typings/index.d.ts",
+ 	  "import": "./lib/index.js",
+ 	  "require": "./lib/index.js"
+   },
