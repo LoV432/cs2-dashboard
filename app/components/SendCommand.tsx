@@ -9,9 +9,14 @@ export default function SendCommand() {
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-	async function postCommand(e: React.MouseEvent<HTMLButtonElement>) {
+	async function postCommand(
+		e:
+			| React.MouseEvent<HTMLButtonElement>
+			| React.KeyboardEvent<HTMLInputElement>
+	) {
 		if (e.currentTarget.getAttribute('disabled') == 'true') return;
 		const command = inputValueRef.current.value;
+		inputValueRef.current.value = '';
 		sendButtonRef.current.setAttribute('disabled', 'true');
 		setChatStore((prev) => [
 			...prev,
@@ -39,7 +44,6 @@ export default function SendCommand() {
 			}
 		]);
 		sendButtonRef.current.removeAttribute('disabled');
-		inputValueRef.current.value = '';
 	}
 
 	return (
@@ -47,6 +51,11 @@ export default function SendCommand() {
 			<div className="w-4/6">
 				<div>
 					<input
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								postCommand(e);
+							}
+						}}
 						ref={inputValueRef}
 						className="input join-item input-bordered w-full"
 						placeholder="Type Command..."
