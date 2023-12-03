@@ -18,6 +18,13 @@ export default function SendCommand() {
 		const command = inputValueRef.current.value;
 		inputValueRef.current.value = '';
 		sendButtonRef.current.setAttribute('disabled', 'true');
+
+		if (command === 'clear') {
+			setChatStore([]);
+			sendButtonRef.current.removeAttribute('disabled');
+			return;
+		}
+
 		setChatStore((prev) => [
 			...prev,
 			{
