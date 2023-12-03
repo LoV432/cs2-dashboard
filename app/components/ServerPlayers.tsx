@@ -10,13 +10,14 @@ export default function ServerPlayers({
 	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
 
 	useEffect(() => {
-		setInterval(() => {
+		const getPlayersInterval = setInterval(() => {
 			fetch('/api/get-players')
 				.then((res) => res.json())
 				.then((data) => {
 					setAllPlayers(data);
 				});
 		}, 5000);
+		return () => clearInterval(getPlayersInterval);
 	}, []);
 
 	return (

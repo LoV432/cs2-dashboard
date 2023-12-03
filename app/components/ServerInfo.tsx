@@ -8,13 +8,14 @@ export default function ServerInfo({
 }) {
 	const [serverInfo, setServerInfo] = useState(serverInfoPreRender);
 	useEffect(() => {
-		setInterval(() => {
+		const serverInfoInterval = setInterval(() => {
 			fetch('/api/server-info')
 				.then((res) => res.json())
 				.then((data) => {
 					setServerInfo(data);
 				});
 		}, 5000);
+		return () => clearInterval(serverInfoInterval);
 	}, []);
 	return (
 		<div className="flex flex-row justify-evenly font-bold">
