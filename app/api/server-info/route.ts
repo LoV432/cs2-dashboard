@@ -1,5 +1,6 @@
 import { csServer } from '@/app/lib/server';
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 //@ts-ignore
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json

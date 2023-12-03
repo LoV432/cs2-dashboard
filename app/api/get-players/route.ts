@@ -1,6 +1,7 @@
 import { rcon } from '@/app/lib/rcon';
 import { parsePlayerData } from '@/app/lib/parse-players';
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
 	const rconRes = await rcon.exec('status');
