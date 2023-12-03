@@ -1,6 +1,6 @@
 import { rcon } from '@/app/lib/rcon';
 
-interface Player {
+export interface Player {
 	id: number;
 	time: string;
 	ping: number;
@@ -19,7 +19,7 @@ export async function GET() {
 	});
 }
 
-function parsePlayerData(data: string): Player[] {
+export function parsePlayerData(data: string): Player[] {
 	const playerRegex =
 		/(\d+)\s+((?:\d+:)?(?:\d+:)?\d+)\s+(\d+)\s+(\d+)\s+(\S+)\s+(\d+)\s+(\d+\.\d+\.\d+\.\d+:\d+)\s+'(.+)'/;
 	const players: Player[] = [];
