@@ -13,6 +13,9 @@ export async function GET() {
 	const csServer = await csServerInit();
 	const serverInfo = await csServer.getInfo();
 	return new Response(JSON.stringify(serverInfo), {
-		headers: { 'Content-Type': 'application/json' }
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		}
 	});
 }
