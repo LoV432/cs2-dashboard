@@ -1,11 +1,20 @@
 export const dynamic = 'force-dynamic';
 import { rconInit } from '@/app/lib/rcon';
-import { parsePlayerData } from '@/app/lib/parse-players';
+import { parsePlayerData, Player } from '@/app/lib/parse-players';
+
+let lastReqTime = 0;
+let playersData: Player[] = [];
 
 export async function GET() {
+	if (Date.now() - lastReqTime < 5000) {
+		return new Response(JSON.stringify(playersData), {
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
+	lastReqTime = Date.now();
 	const rcon = await rconInit();
 	const rconRes = await rcon.exec('status');
-	const playersData = parsePlayerData(rconRes);
+	playersData = parsePlayerData(rconRes);
 	return new Response(JSON.stringify(playersData), {
 		headers: { 'Content-Type': 'application/json' }
 	});
