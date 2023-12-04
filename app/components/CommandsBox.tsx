@@ -7,18 +7,18 @@ import { RecoilRoot } from 'recoil';
 export default function CommandsBox() {
 	const chatWindowsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 	return (
-		<div className="flex h-2/3 w-full flex-col place-items-center p-5 sm:w-[44rem]">
+		<div
+			ref={chatWindowsRef}
+			className="m-5 flex h-[35rem] w-full flex-col overflow-scroll rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]"
+		>
 			<RecoilRoot>
-				<div
-					ref={chatWindowsRef}
-					className="h-full w-full overflow-scroll rounded-md border border-zinc-600 bg-zinc-800 p-2"
-				>
-					<div className="sticky text-center text-xl font-bold">
-						Console Panel
-					</div>
+				<div className="sticky text-center text-xl font-bold">
+					Console Panel
+				</div>
+				<div className="mb-2">
 					<ChatBubbles chatWindowRef={chatWindowsRef} />
 				</div>
-				<div className="join mt-2 flex w-full justify-center">
+				<div className="join mt-auto flex w-full justify-center">
 					<SendCommand />
 				</div>
 			</RecoilRoot>
