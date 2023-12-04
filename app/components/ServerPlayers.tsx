@@ -29,9 +29,9 @@ export default function ServerPlayers({
 				<thead>
 					<tr>
 						<th>Ping</th>
-						<th>Loss</th>
+						<th className="hidden sm:table-cell">Loss</th>
 						<th>Name</th>
-						<th>Address</th>
+						<th className="hidden sm:table-cell">Address</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,16 +67,18 @@ function PlayerRow({
 	return (
 		<tr>
 			<td>{player.ping}</td>
-			<td>{player.loss}</td>
-			<td>{player.name}</td>
-			<td>{player.adr.split(':')[0]}</td>
+			<td className="hidden sm:table-cell">{player.loss}</td>
+			<td>
+				<p className="line-clamp-1">{player.name}</p>
+			</td>
+			<td className="hidden sm:table-cell">{player.adr.split(':')[0]}</td>
 			<th>
 				<button
 					onClick={() => {
 						setSelectedPlayer(player);
 						kickPlayerModal.current.showModal();
 					}}
-					className="btn btn-ghost btn-xs"
+					className="btn btn-ghost btn-xs h-9 w-9"
 				>
 					<Image width={20} height={20} src="/trash-outline.svg" alt="Close" />
 				</button>

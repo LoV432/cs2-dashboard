@@ -11,7 +11,7 @@ export default async function ServerInfoPanel() {
 	const players = await rcon.exec('status');
 	const allPlayers = parsePlayerData(players);
 	return (
-		<div className="rounded-md bg-zinc-800 p-4">
+		<div className="m-5 rounded-md bg-zinc-800 p-4">
 			<ServerInfo serverInfoPreRender={serverInfo} />
 			<ServerPlayers playersPreRendered={allPlayers} />
 		</div>
