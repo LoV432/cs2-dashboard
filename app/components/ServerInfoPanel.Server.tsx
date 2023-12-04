@@ -1,10 +1,12 @@
-import { csServer } from '@/app/lib/server';
-import { rcon } from '@/app/lib/rcon';
+import { csServerInit } from '@/app/lib/server';
+import { rconInit } from '@/app/lib/rcon';
 import { parsePlayerData } from '@/app/lib/parse-players';
 import ServerInfo from './ServerInfo';
 import ServerPlayers from './ServerPlayers';
 
 export default async function ServerInfoPanel() {
+	const csServer = await csServerInit();
+	const rcon = await rconInit();
 	const serverInfo = await csServer.getInfo();
 	const players = await rcon.exec('status');
 	const allPlayers = parsePlayerData(players);

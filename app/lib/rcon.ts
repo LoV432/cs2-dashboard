@@ -1,7 +1,10 @@
 import { RCON } from '@fabricio-191/valve-server-query';
 
-export const rcon = await RCON({
-	ip: process.env.SERVER_IP || '127.0.0.1',
-	port: parseInt(process.env.RCON_PORT as string) || 27015,
-	password: process.env.RCON_PASSWORD || 'dummypassword'
-});
+//TODO: Is this really the best way to do this?
+export const rconInit = async () => {
+	return await RCON({
+		ip: process.env.SERVER_IP || '127.0.0.1',
+		port: parseInt(process.env.RCON_PORT as string) || 27015,
+		password: process.env.RCON_PASSWORD || 'setfromenv'
+	});
+};

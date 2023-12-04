@@ -1,5 +1,5 @@
-import { csServer } from '@/app/lib/server';
 export const dynamic = 'force-dynamic';
+import { csServerInit } from '@/app/lib/server';
 
 //@ts-ignore
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json
@@ -10,6 +10,7 @@ BigInt.prototype.toJSON = function () {
 };
 
 export async function GET() {
+	const csServer = await csServerInit();
 	const serverInfo = await csServer.getInfo();
 	return new Response(JSON.stringify(serverInfo), {
 		headers: { 'Content-Type': 'application/json' }

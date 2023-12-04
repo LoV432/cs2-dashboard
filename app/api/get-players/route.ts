@@ -1,9 +1,9 @@
-import { rcon } from '@/app/lib/rcon';
-import { parsePlayerData } from '@/app/lib/parse-players';
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import { rconInit } from '@/app/lib/rcon';
+import { parsePlayerData } from '@/app/lib/parse-players';
 
 export async function GET() {
+	const rcon = await rconInit();
 	const rconRes = await rcon.exec('status');
 	const playersData = parsePlayerData(rconRes);
 	return new Response(JSON.stringify(playersData), {

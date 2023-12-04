@@ -1,7 +1,9 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest } from 'next/server';
-import { rcon } from '@/app/lib/rcon';
+import { rconInit } from '@/app/lib/rcon';
 
 export async function POST(request: NextRequest) {
+	const rcon = await rconInit();
 	const body = await request.json();
 	if (!body.command || body.command.trim().length === 0) {
 		return new Response('Command is required', { status: 400 });
