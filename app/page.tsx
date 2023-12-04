@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 export default function Home() {
 	return (
 		<>
-			<div className="flex h-screen w-full flex-col place-items-center justify-evenly lg:flex-row">
+			<div className="flex h-[100dvh] w-full flex-col place-items-center justify-evenly lg:flex-row">
 				<ServerInfoPanel />
 				<CommandsBox />
 			</div>

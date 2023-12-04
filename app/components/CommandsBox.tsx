@@ -7,7 +7,7 @@ import { RecoilRoot } from 'recoil';
 export default function CommandsBox() {
 	const chatWindowsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 	return (
-		<div className="flex h-2/3 flex-col place-items-center p-5 sm:w-2/3 lg:w-2/3 xl:w-1/3">
+		<div className="flex h-2/3 w-full flex-col place-items-center p-5 sm:w-[44rem]">
 			<RecoilRoot>
 				<div
 					ref={chatWindowsRef}
