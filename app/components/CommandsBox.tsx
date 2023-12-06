@@ -9,7 +9,7 @@ export default function CommandsBox() {
 	return (
 		<div
 			ref={chatWindowsRef}
-			className="m-5 mb-16 flex h-[35rem] w-full flex-col overflow-scroll rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]"
+			className="no-scrollbar m-5 mb-16 flex h-[35rem] w-full flex-col overflow-y-scroll rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]"
 		>
 			<RecoilRoot>
 				<div className="sticky text-center text-xl font-bold">

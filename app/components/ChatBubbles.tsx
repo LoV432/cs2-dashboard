@@ -31,7 +31,7 @@ export function ChatBubble({
 	return (
 		<div className={`chat ${type}`}>
 			<div className="chat-bubble w-auto">
-				<pre className="overflow-scroll">
+				<pre className="no-scrollbar overflow-x-scroll">
 					{text.split('\n').map((line, i) => (
 						<p key={i}>{line}</p>
 					))}
