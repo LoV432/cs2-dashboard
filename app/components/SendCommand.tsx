@@ -22,7 +22,7 @@ export default function SendCommand() {
 		setSuggestionText('');
 		sendButtonRef.current.setAttribute('disabled', 'true');
 
-		if (command === 'clear') {
+		if (command === 'clear' || command === 'clear ') {
 			setChatStore([]);
 			sendButtonRef.current.removeAttribute('disabled');
 			return;
