@@ -60,7 +60,7 @@ export default function SendCommand() {
 		<>
 			<div
 				tabIndex={-1}
-				className="no-scrollbar my-2 mt-auto flex min-h-[3.5rem] w-full flex-row overflow-y-scroll"
+				className="no-scrollbar my-2 mt-auto flex min-h-[3.5rem] w-full flex-row overflow-x-scroll"
 			>
 				<Suggestions
 					setSuggestionText={setSuggestionText}

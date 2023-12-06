@@ -44,7 +44,6 @@ export default function Suggestions({
 			} else {
 				allSuggestionElements[0].focus();
 			}
-			return;
 		}
 		if (e.key == 'ArrowRight') {
 			e.preventDefault();
@@ -54,7 +53,6 @@ export default function Suggestions({
 			} else {
 				allSuggestionElements[0].focus();
 			}
-			return;
 		}
 		if (e.key == 'ArrowLeft') {
 			e.preventDefault();
@@ -64,7 +62,23 @@ export default function Suggestions({
 			} else {
 				allSuggestionElements[allSuggestionElements.length - 1].focus();
 			}
-			return;
+		}
+
+		// scroll to active element
+		const activeElement = document.activeElement as HTMLButtonElement;
+		const parentElement = activeElement.parentElement as HTMLDivElement;
+		const activeElementBounding = activeElement.getBoundingClientRect();
+		const parentElementBounding = parentElement.getBoundingClientRect();
+		if (
+			!(
+				activeElementBounding.left >= parentElementBounding.left &&
+				activeElementBounding.right <= parentElementBounding.right
+			)
+		) {
+			activeElement.scrollIntoView({
+				behavior: 'auto',
+				inline: 'nearest'
+			});
 		}
 	}
 
@@ -82,7 +96,7 @@ export default function Suggestions({
 					}
 				}}
 				onKeyDown={moveFocus}
-				className="suggestions btn btn-active m-1 rounded border-zinc-700 border-opacity-60"
+				className="suggestions btn btn-active m-1 scroll-m-3 rounded border-zinc-700 border-opacity-60"
 				tabIndex={0}
 			>
 				{command}
