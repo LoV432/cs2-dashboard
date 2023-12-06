@@ -1,5 +1,10 @@
 import './globals.css';
 
+export const metadata = {
+	title: 'CS2 Dashboard',
+	description: 'CS2 Dashboard'
+};
+
 export default function RootLayout({
 	children
 }: {
