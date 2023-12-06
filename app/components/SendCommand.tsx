@@ -10,6 +10,8 @@ export default function SendCommand() {
 	const [suggestionText, setSuggestionText] = useState('');
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const suggestionsContainerRef =
+		useRef() as React.MutableRefObject<HTMLDivElement>;
 
 	async function postCommand(
 		e:
@@ -56,10 +58,34 @@ export default function SendCommand() {
 		sendButtonRef.current.removeAttribute('disabled');
 	}
 
+	function handleSuggestionScroll(e: Event) {
+		e.preventDefault();
+		e.stopPropagation();
+		const element = e as unknown as React.WheelEvent<HTMLDivElement>;
+		if (element.deltaY > 0) element.currentTarget.scrollLeft += 100;
+		else element.currentTarget.scrollLeft -= 100;
+	}
+
+	useEffect(() => {
+		// Using this event listener becuase default React event object is passive.
+		// Which means you can't preventDefault() or stopPropagation() on it.
+		suggestionsContainerRef.current.addEventListener(
+			'wheel',
+			handleSuggestionScroll
+		);
+		return () => {
+			suggestionsContainerRef.current.removeEventListener(
+				'wheel',
+				handleSuggestionScroll
+			);
+		};
+	}, []);
+
 	return (
 		<>
 			<div
 				tabIndex={-1}
+				ref={suggestionsContainerRef}
 				className="no-scrollbar my-2 mt-auto flex min-h-[3.5rem] w-full flex-row overflow-x-scroll"
 			>
 				<Suggestions
