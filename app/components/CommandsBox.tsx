@@ -15,12 +15,8 @@ export default function CommandsBox() {
 				<div className="sticky text-center text-xl font-bold">
 					Console Panel
 				</div>
-				<div className="mb-2">
-					<ChatBubbles chatWindowRef={chatWindowsRef} />
-				</div>
-				<div className="join mt-auto flex w-full justify-center">
-					<SendCommand />
-				</div>
+				<ChatBubbles chatWindowRef={chatWindowsRef} />
+				<SendCommand />
 			</RecoilRoot>
 		</div>
 	);

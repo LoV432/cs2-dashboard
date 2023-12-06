@@ -46,7 +46,7 @@ export default function Suggestions({
 			}
 			return;
 		}
-		if (e.key == 'ArrowDown') {
+		if (e.key == 'ArrowRight') {
 			e.preventDefault();
 			if (e.currentTarget.nextElementSibling) {
 				// @ts-ignore
@@ -56,7 +56,7 @@ export default function Suggestions({
 			}
 			return;
 		}
-		if (e.key == 'ArrowUp') {
+		if (e.key == 'ArrowLeft') {
 			e.preventDefault();
 			if (e.currentTarget.previousElementSibling) {
 				// @ts-ignore
@@ -82,7 +82,7 @@ export default function Suggestions({
 					}
 				}}
 				onKeyDown={moveFocus}
-				className="suggestions btn btn-active mx-3 my-1 rounded border-zinc-700 border-opacity-60 py-2 first:mt-2 last:mb-2"
+				className="suggestions btn btn-active m-1 rounded border-zinc-700 border-opacity-60"
 				tabIndex={0}
 			>
 				{command}
