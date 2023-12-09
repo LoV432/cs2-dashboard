@@ -45,7 +45,8 @@ COPY --from=builder /app/.next/static ./.next/static
 
 
 COPY ./entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+COPY ./maxmind_download.sh ./maxmind_download.sh
+RUN chmod +x ./entrypoint.sh ./maxmind_download.sh
 
 EXPOSE 3000
 

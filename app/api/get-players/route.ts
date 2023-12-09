@@ -14,7 +14,7 @@ export async function GET() {
 	lastReqTime = Date.now();
 	const rcon = await rconInit();
 	const rconRes = await rcon.exec('status');
-	playersData = parsePlayerData(rconRes);
+	playersData = await parsePlayerData(rconRes);
 	return new Response(JSON.stringify(playersData), {
 		headers: { 'Content-Type': 'application/json' }
 	});

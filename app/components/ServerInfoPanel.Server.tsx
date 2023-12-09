@@ -9,11 +9,15 @@ export default async function ServerInfoPanel() {
 	const rcon = await rconInit();
 	const serverInfo = await csServer.getInfo();
 	const players = await rcon.exec('status');
-	const allPlayers = parsePlayerData(players);
+	const allPlayers = await parsePlayerData(players);
+	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
 	return (
 		<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
 			<ServerInfo serverInfoPreRender={serverInfo} />
-			<ServerPlayers playersPreRendered={allPlayers} />
+			<ServerPlayers
+				playersPreRendered={allPlayers}
+				maxMindIsEnabled={maxMindIsEnabled}
+			/>
 		</div>
 	);
 }
