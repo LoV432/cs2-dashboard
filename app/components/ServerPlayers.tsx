@@ -2,7 +2,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
-import getUnicodeFlagIcon from 'country-flag-icons/unicode';
 
 export default function ServerPlayers({
 	playersPreRendered,
@@ -94,8 +93,15 @@ function PlayerRow({
 			</td>
 			<td className="hidden sm:table-cell">{player.adr.split(':')[0]}</td>
 			{maxMindIsEnabled && (
-				<td className="cursor-pointer text-2xl">
-					{getUnicodeFlagIcon(player.country.isoCode || 'unknown')}
+				<td>
+					<Image
+						width={22}
+						height={22}
+						src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${
+							player.country.isoCode || 'EU'
+						}.svg`}
+						alt={player.country.countryName || 'Unknown Country'}
+					/>
 				</td>
 			)}
 

@@ -12,7 +12,6 @@
 	"dependencies": {
 		"@fabricio-191/valve-server-query": "^4.1.9",
 		"@maxmind/geoip2-node": "^5.0.0",
-		"country-flag-icons": "^1.5.9",
 		"next": "14.0.3",
 		"patch-package": "^8.0.0",
 		"react": "^18",
