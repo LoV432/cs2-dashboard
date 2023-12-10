@@ -55,7 +55,7 @@ export default function ServerPlayers({
 				</tbody>
 			</table>
 			<KickPlayerPopUp
-				playerId={selectedPlayer?.id || 0}
+				player={selectedPlayer}
 				kickPlayerModal={kickPlayerModal}
 			/>
 			<AllUserDataPopUp
@@ -130,12 +130,34 @@ function PlayerRow({
 }
 
 function KickPlayerPopUp({
-	playerId,
+	player,
 	kickPlayerModal
 }: {
-	playerId: number;
+	player: Player | null;
 	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	if (!player)
+		return (
+			<dialog ref={kickPlayerModal} className="modal">
+				<div className="modal-box bg-zinc-900">
+					<h3 className="pb-5 text-lg font-bold">Kick Player</h3>
+					<p>No player selected</p>
+					<button onClick={closePopUp} className="btn btn-ghost mt-5 w-full">
+						Cancel
+					</button>
+					<button
+						onClick={closePopUp}
+						className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
+					>
+						✕
+					</button>
+				</div>
+				<div className="modal-backdrop bg-zinc-700 opacity-30">
+					<button onClick={closePopUp}>close</button>
+				</div>
+			</dialog>
+		);
+
 	const kickPlayer = (e: React.MouseEvent<HTMLButtonElement>) => {
 		fetch('/api/rcon', {
 			method: 'POST',
@@ -143,7 +165,7 @@ function KickPlayerPopUp({
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				command: `kickid ${playerId}`
+				command: `kickid ${player.id}`
 			})
 		});
 		closePopUp();
@@ -157,7 +179,7 @@ function KickPlayerPopUp({
 		<dialog ref={kickPlayerModal} className="modal">
 			<div className="modal-box bg-zinc-900">
 				<h3 className="pb-5 text-lg font-bold">Kick Player</h3>
-				<p>Are you sure you want to kick this player?</p>
+				<p>Are you sure you want to kick "{player.name}"?</p>
 				<button onClick={kickPlayer} className="btn btn-error mt-5 w-full">
 					KICK
 				</button>
