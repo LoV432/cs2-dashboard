@@ -2,6 +2,16 @@ export const dynamic = 'force-dynamic';
 import { rconInit } from '@/app/lib/rcon';
 import { parsePlayerData, Player } from '@/app/lib/parse-players';
 
+// const rcon = await rconInit();
+// rcon.on('disconnect', async (reason) => {
+// 	// console.log('disconnected', reason);
+// 	try {
+// 		await rcon.reconnect();
+// 	} catch (e: any) {
+// 		// console.log('reconnect failed', e.message);
+// 	}
+// });
+
 let lastReqTime = 0;
 let playersData: Player[] = [];
 
@@ -14,6 +24,7 @@ export async function GET() {
 	lastReqTime = Date.now();
 	const rcon = await rconInit();
 	const rconRes = await rcon.exec('status');
+	rcon.destroy();
 	playersData = await parsePlayerData(rconRes);
 	return new Response(JSON.stringify(playersData), {
 		headers: { 'Content-Type': 'application/json' }

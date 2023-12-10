@@ -11,6 +11,8 @@ export default async function ServerInfoPanel() {
 	const players = await rcon.exec('status');
 	const allPlayers = await parsePlayerData(players);
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
+	rcon.destroy();
+	csServer.disconnect();
 	return (
 		<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
 			<ServerInfo serverInfoPreRender={serverInfo} />

@@ -25,6 +25,7 @@ export async function GET() {
 	lastReqTime = Date.now();
 	const csServer = await csServerInit();
 	serverInfo = await csServer.getInfo();
+	csServer.disconnect();
 	return new Response(JSON.stringify(serverInfo), {
 		headers: {
 			'Content-Type': 'application/json',
