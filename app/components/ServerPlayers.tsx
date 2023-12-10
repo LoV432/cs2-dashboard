@@ -42,8 +42,9 @@ export default function ServerPlayers({
 					{allPlayers.map((player) => {
 						return (
 							<PlayerRow
-								key={player.name}
+								key={player.id}
 								player={player}
+								selectedPlayer={selectedPlayer}
 								setSelectedPlayer={setSelectedPlayer}
 								kickPlayerModal={kickPlayerModal}
 								geoDataModal={userDataModal}
@@ -67,17 +68,24 @@ export default function ServerPlayers({
 
 function PlayerRow({
 	player,
+	selectedPlayer,
 	setSelectedPlayer,
 	kickPlayerModal,
 	geoDataModal,
 	maxMindIsEnabled
 }: {
 	player: Player;
+	selectedPlayer: Player | null;
 	setSelectedPlayer: (player: Player) => void;
 	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	geoDataModal: React.MutableRefObject<HTMLDialogElement>;
 	maxMindIsEnabled: boolean;
 }) {
+	useEffect(() => {
+		if (selectedPlayer && selectedPlayer.id == player.id) {
+			setSelectedPlayer(player);
+		}
+	}, [player.ping, player.loss]);
 	return (
 		<tr
 			className="cursor-pointer"
