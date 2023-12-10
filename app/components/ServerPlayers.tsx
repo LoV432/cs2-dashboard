@@ -103,6 +103,7 @@ function PlayerRow({
 			{maxMindIsEnabled && (
 				<td>
 					<Image
+						loading="eager"
 						width={22}
 						height={22}
 						src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${
@@ -122,7 +123,13 @@ function PlayerRow({
 					}}
 					className="btn btn-ghost btn-xs h-9 w-9"
 				>
-					<Image width={20} height={20} src="/trash-outline.svg" alt="Close" />
+					<Image
+						loading="eager"
+						width={20}
+						height={20}
+						src="/trash-outline.svg"
+						alt="Close"
+					/>
 				</button>
 			</td>
 		</tr>
