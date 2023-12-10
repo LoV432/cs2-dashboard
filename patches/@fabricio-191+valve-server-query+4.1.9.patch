@@ -1,3 +1,17 @@
+diff --git a/node_modules/@fabricio-191/valve-server-query/lib/utils/parsers.js b/node_modules/@fabricio-191/valve-server-query/lib/utils/parsers.js
+index a88cb53..fc8540a 100644
+--- a/node_modules/@fabricio-191/valve-server-query/lib/utils/parsers.js
++++ b/node_modules/@fabricio-191/valve-server-query/lib/utils/parsers.js
+@@ -354,7 +354,7 @@ function RCONPacket(raw){
+ 		size: buffer.long(),
+ 		ID: buffer.long(),
+ 		type: buffer.long(),
+-		body: buffer.string('ascii'),
++		body: buffer.string('utf8'),
+ 	};
+ 	// there is an extra null byte that doesn't matter
+ }
+\ No newline at end of file
 diff --git a/node_modules/@fabricio-191/valve-server-query/package.json b/node_modules/@fabricio-191/valve-server-query/package.json
 index e736924..0e9ff19 100644
 --- a/node_modules/@fabricio-191/valve-server-query/package.json
