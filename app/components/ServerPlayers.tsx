@@ -106,7 +106,7 @@ function PlayerRow({
 						loading="eager"
 						width={22}
 						height={22}
-						src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${
+						src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${
 							player.country.isoCode || 'AQ'
 						}.svg`}
 						alt={player.country.countryName || 'Unknown Country'}
