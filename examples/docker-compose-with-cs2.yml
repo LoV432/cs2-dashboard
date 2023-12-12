@@ -1,0 +1,49 @@
+version: '2.1'
+services:
+  cs2:
+    container_name: cs2
+    environment:
+      # Check out https://hub.docker.com/r/joedwards32/cs2 for more information
+      - 'CS2_SERVERNAME='
+      - 'CS2_PW='
+      - 'CS2_GAMEALIAS=casual'
+      - 'CS2_BOT_QUOTA=0'
+      - 'CS2_STARTMAP=de_mirage'
+      - 'CS2_RCONPW='
+      - 'CS2_LAN=0'
+    networks:
+      cs2:
+        ipv4_address: 10.0.50.2
+    ports:
+      - "27015:27015/udp"
+      # - "27015:27015/tcp" # This is not required for dashboard to work correctly
+    volumes:
+      - ./cs2:/home/steam/cs2-dedicated/
+      - ./steam:/home/steam/Steam
+      - ./steamcmd:/home/steam/steamcmd
+    image: joedwards32/cs2
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  cs2dashboard:
+    image: lov432/cs2-dashboard:latest
+    container_name: cs2dashboard
+    networks:
+      cs2:
+        ipv4_address: 10.0.50.3
+    environment:
+      - SERVER_IP= # CS2 Server IP
+      - SERVER_PORT= # CS2 Server Port
+      - RCON_PORT= # RCON Port
+      - RCON_PASSWORD= # RCON Password
+      - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
+    restart: unless-stopped
+
+networks:
+  cs2:
+    name: cs2
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.50.0/24

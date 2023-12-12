@@ -1,0 +1,12 @@
+version: '2.1'
+services:
+  cs2dashboard:
+    image: lov432/cs2-dashboard:latest
+    container_name: cs2dashboard
+    environment:
+      - SERVER_IP= # CS2 Server IP
+      - SERVER_PORT= # CS2 Server Port
+      - RCON_PORT= # RCON Port
+      - RCON_PASSWORD= # RCON Password
+      - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
+    restart: unless-stopped
