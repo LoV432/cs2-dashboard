@@ -13,6 +13,6 @@ A very basic CounterStrike 2 Server Dashboard!
 
 ## Installation
 
-The recommended way to use this using docker and docker-compose. I have provided 2 example docker-compose files.
+The recommended way to use this is through Docker and Docker Compose. I have provided 2 example docker-compose files.
 1) [Standalone](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml)
 2) [Dashboard with CS2](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose-with-cs2.yml)
