@@ -9,4 +9,6 @@ services:
       - RCON_PORT= # RCON Port
       - RCON_PASSWORD= # RCON Password
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
+    ports:
+      - 3000:3000
     restart: unless-stopped
