@@ -8,6 +8,8 @@ import Suggestions from './Suggestions.server';
 export default function SendCommand() {
 	const [, setChatStore] = useRecoilState(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
+	const [commandsHistory, setCommandsHistory] = useState<string[]>([]);
+	const [commandsHistoryIndex, setCommandsHistoryIndex] = useState(0);
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const suggestionsContainerRef =
@@ -20,9 +22,12 @@ export default function SendCommand() {
 	) {
 		if (e.currentTarget.getAttribute('disabled') == 'true') return;
 		const command = inputValueRef.current.value;
+		if (command.trim().length === 0) return;
+		sendButtonRef.current.setAttribute('disabled', 'true');
 		inputValueRef.current.value = '';
 		setSuggestionText('');
-		sendButtonRef.current.setAttribute('disabled', 'true');
+		setCommandsHistory([...commandsHistory, command]);
+		setCommandsHistoryIndex(commandsHistory.length + 1);
 
 		if (command === 'clear' || command === 'clear ') {
 			setChatStore([]);
@@ -66,6 +71,60 @@ export default function SendCommand() {
 		else element.currentTarget.scrollLeft -= 100;
 	}
 
+	function handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
+		switch (e.key) {
+			case 'Enter':
+				postCommand(e);
+				break;
+
+			case 'ArrowUp': {
+				e.preventDefault();
+				const totalCommands = commandsHistory.length;
+				const nextIndex = commandsHistoryIndex - 1;
+				if (totalCommands < 0 || nextIndex < 0) {
+					break;
+				}
+				setSuggestionText(commandsHistory[nextIndex]);
+				inputValueRef.current.value = commandsHistory[nextIndex];
+				setCommandsHistoryIndex(nextIndex);
+				break;
+			}
+
+			case 'ArrowDown': {
+				e.preventDefault();
+				const totalCommands = commandsHistory.length;
+				const nextIndex = commandsHistoryIndex + 1;
+				if (totalCommands < 0 || nextIndex >= totalCommands) {
+					break;
+				}
+				setSuggestionText(commandsHistory[nextIndex]);
+				inputValueRef.current.value = commandsHistory[nextIndex];
+				setCommandsHistoryIndex(nextIndex);
+				break;
+			}
+
+			case 'Escape':
+				setSuggestionText('');
+				break;
+
+			case 'Tab':
+				e.preventDefault();
+				const suggestionsElements = document.querySelectorAll(
+					'.suggestions'
+				) as NodeListOf<HTMLButtonElement>;
+				if (suggestionsElements[0]) {
+					suggestionsElements[0].focus();
+				} else {
+					sendButtonRef.current.focus();
+				}
+				break;
+
+			default:
+				setCommandsHistoryIndex(commandsHistory.length);
+				break;
+		}
+	}
+
 	useEffect(() => {
 		// Using this event listener becuase default React event object is passive.
 		// Which means you can't preventDefault() or stopPropagation() on it.
@@ -98,24 +157,7 @@ export default function SendCommand() {
 				<div className="w-4/6">
 					<div>
 						<input
-							onKeyDown={(e) => {
-								if (e.key === 'Enter') {
-									postCommand(e);
-								} else if (e.key === 'Escape') {
-									setSuggestionText('');
-								} else if (e.key === 'Tab') {
-									e.preventDefault();
-									const suggestionsElements = document.querySelectorAll(
-										'.suggestions'
-									) as NodeListOf<HTMLButtonElement>;
-									if (suggestionsElements[0]) {
-										// @ts-ignore
-										suggestionsElements[0].focus();
-									} else {
-										sendButtonRef.current.focus();
-									}
-								}
-							}}
+							onKeyDown={handleInput}
 							onChange={(e) => {
 								setSuggestionText(e.target.value);
 							}}
