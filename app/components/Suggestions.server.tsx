@@ -15,9 +15,6 @@ export default function Suggestions({
 	if (!suggestionText) {
 		return null;
 	}
-	if (suggestionText.endsWith(' ')) {
-		return null;
-	}
 
 	function autoFill(command: string) {
 		inputValueRef.current.value = command + ' ';

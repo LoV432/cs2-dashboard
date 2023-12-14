@@ -4767,5 +4767,11 @@ export const allCommands = [
 	'world_layer_set_visible',
 	'writeid',
 	'writeip',
-	'writekeybindings'
+	'writekeybindings',
+	'css',
+	'css_plugins',
+	'css_plugins start',
+	'css_plugins stop',
+	'css_plugins list',
+	'css_plugins restart'
 ];
