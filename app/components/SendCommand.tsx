@@ -125,6 +125,16 @@ export default function SendCommand() {
 		}
 	}
 
+	function focusInputWithBackTick(e: Event) {
+		const event = e as unknown as React.KeyboardEvent<HTMLInputElement>;
+		if (event.key == '`') {
+			// This is a hacky solution to prevent ` from being added into the input value.
+			setTimeout(() => {
+				inputValueRef.current.focus();
+			}, 1);
+		}
+	}
+
 	useEffect(() => {
 		// Using this event listener becuase default React event object is passive.
 		// Which means you can't preventDefault() or stopPropagation() on it.
@@ -132,11 +142,13 @@ export default function SendCommand() {
 			'wheel',
 			handleSuggestionScroll
 		);
+		window.addEventListener('keydown', focusInputWithBackTick);
 		return () => {
 			suggestionsContainerRef.current.removeEventListener(
 				'wheel',
 				handleSuggestionScroll
 			);
+			window.removeEventListener('keydown', focusInputWithBackTick);
 		};
 	}, []);
 
