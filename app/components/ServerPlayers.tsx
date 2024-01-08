@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
+import AdminPanel from './AdminPanel';
 
 export default function ServerPlayers({
 	playersPreRendered,
@@ -11,8 +12,8 @@ export default function ServerPlayers({
 	maxMindIsEnabled: boolean;
 }) {
 	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
-	const kickPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const adminPanelModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
 	useEffect(() => {
@@ -46,7 +47,7 @@ export default function ServerPlayers({
 								player={player}
 								selectedPlayer={selectedPlayer}
 								setSelectedPlayer={setSelectedPlayer}
-								kickPlayerModal={kickPlayerModal}
+								adminPanelModal={adminPanelModal}
 								geoDataModal={userDataModal}
 								maxMindIsEnabled={maxMindIsEnabled}
 							/>
@@ -54,12 +55,12 @@ export default function ServerPlayers({
 					})}
 				</tbody>
 			</table>
-			<KickPlayerPopUp
-				player={selectedPlayer}
-				kickPlayerModal={kickPlayerModal}
-			/>
 			<AllUserDataPopUp
 				userDataModal={userDataModal}
+				selectedPlayer={selectedPlayer}
+			/>
+			<AdminPanel
+				adminPanelModal={adminPanelModal}
 				selectedPlayer={selectedPlayer}
 			/>
 		</div>
@@ -70,14 +71,14 @@ function PlayerRow({
 	player,
 	selectedPlayer,
 	setSelectedPlayer,
-	kickPlayerModal,
+	adminPanelModal,
 	geoDataModal,
 	maxMindIsEnabled
 }: {
 	player: Player;
 	selectedPlayer: Player | null;
 	setSelectedPlayer: (player: Player) => void;
-	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
+	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 	geoDataModal: React.MutableRefObject<HTMLDialogElement>;
 	maxMindIsEnabled: boolean;
 }) {
@@ -119,7 +120,7 @@ function PlayerRow({
 					onClick={(e) => {
 						e.stopPropagation();
 						setSelectedPlayer(player);
-						kickPlayerModal.current.showModal();
+						adminPanelModal.current.showModal();
 					}}
 					className="btn btn-ghost btn-xs h-9 w-9"
 				>
@@ -127,7 +128,7 @@ function PlayerRow({
 						loading="eager"
 						width={20}
 						height={20}
-						src="/trash-outline.svg"
+						src="/admin-action.svg"
 						alt="Close"
 					/>
 				</button>
@@ -136,76 +137,6 @@ function PlayerRow({
 	);
 }
 
-function KickPlayerPopUp({
-	player,
-	kickPlayerModal
-}: {
-	player: Player | null;
-	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
-}) {
-	if (!player)
-		return (
-			<dialog ref={kickPlayerModal} className="modal">
-				<div className="modal-box bg-zinc-900">
-					<h3 className="pb-5 text-lg font-bold">Kick Player</h3>
-					<p>No player selected</p>
-					<button onClick={closePopUp} className="btn btn-ghost mt-5 w-full">
-						Cancel
-					</button>
-					<button
-						onClick={closePopUp}
-						className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-					>
-						✕
-					</button>
-				</div>
-				<div className="modal-backdrop bg-zinc-700 opacity-30">
-					<button onClick={closePopUp}>close</button>
-				</div>
-			</dialog>
-		);
-
-	const kickPlayer = (e: React.MouseEvent<HTMLButtonElement>) => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `kickid ${player.id}`
-			})
-		});
-		closePopUp();
-	};
-
-	function closePopUp() {
-		kickPlayerModal.current.close();
-	}
-
-	return (
-		<dialog ref={kickPlayerModal} className="modal">
-			<div className="modal-box bg-zinc-900">
-				<h3 className="pb-5 text-lg font-bold">Kick Player</h3>
-				<p>Are you sure you want to kick "{player.name}"?</p>
-				<button onClick={kickPlayer} className="btn btn-error mt-5 w-full">
-					KICK
-				</button>
-				<button onClick={closePopUp} className="btn btn-ghost mt-5 w-full">
-					Cancel
-				</button>
-				<button
-					onClick={closePopUp}
-					className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-				>
-					✕
-				</button>
-			</div>
-			<div className="modal-backdrop bg-zinc-700 opacity-30">
-				<button onClick={closePopUp}>close</button>
-			</div>
-		</dialog>
-	);
-}
 
 function AllUserDataPopUp({
 	userDataModal,
