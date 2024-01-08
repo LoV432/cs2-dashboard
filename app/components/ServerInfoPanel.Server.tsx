@@ -11,6 +11,12 @@ export default async function ServerInfoPanel() {
 	const players = await rcon.exec('status');
 	const allPlayers = await parsePlayerData(players);
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
+	const adminPluginIsEnabled =
+		process.env.ADMIN_PLUGIN_INSTALLED == 'true' ? true : false;
+	const featureFlags = {
+		maxMindIsEnabled,
+		adminPluginIsEnabled
+	};
 	rcon.destroy();
 	csServer.disconnect();
 	return (
@@ -18,7 +24,7 @@ export default async function ServerInfoPanel() {
 			<ServerInfo serverInfoPreRender={serverInfo} />
 			<ServerPlayers
 				playersPreRendered={allPlayers}
-				maxMindIsEnabled={maxMindIsEnabled}
+				featureFlags={featureFlags}
 			/>
 		</div>
 	);

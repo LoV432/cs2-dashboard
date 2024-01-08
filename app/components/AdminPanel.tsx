@@ -3,10 +3,12 @@ import { Player } from '../lib/parse-players';
 
 export default function AdminPanel({
 	adminPanelModal,
-	selectedPlayer
+	selectedPlayer,
+	adminPluginIsEnabled
 }: {
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 	selectedPlayer: Player | null;
+	adminPluginIsEnabled: boolean;
 }) {
 	const kickPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const banPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
@@ -39,41 +41,76 @@ export default function AdminPanel({
 	return (
 		<>
 			<dialog ref={adminPanelModal} className="modal">
-				<div className="modal-box bg-zinc-900 w-52">
+				<div className="modal-box bg-zinc-900">
 					<h3 className="pb-5 text-lg font-bold">Admin Panel</h3>
-					<div className="flex flex-col justify-center gap-5">
+					<div className="flex flex-wrap justify-center gap-5">
 						<button
 							onClick={() => {
 								kickPlayerModal.current.showModal();
 							}}
-							className="btn btn-outline"
+							className="btn btn-outline w-1/3"
 						>
 							Kick
 						</button>
-						<button
-							onClick={() => {
-								banPlayerModal.current.showModal();
-							}}
-							className="btn btn-outline"
-						>
-							Ban
-						</button>
-						<button
-							onClick={() => {
-								mutePlayerModal.current.showModal();
-							}}
-							className="btn btn-outline"
-						>
-							Mute
-						</button>
-						<button
-							onClick={() => {
-								slayPlayerModal.current.showModal();
-							}}
-							className="btn btn-outline"
-						>
-							Slay
-						</button>
+						{adminPluginIsEnabled ? (
+							<>
+								<button
+									onClick={() => {
+										banPlayerModal.current.showModal();
+									}}
+									className="btn btn-outline w-1/3"
+								>
+									Ban
+								</button>
+								<button
+									onClick={() => {
+										mutePlayerModal.current.showModal();
+									}}
+									className="btn btn-outline w-1/3"
+								>
+									Mute
+								</button>
+								<button
+									onClick={() => {
+										slayPlayerModal.current.showModal();
+									}}
+									className="btn btn-outline w-1/3"
+								>
+									Slay
+								</button>
+							</>
+						) : (
+							<>
+								<button className="btn btn-disabled btn-outline w-1/3">
+									Ban
+								</button>
+								<button className="btn btn-disabled btn-outline w-1/3">
+									Mute
+								</button>
+								<button className="btn btn-disabled btn-outline w-1/3">
+									Slay
+								</button>
+								<p>
+									You can enable all the options by installing{' '}
+									<a
+										className="link link-primary"
+										target="_blank"
+										href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+									>
+										CS2-SimpleAdmin
+									</a>{' '}
+									and then setting the{' '}
+									<a
+										className="link link-primary"
+										target="_blank"
+										href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+									>
+										ENV
+									</a>{' '}
+									to true in your docker_compose.
+								</p>
+							</>
+						)}
 					</div>
 					<button
 						onClick={closePopUp}
@@ -321,8 +358,8 @@ function MutePlayerPopUp({
 
 	function closePopUp() {
 		mutePlayerModal.current.close();
-		muteTime.current.value = ""
-		muteReason.current.value = ""
+		muteTime.current.value = '';
+		muteReason.current.value = '';
 	}
 
 	return (

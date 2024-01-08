@@ -6,10 +6,10 @@ import AdminPanel from './AdminPanel';
 
 export default function ServerPlayers({
 	playersPreRendered,
-	maxMindIsEnabled
+	featureFlags
 }: {
 	playersPreRendered: Player[];
-	maxMindIsEnabled: boolean;
+	featureFlags: { maxMindIsEnabled: boolean; adminPluginIsEnabled: boolean };
 }) {
 	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
@@ -36,7 +36,7 @@ export default function ServerPlayers({
 						<th className="hidden sm:table-cell">Loss</th>
 						<th>Name</th>
 						<th className="hidden sm:table-cell">Address</th>
-						{maxMindIsEnabled && <th>Geo</th>}
+						{featureFlags.maxMindIsEnabled && <th>Geo</th>}
 					</tr>
 				</thead>
 				<tbody>
@@ -49,7 +49,7 @@ export default function ServerPlayers({
 								setSelectedPlayer={setSelectedPlayer}
 								adminPanelModal={adminPanelModal}
 								geoDataModal={userDataModal}
-								maxMindIsEnabled={maxMindIsEnabled}
+								maxMindIsEnabled={featureFlags.maxMindIsEnabled}
 							/>
 						);
 					})}
@@ -62,6 +62,7 @@ export default function ServerPlayers({
 			<AdminPanel
 				adminPanelModal={adminPanelModal}
 				selectedPlayer={selectedPlayer}
+				adminPluginIsEnabled={featureFlags.adminPluginIsEnabled}
 			/>
 		</div>
 	);
@@ -136,7 +137,6 @@ function PlayerRow({
 		</tr>
 	);
 }
-
 
 function AllUserDataPopUp({
 	userDataModal,
