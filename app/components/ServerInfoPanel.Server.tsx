@@ -3,6 +3,7 @@ import { rconInit } from '@/app/lib/rcon';
 import { parsePlayerData } from '@/app/lib/parse-players';
 import ServerInfo from './ServerInfo';
 import ServerPlayers from './ServerPlayers';
+import BanList from './BanList';
 
 export default async function ServerInfoPanel() {
 	const csServer = await csServerInit();
@@ -20,12 +21,15 @@ export default async function ServerInfoPanel() {
 	rcon.destroy();
 	csServer.disconnect();
 	return (
-		<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
-			<ServerInfo serverInfoPreRender={serverInfo} />
-			<ServerPlayers
-				playersPreRendered={allPlayers}
-				featureFlags={featureFlags}
-			/>
+		<div>
+			<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
+				<ServerInfo serverInfoPreRender={serverInfo} />
+				<ServerPlayers
+					playersPreRendered={allPlayers}
+					featureFlags={featureFlags}
+				/>
+			</div>
+			<BanList />
 		</div>
 	);
 }

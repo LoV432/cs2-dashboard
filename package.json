@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@fabricio-191/valve-server-query": "^4.1.9",
 		"@maxmind/geoip2-node": "^5.0.0",
+		"mysql2": "^3.7.0",
 		"next": "14.0.3",
 		"patch-package": "^8.0.0",
 		"react": "^18",
@@ -20,6 +21,7 @@
 		"relevancy": "0.2.0"
 	},
 	"devDependencies": {
+		"@types/mysql": "^2.15.25",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
