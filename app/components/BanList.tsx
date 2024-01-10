@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { getBans, dbAllBansReturn } from '../lib/get-bans';
+import { ConfirmationModal } from './ConfirmationModals';
 
 export default function BanListButton() {
 	const [banList, setBanlist] = useState([] as dbAllBansReturn);
@@ -165,7 +166,7 @@ function UnbanPlayerPopUp({
 	unbanPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	updateBanList: () => Promise<void>;
 }) {
-	const unbanPlayer = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const unbanPlayer = () => {
 		if (player?.player_steamid) {
 			fetch('/api/rcon', {
 				method: 'POST',
@@ -187,37 +188,18 @@ function UnbanPlayerPopUp({
 				})
 			});
 		}
-		closePopUp();
+		unbanPlayerModal.current.close();
 		setTimeout(() => {
 			updateBanList();
 		}, 500);
 	};
 
-	function closePopUp() {
-		unbanPlayerModal.current.close();
-	}
-
 	return (
-		<dialog ref={unbanPlayerModal} className="modal">
-			<div className="modal-box bg-zinc-900">
-				<h3 className="pb-5 text-lg font-bold">Unban Player</h3>
-				<p>Are you sure you want to unban "{player?.player_name}"?</p>
-				<button onClick={unbanPlayer} className="btn btn-error mt-5 w-full">
-					UNBAN
-				</button>
-				<button onClick={closePopUp} className="btn btn-ghost mt-5 w-full">
-					Cancel
-				</button>
-				<button
-					onClick={closePopUp}
-					className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-				>
-					✕
-				</button>
-			</div>
-			<div className="modal-backdrop bg-zinc-700 opacity-30">
-				<button onClick={closePopUp}>close</button>
-			</div>
-		</dialog>
+		<ConfirmationModal
+			modalAction={unbanPlayer}
+			modalName="unban"
+			modalRef={unbanPlayerModal}
+			playerName={player?.player_name || ''}
+		/>
 	);
 }
