@@ -3,7 +3,7 @@ import { rconInit } from '@/app/lib/rcon';
 import { parsePlayerData } from '@/app/lib/parse-players';
 import ServerInfo from './ServerInfo';
 import ServerPlayers from './ServerPlayers';
-import BanList from './BanList';
+import AdminActionList from './AdminActionList';
 
 export default async function ServerInfoPanel() {
 	const csServer = await csServerInit();
@@ -29,7 +29,7 @@ export default async function ServerInfoPanel() {
 					featureFlags={featureFlags}
 				/>
 			</div>
-			<BanList />
+			<AdminActionList />
 		</div>
 	);
 }
