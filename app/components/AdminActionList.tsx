@@ -21,22 +21,22 @@ export default function AdminActionListButton() {
 		updateAdminActionList();
 	}, []);
 	return (
-		<>
+		<div className="flex w-full place-content-center">
 			<div
-				className="cursor-pointer"
+				className="btn btn-outline"
 				onClick={() => {
 					updateAdminActionList();
 					adminActionListModal.current.showModal();
 				}}
 			>
-				Active Bans / Mutes
+				Show Active Bans / Mutes
 			</div>
 			<AdminActionListModal
 				adminActionListModal={adminActionListModal}
 				adminActionList={adminActionList}
 				updateAdminActionList={updateAdminActionList}
 			/>
-		</>
+		</div>
 	);
 }
 
