@@ -58,52 +58,54 @@ function AdminActionListModal({
 		adminActionListModal.current.close();
 	}
 	return (
-		<dialog ref={adminActionListModal} className="modal">
-			<div className="modal-box h-3/4 w-11/12 max-w-[70rem] bg-zinc-900 md:w-2/3">
-				{/*  Dummy element to remove auto focus */}
-				<a href="#" className="opacity-0"></a>
-				<p className="pb-5 text-xl font-bold">Active Bans / Mutes</p>
-				<div className="overflow-x-auto">
-					<table className="table">
-						<thead className="text-slate-300">
-							<tr className="border-slate-300 border-opacity-30">
-								<th>Name</th>
-								<th>IP</th>
-								<th>Type</th>
-								<th>Reason</th>
-								<th>Ends on</th>
-							</tr>
-						</thead>
-						<tbody>
-							{adminActionList.map((action) => {
-								return (
-									<ActionItemList
-										key={`${action.id}-${action.type || 'BAN'}`}
-										actionItem={action}
-										setSelectedPlayer={setSelectedPlayer}
-										removeActionModal={removeActionModal}
-									/>
-								);
-							})}
-						</tbody>
-					</table>
+		<>
+			<dialog ref={adminActionListModal} className="modal">
+				<div className="modal-box h-3/4 w-11/12 max-w-[70rem] bg-zinc-900 md:w-2/3">
+					{/*  Dummy element to remove auto focus */}
+					<a href="#" className="opacity-0"></a>
+					<p className="pb-5 text-xl font-bold">Active Bans / Mutes</p>
+					<div className="overflow-x-auto">
+						<table className="table">
+							<thead className="text-slate-300">
+								<tr className="border-slate-300 border-opacity-30">
+									<th>Name</th>
+									<th>IP</th>
+									<th>Type</th>
+									<th>Reason</th>
+									<th>Ends on</th>
+								</tr>
+							</thead>
+							<tbody>
+								{adminActionList.map((action) => {
+									return (
+										<ActionItemList
+											key={`${action.id}-${action.type || 'BAN'}`}
+											actionItem={action}
+											setSelectedPlayer={setSelectedPlayer}
+											removeActionModal={removeActionModal}
+										/>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
+					<button
+						onClick={closePopUp}
+						className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
+					>
+						✕
+					</button>
 				</div>
-				<button
-					onClick={closePopUp}
-					className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-				>
-					✕
-				</button>
-			</div>
-			<div className="modal-backdrop bg-zinc-700 opacity-30">
-				<button onClick={closePopUp}>close</button>
-			</div>
+				<div className="modal-backdrop bg-zinc-700 opacity-30">
+					<button onClick={closePopUp}>close</button>
+				</div>
+			</dialog>
 			<RemoveAdminActionPopUp
 				player={selectedPlayer}
 				removeActionModal={removeActionModal}
 				updateAdminActionList={updateAdminActionList}
 			/>
-		</dialog>
+		</>
 	);
 }
 
