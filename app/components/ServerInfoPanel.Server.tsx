@@ -29,7 +29,7 @@ export default async function ServerInfoPanel() {
 					featureFlags={featureFlags}
 				/>
 			</div>
-			<AdminActionList />
+			{process.env.SQL_PASSWORD ? <AdminActionList /> : null}
 		</div>
 	);
 }
