@@ -78,7 +78,7 @@ export function ConfirmationModalWithInput({
 				<input
 					ref={reasonRef}
 					className="input mt-5 w-full"
-					placeholder="Mute Reason"
+					placeholder="Reason"
 				></input>
 				<button
 					onClick={() => {
