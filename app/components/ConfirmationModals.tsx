@@ -20,7 +20,7 @@ export function ConfirmationModal({
 				<h3 className="pb-5 text-lg font-bold capitalize">
 					{modalName} Player
 				</h3>
-				<p>
+				<p className='break-all'>
 					Are you sure you want to {modalName} "{playerName}"?
 				</p>
 				<button onClick={modalAction} className="btn btn-error mt-5 w-full">
@@ -67,7 +67,7 @@ export function ConfirmationModalWithInput({
 				<h3 className="pb-5 text-lg font-bold capitalize">
 					{modalName} Player
 				</h3>
-				<p>
+				<p className='break-all'>
 					Are you sure you want to {modalName} "{playerName}"?
 				</p>
 				<input

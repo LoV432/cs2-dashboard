@@ -99,7 +99,7 @@ function PlayerRow({
 			<td>{player.ping}</td>
 			<td className="hidden sm:table-cell">{player.loss}</td>
 			<td>
-				<p className="line-clamp-1">{player.name}</p>
+				<p className="line-clamp-1 break-all">{player.name}</p>
 			</td>
 			<td className="hidden sm:table-cell">{player.adr.split(':')[0]}</td>
 			{maxMindIsEnabled && (
@@ -163,7 +163,7 @@ function AllUserDataPopUp({
 	}
 	return (
 		<dialog ref={userDataModal} className="modal">
-			<div className="modal-box w-fit bg-zinc-900">
+			<div className="modal-box bg-zinc-900">
 				<div className="overflow-x-auto">
 					<table className="table">
 						<tbody>
@@ -175,7 +175,7 @@ function AllUserDataPopUp({
 								<th>Loss</th>
 								<td>{selectedPlayer.loss}</td>
 							</tr>
-							<tr className="table-row sm:hidden">
+							<tr className="table-row sm:hidden break-all">
 								<th>Name</th>
 								<td>{selectedPlayer.name}</td>
 							</tr>
