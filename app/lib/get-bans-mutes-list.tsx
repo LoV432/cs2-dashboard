@@ -12,14 +12,16 @@ export type dbReturnAllAdminAction = {
 	duration: number;
 	ends: string;
 	created: string;
-	type?: 'MUTE' | 'GAG';
+	type: 'MUTE' | 'GAG' | 'BAN';
 	status: string;
 }[];
 
 export async function getBansAndMutes() {
 	try {
 		const allBans = (
-			await db.query('SELECT * FROM sa_bans WHERE status="ACTIVE"')
+			await db.query(
+				'SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE"'
+			)
 		)[0] as dbReturnAllAdminAction;
 		const allMutes = (
 			await db.query('SELECT * FROM sa_mutes WHERE status="ACTIVE"')

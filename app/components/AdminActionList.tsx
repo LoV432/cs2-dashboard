@@ -79,7 +79,7 @@ function AdminActionListModal({
 								{adminActionList.map((action) => {
 									return (
 										<ActionItemList
-											key={`${action.id}-${action.type || 'BAN'}`}
+											key={`${action.id}-${action.type}`}
 											actionItem={action}
 											setSelectedPlayer={setSelectedPlayer}
 											removeActionModal={removeActionModal}
@@ -138,7 +138,7 @@ function ActionItemList({
 					{actionItem.player_ip}
 				</a>
 			</td>
-			<td className="font-semibold">{actionItem.type || 'BAN'}</td>
+			<td className="font-semibold">{actionItem.type}</td>
 			<td className="font-semibold">{actionItem.reason}</td>
 			{actionItem.duration == 0 ? (
 				<td className="font-semibold">Permanent</td>
@@ -205,14 +205,30 @@ function RemoveAdminActionPopUp({
 		}, 500);
 	};
 
+	if (!player) {
+		{
+			/* Will never reach */
+		}
+		return (
+			<ConfirmationModal
+				modalAction={() => {
+					removeAdminAction('BAN');
+				}}
+				modalName={``}
+				modalRef={removeActionModal}
+				playerName={''}
+			/>
+		);
+	}
+
 	return (
 		<ConfirmationModal
 			modalAction={() => {
-				removeAdminAction(player?.type || 'BAN');
+				removeAdminAction(player.type);
 			}}
-			modalName={`Un${player?.type?.toLowerCase() || 'ban'}`}
+			modalName={`Un${player.type.toLowerCase()}`}
 			modalRef={removeActionModal}
-			playerName={player?.player_name || ''}
+			playerName={player.player_name}
 		/>
 	);
 }
