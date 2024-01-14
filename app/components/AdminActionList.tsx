@@ -5,6 +5,7 @@ import {
 	dbReturnAllAdminAction
 } from '../lib/get-bans-mutes-list';
 import { ConfirmationModal } from './ConfirmationModals';
+import Image from 'next/image';
 
 export default function AdminActionListButton() {
 	const [adminActionList, setAdminActionList] = useState(
@@ -122,7 +123,7 @@ function ActionItemList({
 		<tr className="border-slate-300 border-opacity-30 text-base">
 			<th>
 				<a
-					className="link link-primary"
+					className="link underline-offset-4"
 					target={'_blank'}
 					href={`https://steamcommunity.com/profiles/${actionItem.player_steamid}/`}
 				>
@@ -131,7 +132,7 @@ function ActionItemList({
 			</th>
 			<td className="font-semibold">
 				<a
-					className="link link-primary"
+					className="link underline-offset-4"
 					target={'_blank'}
 					href={`https://whatismyipaddress.com/ip/${actionItem.player_ip}/`}
 				>
@@ -159,9 +160,15 @@ function ActionItemList({
 						setSelectedPlayer(actionItem);
 						removeActionModal.current.showModal();
 					}}
-					className="btn btn-error h-9 min-h-0"
+					className="btn btn-error w-10 h-10 min-h-0 p-0"
 				>
-					Remove
+					<Image
+						src={'/trash-outline.svg'}
+						width={20}
+						height={20}
+						alt="Delete"
+						aria-label="Delete"
+					/>
 				</button>
 			</td>
 		</tr>
