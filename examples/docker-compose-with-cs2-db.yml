@@ -38,14 +38,31 @@ services:
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
       - ADMIN_PLUGIN_INSTALLED=false # Change this to true if you have CS2-SimpleAdmin plugin installed: https://github.com/daffyyyy/CS2-SimpleAdmin
       # MySQL used in CS2-SimpleAdmin:
-      - SQL_HOST=
-      - SQL_PORT=
-      - SQL_USER=
-      - SQL_DB=
-      - SQL_PASSWORD=
+      - SQL_HOST=10.0.50.4
+      - SQL_PORT=3306
+      - SQL_USER=cs2
+      - SQL_DB=cs2
+      - SQL_PASSWORD=veryweakdbpassword
     ports:
       - 3000:3000
     restart: unless-stopped
+
+  db:
+    image: mysql
+    container_name: cs2-db
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=veryweakdbrootpassword'
+      - 'MYSQL_DATABASE=cs2'
+      - 'MYSQL_USER=cs2'
+      - 'MYSQL_PASSWORD=veryweakdbpassword'
+    # ports:
+    #   - 3306:3306 # This is not required for dashboard to work correctly
+    networks:
+      cs2:
+        ipv4_address: 10.0.50.4
+    restart: always
 
 networks:
   cs2:
