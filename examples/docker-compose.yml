@@ -10,7 +10,7 @@ services:
       - RCON_PASSWORD= # RCON Password
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
       - ADMIN_PLUGIN_INSTALLED=false # Change this to true if you have CS2-SimpleAdmin plugin installed: https://github.com/daffyyyy/CS2-SimpleAdmin
-      # MySQL used in CS2-SimpleAdmin:
+      # MySQL used in CS2-SimpleAdmin (only required if using CS2-SimpleAdmin):
       - SQL_HOST=
       - SQL_PORT=
       - SQL_USER=
