@@ -4,6 +4,6 @@ import { Server } from '@fabricio-191/valve-server-query';
 export const csServerInit = async () => {
 	return await Server({
 		ip: process.env.SERVER_IP || '127.0.0.1',
-		port: parseInt(process.env.RCON_PORT as string) || 27015
+			port: parseInt(process.env.SERVER_PORT as string) || 27015
 	});
 };
