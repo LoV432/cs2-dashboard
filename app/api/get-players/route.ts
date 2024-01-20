@@ -23,6 +23,13 @@ export async function GET() {
 	}
 	lastReqTime = Date.now();
 	const rcon = await rconInit();
+	if ('err' in rcon) {
+		console.log(rcon.err);
+		//TODO: Handle this on frontend
+		return new Response(JSON.stringify({ err: 'error' }), {
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
 	const rconRes = await rcon.exec('status');
 	rcon.destroy();
 	playersData = await parsePlayerData(rconRes);

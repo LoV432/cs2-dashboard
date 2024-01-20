@@ -8,6 +8,14 @@ import AdminActionList from './AdminActionList';
 export default async function ServerInfoPanel() {
 	const csServer = await csServerInit();
 	const rcon = await rconInit();
+	if ('err' in csServer) {
+		console.log(csServer.err);
+		return <h1>Server connection failed</h1>;
+	}
+	if ('err' in rcon) {
+		console.log(rcon.err);
+		return <h1>RCON failed</h1>;
+	}
 	const serverInfo = await csServer.getInfo();
 	const players = await rcon.exec('status');
 	const allPlayers = await parsePlayerData(players);

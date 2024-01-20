@@ -24,6 +24,16 @@ export async function GET() {
 	}
 	lastReqTime = Date.now();
 	const csServer = await csServerInit();
+	if ('err' in csServer) {
+		console.log(csServer.err);
+		//TODO: Handle this on frontend
+		return new Response(JSON.stringify({ err: 'error' }), {
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			}
+		});
+	}
 	serverInfo = await csServer.getInfo();
 	csServer.disconnect();
 	return new Response(JSON.stringify(serverInfo), {

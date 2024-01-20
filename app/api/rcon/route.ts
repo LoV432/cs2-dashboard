@@ -19,6 +19,13 @@ export async function POST(request: NextRequest) {
 	}
 
 	const rcon = await rconInit();
+	if ('err' in rcon) {
+		console.log(rcon.err);
+		//TODO: Handle this on frontend
+		return new Response(JSON.stringify({ err: 'error' }), {
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
 	const res = await rcon.exec(body.command);
 	rcon.destroy();
 	return new Response(res, {
