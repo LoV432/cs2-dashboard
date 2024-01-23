@@ -238,7 +238,7 @@ function MakeVipPopUp({
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				command: `css_vip_adduser ${userSteamId} ${group} ${time}`
+				command: `css_vip_adduser ${userSteamId} "${group}" ${time}`
 			})
 		});
 		makeVipModal.current.close();
