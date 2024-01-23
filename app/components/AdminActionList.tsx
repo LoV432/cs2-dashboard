@@ -5,6 +5,8 @@ import {
 	dbReturnAllPunishmentAction
 } from '../lib/get-bans-mutes-list';
 import PunishmentsListTable from './PunishmentsListTable';
+import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
+import VipsListTable from './VipListTable';
 
 export default function AdminActionListButton() {
 	function closePopUp() {
@@ -13,6 +15,7 @@ export default function AdminActionListButton() {
 	const [punishmentsList, setPunishmentsList] = useState(
 		[] as dbReturnAllPunishmentAction
 	);
+	const [vipsList, setVipsList] = useState([] as dbReturnAllVipsAction);
 	const adminActionListModal =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const defaultTab = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -21,9 +24,15 @@ export default function AdminActionListButton() {
 		if ('error' in punishmentsList) return;
 		setPunishmentsList(punishmentsList);
 	}
+	async function updateVipsList() {
+		const vipsList = await getVipsList();
+		if ('error' in vipsList) return;
+		setVipsList(vipsList);
+	}
 	useEffect(() => {
 		defaultTab.current.click(); // TODO: If i put "checked" directly on the HTML Input element the tabs dont switch
 		updatePunishmentsList();
+		updateVipsList();
 	}, []);
 	return (
 		<div className="flex w-full place-content-center">
@@ -31,6 +40,7 @@ export default function AdminActionListButton() {
 				className="btn btn-outline"
 				onClick={() => {
 					updatePunishmentsList();
+					updateVipsList();
 					adminActionListModal.current.showModal();
 				}}
 			>
@@ -50,6 +60,7 @@ export default function AdminActionListButton() {
 								role="tab"
 								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Punishments"
+								onClick={updatePunishmentsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
 								<PunishmentsListTable
@@ -64,9 +75,13 @@ export default function AdminActionListButton() {
 								role="tab"
 								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="VIP Members"
+								onClick={updateVipsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
-								Coming Soon (Maybe)
+								<VipsListTable
+									vipsList={vipsList}
+									updateVipsList={updateVipsList}
+								/>
 							</div>
 
 							<input
