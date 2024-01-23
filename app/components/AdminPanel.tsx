@@ -223,7 +223,7 @@ function MakeVipPopUp({
 		const usersList = (await statusJson.json()).server?.clients;
 		let userSteamId = '';
 		for (const user of usersList) {
-			if ((user.name = player.name)) {
+			if (user.name == player.name) {
 				userSteamId = user.steamid64 as string;
 				break;
 			}
