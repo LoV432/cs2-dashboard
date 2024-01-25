@@ -52,13 +52,13 @@ export default function AdminActionListButton() {
 					<a href="#" className="opacity-0"></a>
 					<p className="pb-5 text-xl font-bold">Admin Panel</p>
 					<div className="overflow-x-auto">
-						<div role="tablist" className="tabs tabs-bordered grid-cols-3">
+						<div role="tablist" className="tabs tabs-bordered grid-cols-3 grid-rows-[auto]">
 							<input
 								ref={defaultTab}
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
+								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
 								aria-label="Punishments"
 								onClick={updatePunishmentsList}
 							/>
@@ -73,8 +73,8 @@ export default function AdminActionListButton() {
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
-								aria-label="VIP Members"
+								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
+								aria-label="VIPs"
 								onClick={updateVipsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
@@ -88,7 +88,7 @@ export default function AdminActionListButton() {
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="hover:bg-zinc-80 checked:hover:bg-zinc-7000 tab transition-all checked:bg-zinc-700 focus:outline-0"
+								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
 								aria-label="Admins"
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
