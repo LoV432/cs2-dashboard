@@ -175,8 +175,6 @@ function BanPlayerPopUp({
 	banPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const banTime = useRef() as React.MutableRefObject<HTMLInputElement>;
-	const banReason = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const banPlayer = (time: number, reason: string) => {
 		fetch('/api/rcon', {
 			method: 'POST',
