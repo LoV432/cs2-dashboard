@@ -1,7 +1,7 @@
 'use server';
 import { db } from '@/app/lib/db';
 
-export type dbReturnAllAdminAction = {
+export type dbReturnAllPunishmentAction = {
 	id: number;
 	player_steamid: string;
 	player_name: string;
@@ -22,10 +22,10 @@ export async function getBansAndMutes() {
 			await db.query(
 				'SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE"'
 			)
-		)[0] as dbReturnAllAdminAction;
+		)[0] as dbReturnAllPunishmentAction;
 		const allMutes = (
 			await db.query('SELECT * FROM sa_mutes WHERE status="ACTIVE"')
-		)[0] as dbReturnAllAdminAction;
+		)[0] as dbReturnAllPunishmentAction;
 		const res = [...allBans, ...allMutes];
 		res.sort(
 			(a, b) => new Date(a.created).getTime() - new Date(b.created).getTime()

@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import { Player } from '../lib/parse-players';
 import {
 	ConfirmationModalWithInput,
-	ConfirmationModal
+	ConfirmationModal,
+	ConfirmationModalVip
 } from './ConfirmationModals';
 
 export default function AdminPanel({
@@ -16,6 +17,7 @@ export default function AdminPanel({
 }) {
 	const kickPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const banPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const makeVipModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const mutePlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const slayPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	function closePopUp() {
@@ -82,6 +84,14 @@ export default function AdminPanel({
 								>
 									Slay
 								</button>
+								<button
+									onClick={() => {
+										makeVipModal.current.showModal();
+									}}
+									className="btn btn-outline w-1/3"
+								>
+									Make VIP
+								</button>
 							</>
 						) : (
 							<>
@@ -137,6 +147,11 @@ export default function AdminPanel({
 				player={selectedPlayer}
 				banPlayerModal={banPlayerModal}
 			/>
+			<MakeVipPopUp
+				adminPanelModal={adminPanelModal}
+				player={selectedPlayer}
+				makeVipModal={makeVipModal}
+			/>
 			<MutePlayerPopUp
 				adminPanelModal={adminPanelModal}
 				player={selectedPlayer}
@@ -181,6 +196,59 @@ function BanPlayerPopUp({
 			modalAction={banPlayer}
 			modalName="Ban"
 			modalRef={banPlayerModal}
+			playerName={player.name}
+		/>
+	);
+}
+
+function MakeVipPopUp({
+	player,
+	makeVipModal,
+	adminPanelModal
+}: {
+	player: Player;
+	makeVipModal: React.MutableRefObject<HTMLDialogElement>;
+	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
+}) {
+	const makeVip = async (time: number, group: string) => {
+		const statusJson = await fetch('/api/rcon', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				command: `status_json`
+			})
+		});
+		const usersList = (await statusJson.json()).server?.clients;
+		let userSteamId = '';
+		for (const user of usersList) {
+			if (user.name == player.name) {
+				userSteamId = user.steamid64 as string;
+				break;
+			}
+		}
+		if (userSteamId == '' || userSteamId == '0') {
+			console.log('User Steam ID not found');
+			return;
+		}
+		fetch('/api/rcon', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				command: `css_vip_adduser ${userSteamId} "${group}" ${time}`
+			})
+		});
+		makeVipModal.current.close();
+		adminPanelModal.current.close();
+	};
+
+	return (
+		<ConfirmationModalVip
+			modalAction={makeVip}
+			modalRef={makeVipModal}
 			playerName={player.name}
 		/>
 	);
