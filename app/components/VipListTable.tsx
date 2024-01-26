@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { dbReturnAllVipsAction } from '../lib/get-vip-list';
 import {
+	AddVipManualModal,
 	DeleteVipConfirmationModal
 } from './ConfirmationModals';
 import Image from 'next/image';
@@ -16,8 +17,15 @@ export default function VipsListTable({
 		dbReturnAllVipsAction[0] | undefined
 	>();
 	const removeVipModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const addVipModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	return (
 		<>
+			<button
+				onClick={() => addVipModal.current.showModal()}
+				className="btn btn-success float-right h-9 min-h-0 w-24"
+			>
+				Add VIP
+			</button>
 			<table className="table">
 				<thead className="text-slate-300">
 					<tr className="border-slate-300 border-opacity-30">
@@ -39,6 +47,7 @@ export default function VipsListTable({
 					})}
 				</tbody>
 			</table>
+			<AddVipManualModal modalRef={addVipModal} />
 			<RemoveVipActionPopUp
 				player={selectedPlayer}
 				removeVipModal={removeVipModal}
