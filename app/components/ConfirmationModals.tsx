@@ -179,7 +179,7 @@ export function AddVipManualModal({
 	return (
 		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
 			<h3 className="pb-5 text-lg font-bold capitalize">Add New VIP</h3>
-			This doesn't seem to working correctly. You can read more about it{' '}
+			You can read more about it{' '}
 			<a
 				className="link link-primary"
 				href="https://github.com/partiusfabaa/cs2-VIPCore"

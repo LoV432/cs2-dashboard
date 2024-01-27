@@ -22,9 +22,12 @@ export default async function ServerInfoPanel() {
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
 	const adminPluginIsEnabled =
 		process.env.ADMIN_PLUGIN_INSTALLED == 'true' ? true : false;
+	const vipPluginIsEnabled =
+		process.env.VIP_PLUGIN_INSTALLED == 'true' ? true : false;
 	const featureFlags = {
 		maxMindIsEnabled,
-		adminPluginIsEnabled
+		adminPluginIsEnabled,
+		vipPluginIsEnabled
 	};
 	rcon.destroy();
 	csServer.disconnect();
@@ -37,7 +40,9 @@ export default async function ServerInfoPanel() {
 					featureFlags={featureFlags}
 				/>
 			</div>
-			{process.env.SQL_PASSWORD ? <AdminActionList /> : null}
+			{featureFlags.adminPluginIsEnabled || featureFlags.vipPluginIsEnabled ? (
+				<AdminActionList featureFlags={featureFlags} />
+			) : null}
 		</div>
 	);
 }

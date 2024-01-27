@@ -8,7 +8,15 @@ import PunishmentsListTable from './PunishmentsListTable';
 import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
 import VipsListTable from './VipListTable';
 
-export default function AdminActionListButton() {
+export default function AdminActionListButton({
+	featureFlags
+}: {
+	featureFlags: {
+		maxMindIsEnabled: boolean;
+		adminPluginIsEnabled: boolean;
+		vipPluginIsEnabled: boolean;
+	};
+}) {
 	function closePopUp() {
 		adminActionListModal.current.close();
 	}
@@ -52,47 +60,62 @@ export default function AdminActionListButton() {
 					<a href="#" className="opacity-0"></a>
 					<p className="pb-5 text-xl font-bold">Admin Panel</p>
 					<div className="overflow-x-auto">
-						<div role="tablist" className="tabs tabs-bordered grid-cols-3 grid-rows-[auto]">
+						<div
+							role="tablist"
+							className="tabs tabs-bordered grid-cols-3 grid-rows-[auto]"
+						>
 							<input
 								ref={defaultTab}
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
+								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Punishments"
 								onClick={updatePunishmentsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
-								<PunishmentsListTable
-									punishmentsList={punishmentsList}
-									updatePunishmentsList={updatePunishmentsList}
-								/>
+								{featureFlags.adminPluginIsEnabled ? (
+									<PunishmentsListTable
+										punishmentsList={punishmentsList}
+										updatePunishmentsList={updatePunishmentsList}
+									/>
+								) : (
+									<p>Plugin not enabled</p>
+								)}
 							</div>
 
 							<input
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
+								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="VIPs"
 								onClick={updateVipsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
-								<VipsListTable
-									vipsList={vipsList}
-									updateVipsList={updateVipsList}
-								/>
+								{featureFlags.vipPluginIsEnabled ? (
+									<VipsListTable
+										vipsList={vipsList}
+										updateVipsList={updateVipsList}
+									/>
+								) : (
+									<p>Plugin not enabled</p>
+								)}
 							</div>
 
 							<input
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0 text-lg font-semibold h-12"
+								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Admins"
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
-								Coming Soon (Maybe)
+								{featureFlags.adminPluginIsEnabled ? (
+									<p>Coming Soon (Maybe)</p>
+								) : (
+									<p>Plugin not enabled</p>
+								)}
 							</div>
 						</div>
 					</div>

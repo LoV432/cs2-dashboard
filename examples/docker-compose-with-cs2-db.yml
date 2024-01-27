@@ -36,8 +36,9 @@ services:
       - RCON_PORT=27015
       - RCON_PASSWORD=veryweakrconpassword
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
+      - VIP_PLUGIN_INSTALLED=false # Change this to true if you have this plugin installed: https://github.com/partiusfabaa/cs2-VIPCore
       - ADMIN_PLUGIN_INSTALLED=false # Change this to true if you have CS2-SimpleAdmin plugin installed: https://github.com/daffyyyy/CS2-SimpleAdmin
-      # MySQL used in CS2-SimpleAdmin (only required if using CS2-SimpleAdmin):
+      # MySQL used in CS2-SimpleAdmin and cs2-VIPCore:
       - SQL_HOST=10.0.50.4
       - SQL_PORT=3306
       - SQL_USER=cs2

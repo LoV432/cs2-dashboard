@@ -9,7 +9,7 @@ export default function ServerPlayers({
 	featureFlags
 }: {
 	playersPreRendered: Player[];
-	featureFlags: { maxMindIsEnabled: boolean; adminPluginIsEnabled: boolean };
+	featureFlags: { maxMindIsEnabled: boolean; adminPluginIsEnabled: boolean; vipPluginIsEnabled: boolean};
 }) {
 	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
@@ -62,7 +62,7 @@ export default function ServerPlayers({
 			<AdminPanel
 				adminPanelModal={adminPanelModal}
 				selectedPlayer={selectedPlayer}
-				adminPluginIsEnabled={featureFlags.adminPluginIsEnabled}
+				featureFlags={featureFlags}
 			/>
 		</div>
 	);

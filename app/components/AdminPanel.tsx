@@ -9,11 +9,15 @@ import {
 export default function AdminPanel({
 	adminPanelModal,
 	selectedPlayer,
-	adminPluginIsEnabled
+	featureFlags
 }: {
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 	selectedPlayer: Player | null;
-	adminPluginIsEnabled: boolean;
+	featureFlags: {
+		maxMindIsEnabled: boolean;
+		adminPluginIsEnabled: boolean;
+		vipPluginIsEnabled: boolean;
+	};
 }) {
 	const kickPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const banPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
@@ -58,7 +62,7 @@ export default function AdminPanel({
 						>
 							Kick
 						</button>
-						{adminPluginIsEnabled ? (
+						{featureFlags.adminPluginIsEnabled ? (
 							<>
 								<button
 									onClick={() => {
@@ -84,14 +88,6 @@ export default function AdminPanel({
 								>
 									Slay
 								</button>
-								<button
-									onClick={() => {
-										makeVipModal.current.showModal();
-									}}
-									className="btn btn-outline w-1/3"
-								>
-									Make VIP
-								</button>
 							</>
 						) : (
 							<>
@@ -104,27 +100,52 @@ export default function AdminPanel({
 								<button className="btn btn-disabled btn-outline w-1/3">
 									Slay
 								</button>
-								<p>
-									You can enable all the options by installing{' '}
-									<a
-										className="link link-primary"
-										target="_blank"
-										href="https://github.com/daffyyyy/CS2-SimpleAdmin"
-									>
-										CS2-SimpleAdmin
-									</a>{' '}
-									and then setting the{' '}
-									<a
-										className="link link-primary"
-										target="_blank"
-										href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
-									>
-										ENV
-									</a>{' '}
-									to true in your docker_compose.
-								</p>
 							</>
 						)}
+						{featureFlags.vipPluginIsEnabled ? (
+							<button
+								onClick={() => {
+									makeVipModal.current.showModal();
+								}}
+								className="btn btn-outline w-1/3"
+							>
+								Make VIP
+							</button>
+						) : (
+							<button className="btn btn-disabled btn-outline w-1/3">
+								Make VIP
+							</button>
+						)}
+						{!featureFlags.vipPluginIsEnabled ||
+						!featureFlags.adminPluginIsEnabled ? (
+							<p>
+								You can enable all the options by installing{' '}
+								<a
+									className="link link-primary"
+									target="_blank"
+									href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+								>
+									CS2-SimpleAdmin
+								</a>{' '}
+								and{' '}
+								<a
+									className="link link-primary"
+									target="_blank"
+									href="https://github.com/partiusfabaa/cs2-VIPCore"
+								>
+									cs2-VIPCore
+								</a>{' '}
+								and then setting the{' '}
+								<a
+									className="link link-primary"
+									target="_blank"
+									href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+								>
+									ENV
+								</a>{' '}
+								to true in your docker_compose.
+							</p>
+						) : null}
 					</div>
 					<button
 						onClick={closePopUp}

@@ -13,10 +13,10 @@ A very basic CounterStrike 2 Server Dashboard!
 
 ## Installation
 
-The recommended way to use this is through Docker and Docker Compose. I have provided 2 example docker-compose files.
+The recommended way to use this is through Docker and Docker Compose. I have provided 3 example docker-compose files.
 1) [Standalone](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml)
 2) [Dashboard with CS2](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose-with-cs2.yml)
-3) [Dashboard with CS2 and MySQL DB for CS2-SimpleAdmin plugin](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose-with-cs2-db.yml)
+3) [Dashboard with CS2 and MySQL DB for CS2-SimpleAdmin and cs2-VIPCore plugin](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose-with-cs2-db.yml)
 
 ## Previews
 
