@@ -80,7 +80,25 @@ export default function AdminActionListButton({
 										updatePunishmentsList={updatePunishmentsList}
 									/>
 								) : (
-									<p>Plugin not enabled</p>
+									<p>
+										You can enable this panel by installing{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+										>
+											CS2-SimpleAdmin
+										</a>{' '}
+										and then setting the{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+										>
+											ENV
+										</a>{' '}
+										to true in your docker_compose.
+									</p>
 								)}
 							</div>
 
@@ -99,7 +117,25 @@ export default function AdminActionListButton({
 										updateVipsList={updateVipsList}
 									/>
 								) : (
-									<p>Plugin not enabled</p>
+									<p>
+										You can enable this panel by installing{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/partiusfabaa/cs2-VIPCore"
+										>
+											cs2-VIPCore
+										</a>{' '}
+										and then setting the{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+										>
+											ENV
+										</a>{' '}
+										to true in your docker_compose.
+									</p>
 								)}
 							</div>
 
@@ -114,7 +150,25 @@ export default function AdminActionListButton({
 								{featureFlags.adminPluginIsEnabled ? (
 									<p>Coming Soon (Maybe)</p>
 								) : (
-									<p>Plugin not enabled</p>
+									<p>
+										You can enable this panel by installing{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+										>
+											CS2-SimpleAdmin
+										</a>{' '}
+										and then setting the{' '}
+										<a
+											className="link link-primary"
+											target="_blank"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+										>
+											ENV
+										</a>{' '}
+										to true in your docker_compose.
+									</p>
 								)}
 							</div>
 						</div>
