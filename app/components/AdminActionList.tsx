@@ -69,7 +69,7 @@ export default function AdminActionListButton({
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
+								className="tab h-12 after:overflow-hidden after:overflow-ellipsis text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Punishments"
 								onClick={updatePunishmentsList}
 							/>
