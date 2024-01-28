@@ -92,6 +92,8 @@ export function ConfirmationModalWithInput({
 						Number(timeRef.current.value) | 0,
 						String(reasonRef.current.value) || 'Good Reason'
 					);
+					timeRef.current.value = '';
+					reasonRef.current.value = '';
 				}}
 				className="btn btn-error mt-5 w-full"
 			>
@@ -141,6 +143,8 @@ export function ConfirmationModalVip({
 						Number(timeRef.current.value) | 0,
 						String(groupRef.current.value)
 					);
+					timeRef.current.value = '';
+					groupRef.current.value = '';
 				}}
 				className="btn btn-success mt-5 w-full"
 			>
