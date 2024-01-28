@@ -248,7 +248,9 @@ function MakeVipPopUp({
 			}
 		}
 		if (userSteamId == '' || userSteamId == '0') {
-			console.log('User Steam ID not found');
+			console.error(
+				'User SteamID not found. This seems to be a bug in CS2 "status_json" command where it returns empty SteamID. Restarting CS2 server usually fixes the issue'
+			);
 			return;
 		}
 		fetch('/api/rcon', {
