@@ -77,18 +77,9 @@ export function ConfirmationModalWithInput({
 			<p className="break-all">
 				Are you sure you want to {modalName} "{playerName}"?
 			</p>
-			<input
-				ref={timeRef}
-				className="input mt-5 w-full"
-				placeholder="Time in minutes/0 perm"
-			></input>
-			<input
-				ref={reasonRef}
-				className="input mt-5 w-full"
-				placeholder="Reason"
-			></input>
-			<button
-				onClick={() => {
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
 					modalAction(
 						Number(timeRef.current.value) | 0,
 						String(reasonRef.current.value) || 'Good Reason'
@@ -96,10 +87,21 @@ export function ConfirmationModalWithInput({
 					timeRef.current.value = '';
 					reasonRef.current.value = '';
 				}}
-				className="btn btn-error mt-5 w-full"
 			>
-				{modalName.toUpperCase()}
-			</button>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full"
+					placeholder="Time in minutes/0 perm"
+				></input>
+				<input
+					ref={reasonRef}
+					className="input mt-5 w-full"
+					placeholder="Reason"
+				></input>
+				<button type="submit" className="btn btn-error mt-5 w-full">
+					{modalName.toUpperCase()}
+				</button>
+			</form>
 		</ConfirmationModalWrapper>
 	);
 }
@@ -126,18 +128,9 @@ export function ConfirmationModalVip({
 			<p className="break-all">
 				Are you sure you want to make "{playerName}" VIP?
 			</p>
-			<input
-				ref={timeRef}
-				className="input mt-5 w-full placeholder:text-slate-500"
-				placeholder="Time in seconds/0 perm"
-			></input>
-			<input
-				ref={groupRef}
-				className="input mt-5 w-full placeholder:text-slate-500"
-				placeholder="VIP Group*"
-			></input>
-			<button
-				onClick={() => {
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
 					if (groupRef.current.value == null || groupRef.current.value == '')
 						return;
 					modalAction(
@@ -147,10 +140,22 @@ export function ConfirmationModalVip({
 					timeRef.current.value = '';
 					groupRef.current.value = '';
 				}}
-				className="btn btn-success mt-5 w-full"
 			>
-				MAKE VIP
-			</button>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Time in seconds/0 perm"
+				></input>
+				<input
+					required
+					ref={groupRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="VIP Group*"
+				></input>
+				<button type="submit" className="btn btn-success mt-5 w-full">
+					MAKE VIP
+				</button>
+			</form>
 		</ConfirmationModalWrapper>
 	);
 }
@@ -166,6 +171,14 @@ export function AddVipManualModal({
 	const groupRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	async function addVip(time: number, groupName: string, steamId: string) {
+		if (
+			groupName == null ||
+			groupName == '' ||
+			steamId == null ||
+			steamId == ''
+		) {
+			return;
+		}
 		await execRcon(`css_vip_adduser "${steamId}" "${groupName}" ${time}`);
 		updateVipsList();
 		closePopUp();
@@ -188,40 +201,37 @@ export function AddVipManualModal({
 				here.
 			</a>{' '}
 			It uses the "css_vip_adduser" command.
-			<input
-				ref={idRef}
-				className="input mt-5 w-full placeholder:text-slate-500"
-				placeholder="Player steamid or accountid*"
-			></input>
-			<input
-				ref={timeRef}
-				className="input mt-5 w-full placeholder:text-slate-500"
-				placeholder="Time in seconds/0 perm"
-			></input>
-			<input
-				ref={groupRef}
-				className="input mt-5 w-full placeholder:text-slate-500"
-				placeholder="VIP Group*"
-			></input>
-			<button
-				onClick={() => {
-					if (
-						groupRef.current.value == null ||
-						groupRef.current.value == '' ||
-						idRef.current.value == null ||
-						idRef.current.value == ''
-					)
-						return;
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
 					addVip(
 						Number(timeRef.current.value) | 0,
 						String(groupRef.current.value),
 						String(idRef.current.value)
 					);
 				}}
-				className="btn btn-success mt-5 w-full"
 			>
-				MAKE VIP
-			</button>
+				<input
+					required
+					ref={idRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Player steamid or accountid*"
+				></input>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Time in seconds/0 perm"
+				></input>
+				<input
+					required
+					ref={groupRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="VIP Group*"
+				></input>
+				<button type="submit" className="btn btn-success mt-5 w-full">
+					MAKE VIP
+				</button>
+			</form>
 		</ConfirmationModalWrapper>
 	);
 }
