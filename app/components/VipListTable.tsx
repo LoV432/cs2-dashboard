@@ -48,7 +48,10 @@ export default function VipsListTable({
 					})}
 				</tbody>
 			</table>
-			<AddVipManualModal modalRef={addVipModal} />
+			<AddVipManualModal
+				modalRef={addVipModal}
+				updateVipsList={updateVipsList}
+			/>
 			<RemoveVipActionPopUp
 				player={selectedPlayer}
 				removeVipModal={removeVipModal}

@@ -156,15 +156,18 @@ export function ConfirmationModalVip({
 }
 
 export function AddVipManualModal({
-	modalRef
+	modalRef,
+	updateVipsList
 }: {
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
+	updateVipsList: () => Promise<void>;
 }) {
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const groupRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-	function addVip(time: number, groupName: string, steamId: string) {
-		execRcon(`css_vip_adduser "${steamId}" "${groupName}" ${time}`);
+	async function addVip(time: number, groupName: string, steamId: string) {
+		await execRcon(`css_vip_adduser "${steamId}" "${groupName}" ${time}`);
+		updateVipsList();
 		closePopUp();
 	}
 	function closePopUp() {
