@@ -5,6 +5,7 @@ import {
 	DeleteVipConfirmationModal
 } from './ConfirmationModals';
 import Image from 'next/image';
+import { execRcon } from '../lib/exec-rcon';
 
 export default function VipsListTable({
 	vipsList,
@@ -114,15 +115,7 @@ function RemoveVipActionPopUp({
 	updateVipsList: () => Promise<void>;
 }) {
 	const removeVipAction = () => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_vip_deleteuser ${player?.account_id}`
-			})
-		});
+		execRcon(`css_vip_deleteuser ${player?.account_id}`);
 		removeVipModal.current.close();
 		setTimeout(() => {
 			updateVipsList();

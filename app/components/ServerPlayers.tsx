@@ -3,13 +3,18 @@ import { useEffect, useState, useRef } from 'react';
 import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
 import AdminPanel from './AdminPanel';
+import { getPlayers } from '../lib/get-playes';
 
 export default function ServerPlayers({
 	playersPreRendered,
 	featureFlags
 }: {
 	playersPreRendered: Player[];
-	featureFlags: { maxMindIsEnabled: boolean; adminPluginIsEnabled: boolean; vipPluginIsEnabled: boolean};
+	featureFlags: {
+		maxMindIsEnabled: boolean;
+		adminPluginIsEnabled: boolean;
+		vipPluginIsEnabled: boolean;
+	};
 }) {
 	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
@@ -17,12 +22,9 @@ export default function ServerPlayers({
 	const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
 	useEffect(() => {
-		const getPlayersInterval = setInterval(() => {
-			fetch('/api/get-players')
-				.then((res) => res.json())
-				.then((data) => {
-					setAllPlayers(data);
-				});
+		const getPlayersInterval = setInterval(async () => {
+			const players = await getPlayers();
+			if (!('err' in players)) setAllPlayers(players);
 		}, 5000);
 		return () => clearInterval(getPlayersInterval);
 	}, []);
@@ -175,7 +177,7 @@ function AllUserDataPopUp({
 								<th>Loss</th>
 								<td>{selectedPlayer.loss}</td>
 							</tr>
-							<tr className="table-row sm:hidden break-all">
+							<tr className="table-row break-all sm:hidden">
 								<th>Name</th>
 								<td>{selectedPlayer.name}</td>
 							</tr>

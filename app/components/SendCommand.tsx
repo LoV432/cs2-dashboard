@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { chatStore as chatStoreImport } from '../store/chat-store';
 import { useRecoilState } from 'recoil';
 import Suggestions from './Suggestions.server';
+import { execRcon } from '../lib/exec-rcon';
 
 export default function SendCommand() {
 	const [, setChatStore] = useRecoilState(chatStoreImport);
@@ -43,15 +44,11 @@ export default function SendCommand() {
 				type: 'chat-end'
 			}
 		]);
-		const commandFetch = await fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ command: command })
-		});
-
-		const commandReply = await commandFetch.text();
+		const commandExec = await execRcon(command);
+		const commandReply =
+			commandExec !== false
+				? commandExec
+				: 'Command failed to exec. Check server logs for more info.';
 		setChatStore((prev) => [
 			...prev,
 			{

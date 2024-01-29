@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { execRcon } from '../lib/exec-rcon';
 
 export function ConfirmationModal({
 	modalName,
@@ -163,15 +164,7 @@ export function AddVipManualModal({
 	const groupRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	function addVip(time: number, groupName: string, steamId: string) {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_vip_adduser "${steamId}" "${groupName}" ${time}`
-			})
-		});
+		execRcon(`css_vip_adduser "${steamId}" "${groupName}" ${time}`);
 		closePopUp();
 	}
 	function closePopUp() {

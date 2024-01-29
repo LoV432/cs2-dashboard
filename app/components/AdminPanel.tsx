@@ -5,6 +5,7 @@ import {
 	ConfirmationModal,
 	ConfirmationModalVip
 } from './ConfirmationModals';
+import { execRcon } from '../lib/exec-rcon';
 
 export default function AdminPanel({
 	adminPanelModal,
@@ -197,15 +198,7 @@ function BanPlayerPopUp({
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const banPlayer = (time: number, reason: string) => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_ban #${player.id} ${time} "${reason}"`
-			})
-		});
+		execRcon(`css_ban #${player.id} ${time} "${reason}"`);
 		banPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -230,16 +223,9 @@ function MakeVipPopUp({
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const makeVip = async (time: number, group: string) => {
-		const statusJson = await fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `status_json`
-			})
-		});
-		const usersList = (await statusJson.json()).server?.clients;
+		const statusJson = await execRcon('status_json');
+		if (!statusJson) return;
+		const usersList = (await JSON.parse(statusJson)).server?.clients;
 		let userSteamId = '';
 		for (const user of usersList) {
 			if (user.name == player.name) {
@@ -253,15 +239,7 @@ function MakeVipPopUp({
 			);
 			return;
 		}
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_vip_adduser ${userSteamId} "${group}" ${time}`
-			})
-		});
+		execRcon(`css_vip_adduser ${userSteamId} "${group}" ${time}`);
 		makeVipModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -285,15 +263,7 @@ function KickPlayerPopUp({
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const kickPlayer = () => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `kickid ${player.id}`
-			})
-		});
+		execRcon(`kickid ${player.id}`);
 		kickPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -318,15 +288,7 @@ function SlayPlayerPopUp({
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const slayPlayer = () => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_slay #${player.id}`
-			})
-		});
+		execRcon(`css_slay #${player.id}`);
 		slayPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -351,24 +313,8 @@ function MutePlayerPopUp({
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const mutePlayer = (time: number, reason: string) => {
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_mute #${player.id} ${time} "${reason}"`
-			})
-		});
-		fetch('/api/rcon', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				command: `css_gag #${player.id} ${time} "${reason}"`
-			})
-		});
+		execRcon(`css_mute #${player.id} ${time} "${reason}"`);
+		execRcon(`css_gag #${player.id} ${time} "${reason}"`);
 		mutePlayerModal.current.close();
 		adminPanelModal.current.close();
 	};

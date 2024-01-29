@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { dbReturnAllPunishmentAction } from '../lib/get-bans-mutes-list';
 import { ConfirmationModal } from './ConfirmationModals';
 import Image from 'next/image';
+import { execRcon } from '../lib/exec-rcon';
 
 export default function PunishmentsListTable({
 	punishmentsList,
@@ -125,25 +126,9 @@ function RemovePunishmentActionPopUp({
 }) {
 	const removePunishmentAction = (actionType: 'MUTE' | 'GAG' | 'BAN') => {
 		if (actionType == 'BAN') {
-			fetch('/api/rcon', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					command: `css_unban ${player?.player_steamid || player?.player_ip}`
-				})
-			});
+			execRcon(`css_unban ${player?.player_steamid || player?.player_ip}`);
 		} else {
-			fetch('/api/rcon', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					command: `css_un${actionType.toLowerCase()} ${player?.player_steamid}`
-				})
-			});
+			execRcon(`css_un${actionType.toLowerCase()} ${player?.player_steamid}`);
 		}
 		removePunishmentModal.current.close();
 		setTimeout(() => {

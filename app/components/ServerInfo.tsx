@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { getServerInfo } from '../lib/get-server-info';
 
 export default function ServerInfo({
 	serverInfoPreRender
@@ -8,12 +9,9 @@ export default function ServerInfo({
 }) {
 	const [serverInfo, setServerInfo] = useState(serverInfoPreRender);
 	useEffect(() => {
-		const serverInfoInterval = setInterval(() => {
-			fetch('/api/server-info')
-				.then((res) => res.json())
-				.then((data) => {
-					setServerInfo(data);
-				});
+		const serverInfoInterval = setInterval(async () => {
+			const serverInfo = await getServerInfo();
+			if (!('err' in serverInfo)) setServerInfo(serverInfo);
 		}, 5000);
 		return () => clearInterval(serverInfoInterval);
 	}, []);
