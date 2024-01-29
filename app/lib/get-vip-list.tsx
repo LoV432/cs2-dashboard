@@ -13,7 +13,7 @@ export async function getVipsList() {
 	try {
 		const allVips = (
 			await db.query(
-				'SELECT * FROM vip_users WHERE expires > UNIX_TIMESTAMP(NOW())'
+				'SELECT * FROM vip_users WHERE expires > UNIX_TIMESTAMP(NOW()) OR expires = 0'
 			)
 		)[0] as dbReturnAllVipsAction;
 		return allVips;
