@@ -215,7 +215,7 @@ export function ConfirmationModalAdmin({
 				<input
 					ref={timeRef}
 					className="input mt-5 w-full placeholder:text-slate-500"
-					placeholder="Time in seconds/0 perm"
+					placeholder="Time in minutes/0 perm"
 				></input>
 				<input
 					required
@@ -306,6 +306,100 @@ export function AddVipManualModal({
 				></input>
 				<button type="submit" className="btn btn-success mt-5 w-full">
 					MAKE VIP
+				</button>
+			</form>
+		</ConfirmationModalWrapper>
+	);
+}
+
+export function AddAdminManualModal({
+	modalRef,
+	updateAdminsList
+}: {
+	modalRef: React.MutableRefObject<HTMLDialogElement>;
+	updateAdminsList: () => Promise<void>;
+}) {
+	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const playerNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const adminFlagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	async function addAdmin(
+		time: number,
+		steamId: string,
+		playerName: string,
+		adminFlags: string,
+		immunity: number
+	) {
+		if (
+			adminFlags == null ||
+			adminFlags == '' ||
+			playerName == null ||
+			playerName == '' ||
+			steamId == null ||
+			steamId == ''
+		) {
+			return;
+		}
+		await execRcon(
+			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time}`
+		);
+		updateAdminsList();
+		closePopUp();
+	}
+	function closePopUp() {
+		modalRef.current.close();
+		timeRef.current.value = '';
+		playerNameRef.current.value = '';
+		idRef.current.value = '';
+		immunityRef.current.value = '';
+		adminFlagsRef.current.value = '';
+	}
+	return (
+		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
+			<h3 className="pb-5 text-lg font-bold capitalize">Add New ADMIN</h3>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					addAdmin(
+						Number(timeRef.current.value) || 0,
+						String(idRef.current.value),
+						String(playerNameRef.current.value),
+						String(adminFlagsRef.current.value),
+						Number(immunityRef.current.value) || 0
+					);
+				}}
+			>
+				<input
+					required
+					ref={idRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Player SteamID*"
+				></input>
+				<input
+					required
+					ref={playerNameRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Player Name*"
+				></input>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Time in minutes/0 perm"
+				></input>
+				<input
+					required
+					ref={adminFlagsRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Admin flags/groups*"
+				></input>
+				<input
+					ref={immunityRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Immunity (Defaults to 0)"
+				></input>
+				<button type="submit" className="btn btn-success mt-5 w-full">
+					MAKE ADMIN
 				</button>
 			</form>
 		</ConfirmationModalWrapper>

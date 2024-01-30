@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { dbReturnAllAdmins } from '../lib/get-admins-list';
-import { ConfirmationModal } from './ConfirmationModals';
+import { AddAdminManualModal, ConfirmationModal } from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
 
@@ -16,8 +16,15 @@ export default function AdminsListTable({
 	>();
 	const removeAdminModal =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const addAdminModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	return (
 		<>
+			<button
+				onClick={() => addAdminModal.current.showModal()}
+				className="btn btn-success float-right h-9 min-h-0 w-28"
+			>
+				Add ADMIN
+			</button>
 			<table className="table">
 				<thead className="text-slate-300">
 					<tr className="border-slate-300 border-opacity-30">
@@ -40,6 +47,10 @@ export default function AdminsListTable({
 					})}
 				</tbody>
 			</table>
+			<AddAdminManualModal
+				modalRef={addAdminModal}
+				updateAdminsList={updateAdminsList}
+			/>
 			<RemoveAdminPopUp
 				player={selectedPlayer}
 				removeAdminModal={removeAdminModal}
