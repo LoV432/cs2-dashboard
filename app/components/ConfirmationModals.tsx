@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { execRcon } from '../lib/exec-rcon';
+import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
 
 export function ConfirmationModal({
 	modalName,
@@ -154,6 +155,81 @@ export function ConfirmationModalVip({
 				></input>
 				<button type="submit" className="btn btn-success mt-5 w-full">
 					MAKE VIP
+				</button>
+			</form>
+		</ConfirmationModalWrapper>
+	);
+}
+
+export function ConfirmationModalAdmin({
+	modalRef,
+	playerName,
+	adminPanelModal
+}: {
+	modalRef: React.MutableRefObject<HTMLDialogElement>;
+	playerName: string;
+	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
+}) {
+	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const flagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+
+	async function makeAdmin(time: number, adminFlags: string, immunity: number) {
+		const playerList = (await execRcon('css_players')) || '';
+		const userSteamId = searchSteamIDFromAdminPlugin(playerList, playerName);
+		if (userSteamId == '' || userSteamId == '0') {
+			alert('SteamID not found');
+		}
+		await execRcon(
+			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time}`
+		);
+		await execRcon('css_reladmin');
+		closePopUp();
+		adminPanelModal.current.close();
+	}
+
+	function closePopUp() {
+		modalRef.current.close();
+		timeRef.current.value = '';
+		flagsRef.current.value = '';
+		immunityRef.current.value = '';
+	}
+	return (
+		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
+			<h3 className="pb-5 text-lg font-bold capitalize">Make Player ADMIN</h3>
+			<p className="break-all">
+				Are you sure you want to make "{playerName}" ADMIN?
+			</p>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					if (flagsRef.current.value == null || flagsRef.current.value == '')
+						return;
+					makeAdmin(
+						Number(timeRef.current.value) || 0,
+						String(flagsRef.current.value),
+						Number(immunityRef.current.value) || 0
+					);
+				}}
+			>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Time in seconds/0 perm"
+				></input>
+				<input
+					required
+					ref={flagsRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Admin flags/groups*"
+				></input>
+				<input
+					ref={immunityRef}
+					className="input mt-5 w-full placeholder:text-slate-500"
+					placeholder="Immunity (Defaults to 0)"
+				></input>
+				<button type="submit" className="btn btn-success mt-5 w-full">
+					MAKE ADMIN
 				</button>
 			</form>
 		</ConfirmationModalWrapper>

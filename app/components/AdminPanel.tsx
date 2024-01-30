@@ -3,7 +3,8 @@ import { Player } from '../lib/parse-players';
 import {
 	ConfirmationModalWithInput,
 	ConfirmationModal,
-	ConfirmationModalVip
+	ConfirmationModalVip,
+	ConfirmationModalAdmin
 } from './ConfirmationModals';
 import { execRcon } from '../lib/exec-rcon';
 import {
@@ -27,6 +28,7 @@ export default function AdminPanel({
 	const kickPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const banPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const makeVipModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const makeAdminModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const mutePlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const slayPlayerModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	function closePopUp() {
@@ -93,6 +95,14 @@ export default function AdminPanel({
 								>
 									Slay
 								</button>
+								<button
+									onClick={() => {
+										makeAdminModal.current.showModal();
+									}}
+									className="btn btn-outline w-1/3"
+								>
+									Make ADMIN
+								</button>
 							</>
 						) : (
 							<>
@@ -104,6 +114,9 @@ export default function AdminPanel({
 								</button>
 								<button className="btn btn-disabled btn-outline w-1/3">
 									Slay
+								</button>
+								<button className="btn btn-disabled btn-outline w-1/3">
+									Make ADMIN
 								</button>
 							</>
 						)}
@@ -189,6 +202,11 @@ export default function AdminPanel({
 				player={selectedPlayer}
 				slayPlayerModal={slayPlayerModal}
 			/>
+			<MakeAdminPopUp
+				adminPanelModal={adminPanelModal}
+				player={selectedPlayer}
+				makeAdminModal={makeAdminModal}
+			/>
 		</>
 	);
 }
@@ -262,6 +280,24 @@ function MakeVipPopUp({
 			modalAction={makeVip}
 			modalRef={makeVipModal}
 			playerName={player.name}
+		/>
+	);
+}
+
+function MakeAdminPopUp({
+	player,
+	makeAdminModal,
+	adminPanelModal
+}: {
+	player: Player;
+	makeAdminModal: React.MutableRefObject<HTMLDialogElement>;
+	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
+}) {
+	return (
+		<ConfirmationModalAdmin
+			modalRef={makeAdminModal}
+			playerName={player.name}
+			adminPanelModal={adminPanelModal}
 		/>
 	);
 }
