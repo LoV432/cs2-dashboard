@@ -6,6 +6,10 @@ import {
 	ConfirmationModalVip
 } from './ConfirmationModals';
 import { execRcon } from '../lib/exec-rcon';
+import {
+	searchSteamIDFromAdminPlugin,
+	searchSteamIDFromNative
+} from '../lib/get-steamid';
 
 export default function AdminPanel({
 	adminPanelModal,
@@ -173,6 +177,7 @@ export default function AdminPanel({
 				adminPanelModal={adminPanelModal}
 				player={selectedPlayer}
 				makeVipModal={makeVipModal}
+				featureFlags={featureFlags}
 			/>
 			<MutePlayerPopUp
 				adminPanelModal={adminPanelModal}
@@ -216,25 +221,33 @@ function BanPlayerPopUp({
 function MakeVipPopUp({
 	player,
 	makeVipModal,
-	adminPanelModal
+	adminPanelModal,
+	featureFlags
 }: {
 	player: Player;
 	makeVipModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
+	featureFlags: {
+		maxMindIsEnabled: boolean;
+		adminPluginIsEnabled: boolean;
+		vipPluginIsEnabled: boolean;
+	};
 }) {
 	const makeVip = async (time: number, group: string) => {
-		const statusJson = await execRcon('status_json');
-		if (!statusJson) return;
-		const usersList = (await JSON.parse(statusJson)).server?.clients;
 		let userSteamId = '';
-		for (const user of usersList) {
-			if (user.name == player.name) {
-				userSteamId = user.steamid64 as string;
-				break;
-			}
+		if (featureFlags.adminPluginIsEnabled) {
+			const playerList = (await execRcon('css_players')) || '';
+			userSteamId = searchSteamIDFromAdminPlugin(playerList, player.name);
+		} else {
+			const playerList = (await execRcon('status_json')) || '';
+			userSteamId = await searchSteamIDFromNative(playerList, player.name);
 		}
+
 		if (userSteamId == '' || userSteamId == '0') {
 			console.error(
+				'User SteamID not found. This seems to be a bug in CS2 "status_json" command where it returns empty SteamID. Restarting CS2 server usually fixes the issue'
+			);
+			alert(
 				'User SteamID not found. This seems to be a bug in CS2 "status_json" command where it returns empty SteamID. Restarting CS2 server usually fixes the issue'
 			);
 			return;
