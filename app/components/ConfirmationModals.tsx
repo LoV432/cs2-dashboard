@@ -173,15 +173,21 @@ export function ConfirmationModalAdmin({
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const flagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const isGlobalRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-	async function makeAdmin(time: number, adminFlags: string, immunity: number) {
+	async function makeAdmin(
+		time: number,
+		adminFlags: string,
+		immunity: number,
+		isGlobal: boolean
+	) {
 		const playerList = (await execRcon('css_players')) || '';
 		const userSteamId = searchSteamIDFromAdminPlugin(playerList, playerName);
 		if (userSteamId == '' || userSteamId == '0') {
 			alert('SteamID not found');
 		}
 		await execRcon(
-			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time}`
+			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`
 		);
 		await execRcon('css_reladmin');
 		closePopUp();
@@ -193,6 +199,7 @@ export function ConfirmationModalAdmin({
 		timeRef.current.value = '';
 		flagsRef.current.value = '';
 		immunityRef.current.value = '';
+		isGlobalRef.current.checked = false;
 	}
 	return (
 		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
@@ -208,10 +215,20 @@ export function ConfirmationModalAdmin({
 					makeAdmin(
 						Number(timeRef.current.value) || 0,
 						String(flagsRef.current.value),
-						Number(immunityRef.current.value) || 0
+						Number(immunityRef.current.value) || 0,
+						isGlobalRef.current.checked
 					);
 				}}
 			>
+				<label className="label mt-5 cursor-pointer justify-start gap-5">
+					<span className="label-text">Global Admin</span>
+					<input
+						className="checkbox-error checkbox"
+						ref={isGlobalRef}
+						type="checkbox"
+						name="isGlobal"
+					/>
+				</label>
 				<input
 					ref={timeRef}
 					className="input mt-5 w-full placeholder:text-slate-500"
@@ -324,12 +341,14 @@ export function AddAdminManualModal({
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const adminFlagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const isGlobalRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	async function addAdmin(
 		time: number,
 		steamId: string,
 		playerName: string,
 		adminFlags: string,
-		immunity: number
+		immunity: number,
+		isGlobal: boolean
 	) {
 		if (
 			adminFlags == null ||
@@ -342,7 +361,7 @@ export function AddAdminManualModal({
 			return;
 		}
 		await execRcon(
-			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time}`
+			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`
 		);
 		updateAdminsList();
 		closePopUp();
@@ -354,6 +373,7 @@ export function AddAdminManualModal({
 		idRef.current.value = '';
 		immunityRef.current.value = '';
 		adminFlagsRef.current.value = '';
+		isGlobalRef.current.checked = false;
 	}
 	return (
 		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
@@ -366,10 +386,20 @@ export function AddAdminManualModal({
 						String(idRef.current.value),
 						String(playerNameRef.current.value),
 						String(adminFlagsRef.current.value),
-						Number(immunityRef.current.value) || 0
+						Number(immunityRef.current.value) || 0,
+						isGlobalRef.current.checked
 					);
 				}}
 			>
+				<label className="label w-fit cursor-pointer">
+					<span className="label-text">Global Admin</span>
+					<input
+						className="checkbox-error checkbox ml-3"
+						ref={isGlobalRef}
+						type="checkbox"
+						name="isGlobal"
+					/>
+				</label>
 				<input
 					required
 					ref={idRef}

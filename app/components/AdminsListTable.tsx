@@ -126,7 +126,7 @@ function RemoveAdminPopUp({
 	updateAdminsList: () => Promise<void>;
 }) {
 	const removeAdmin = () => {
-		execRcon(`css_deladmin ${player?.player_steamid}`);
+		execRcon(`css_deladmin ${player?.player_steamid} -g`);
 		removeAdminModal.current.close();
 		setTimeout(() => {
 			updateAdminsList();
