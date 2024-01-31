@@ -6,7 +6,9 @@ import {
 } from '../lib/get-bans-mutes-list';
 import PunishmentsListTable from './PunishmentsListTable';
 import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
+import { getAdmins, dbReturnAllAdmins } from '../lib/get-admins-list';
 import VipsListTable from './VipListTable';
+import AdminsListTable from './AdminsListTable';
 
 export default function AdminActionListButton({
 	featureFlags
@@ -20,13 +22,17 @@ export default function AdminActionListButton({
 	function closePopUp() {
 		adminActionListModal.current.close();
 	}
+
 	const [punishmentsList, setPunishmentsList] = useState(
 		[] as dbReturnAllPunishmentAction
 	);
 	const [vipsList, setVipsList] = useState([] as dbReturnAllVipsAction);
+	const [adminsList, setAdminsList] = useState([] as dbReturnAllAdmins);
+
 	const adminActionListModal =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const defaultTab = useRef() as React.MutableRefObject<HTMLInputElement>;
+
 	async function updatePunishmentsList() {
 		const punishmentsList = await getBansAndMutes();
 		if ('error' in punishmentsList) return;
@@ -37,10 +43,17 @@ export default function AdminActionListButton({
 		if ('error' in vipsList) return;
 		setVipsList(vipsList);
 	}
+	async function updateAdminsList() {
+		const adminsList = await getAdmins();
+		if ('error' in adminsList) return;
+		setAdminsList(adminsList);
+	}
+
 	useEffect(() => {
 		defaultTab.current.click(); // TODO: If i put "checked" directly on the HTML Input element the tabs dont switch
 		updatePunishmentsList();
 		updateVipsList();
+		updateAdminsList();
 	}, []);
 	return (
 		<div className="flex w-full place-content-center">
@@ -49,6 +62,7 @@ export default function AdminActionListButton({
 				onClick={() => {
 					updatePunishmentsList();
 					updateVipsList();
+					updateAdminsList();
 					adminActionListModal.current.showModal();
 				}}
 			>
@@ -69,7 +83,7 @@ export default function AdminActionListButton({
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
-								className="tab h-12 after:overflow-hidden after:overflow-ellipsis text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
+								className="tab h-12 text-lg font-semibold transition-all after:overflow-hidden after:overflow-ellipsis checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Punishments"
 								onClick={updatePunishmentsList}
 							/>
@@ -145,10 +159,14 @@ export default function AdminActionListButton({
 								role="tab"
 								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
 								aria-label="Admins"
+								onClick={updateAdminsList}
 							/>
 							<div role="tabpanel" className="tab-content pt-5">
 								{featureFlags.adminPluginIsEnabled ? (
-									<p>Coming Soon (Maybe)</p>
+									<AdminsListTable
+										adminsList={adminsList}
+										updateAdminsList={updateAdminsList}
+									/>
 								) : (
 									<p>
 										You can enable this panel by installing{' '}
