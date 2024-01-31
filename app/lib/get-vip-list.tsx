@@ -10,6 +10,9 @@ export type dbReturnAllVipsAction = {
 }[];
 
 export async function getVipsList() {
+	if (process.env.VIP_PLUGIN_INSTALLED != 'true') {
+		return { error: true };
+	}
 	try {
 		const allVips = (
 			await db.query(

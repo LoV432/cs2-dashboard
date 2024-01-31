@@ -12,6 +12,9 @@ export type dbReturnAllAdmins = {
 }[];
 
 export async function getAdmins() {
+	if (process.env.ADMIN_PLUGIN_INSTALLED != 'true') {
+		return { error: true };
+	}
 	try {
 		const allAdminsList = (
 			await db.query(

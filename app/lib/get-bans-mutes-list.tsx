@@ -17,6 +17,9 @@ export type dbReturnAllPunishmentAction = {
 }[];
 
 export async function getBansAndMutes() {
+	if (process.env.ADMIN_PLUGIN_INSTALLED != 'true') {
+		return { error: true };
+	}
 	try {
 		const allBans = (
 			await db.query(
