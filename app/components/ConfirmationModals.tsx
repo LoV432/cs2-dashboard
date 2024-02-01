@@ -476,7 +476,7 @@ export function ConfirmationModalChangeMap({
 					required
 					ref={mapNameRef}
 					className="input mt-5 w-full"
-					placeholder="Map name"
+					placeholder="Map name*"
 				></input>
 				<button type="submit" className="btn btn-success mt-5 w-full">
 					CHANGE MAP
