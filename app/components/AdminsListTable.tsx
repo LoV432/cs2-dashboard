@@ -21,7 +21,7 @@ export default function AdminsListTable({
 		<>
 			<button
 				onClick={() => addAdminModal.current.showModal()}
-				className="btn btn-success float-right h-9 min-h-0 w-28"
+				className="btn btn-success float-right mr-2 h-9 min-h-0 w-28"
 			>
 				Add ADMIN
 			</button>

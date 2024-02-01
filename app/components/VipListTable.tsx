@@ -23,7 +23,7 @@ export default function VipsListTable({
 		<>
 			<button
 				onClick={() => addVipModal.current.showModal()}
-				className="btn btn-success float-right h-9 min-h-0 w-24"
+				className="btn btn-success float-right mr-2 h-9 min-h-0 w-24"
 			>
 				Add VIP
 			</button>
