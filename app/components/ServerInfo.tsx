@@ -1,13 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getServerInfo } from '../lib/get-server-info';
+import { ConfirmationModalChangeMap } from './ConfirmationModals';
 
 export default function ServerInfo({
-	serverInfoPreRender
+	serverInfoPreRender,
+	featureFlags
 }: {
 	serverInfoPreRender: { name: string; map: string };
+	featureFlags: {
+		maxMindIsEnabled: boolean;
+		adminPluginIsEnabled: boolean;
+		vipPluginIsEnabled: boolean;
+	};
 }) {
 	const [serverInfo, setServerInfo] = useState(serverInfoPreRender);
+	const changeMapModalRef =
+		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	useEffect(() => {
 		const serverInfoInterval = setInterval(async () => {
 			const serverInfo = await getServerInfo();
@@ -16,9 +25,21 @@ export default function ServerInfo({
 		return () => clearInterval(serverInfoInterval);
 	}, []);
 	return (
-		<div className="flex flex-row justify-evenly font-bold">
-			<p className="mr-3 pr-2">{serverInfo.name}</p>
-			<p className="mr-3 pr-2">{serverInfo.map}</p>
-		</div>
+		<>
+			<div className="flex flex-row justify-evenly font-bold">
+				<p className="mr-3 pr-2">{serverInfo.name}</p>
+				{featureFlags.adminPluginIsEnabled ? (
+					<p
+						onClick={() => changeMapModalRef.current.showModal()}
+						className="mr-3 cursor-pointer pr-2 underline underline-offset-4"
+					>
+						{serverInfo.map}
+					</p>
+				) : (
+					<p className="mr-3 pr-2">{serverInfo.map}</p>
+				)}
+			</div>
+			<ConfirmationModalChangeMap modalRef={changeMapModalRef} />
+		</>
 	);
 }

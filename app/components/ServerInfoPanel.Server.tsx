@@ -28,7 +28,7 @@ export default async function ServerInfoPanel() {
 	return (
 		<div>
 			<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
-				<ServerInfo serverInfoPreRender={serverInfo} />
+				<ServerInfo serverInfoPreRender={serverInfo} featureFlags={featureFlags} />
 				<ServerPlayers
 					playersPreRendered={allPlayers}
 					featureFlags={featureFlags}

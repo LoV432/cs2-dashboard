@@ -436,6 +436,56 @@ export function AddAdminManualModal({
 	);
 }
 
+export function ConfirmationModalChangeMap({
+	modalRef
+}: {
+	modalRef: React.MutableRefObject<HTMLDialogElement>;
+}) {
+	const mapNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	function changeMap(mapName: string) {
+		if (mapName == '') return;
+		execRcon(`css_map ${mapName}`);
+		closePopUp();
+	}
+	function closePopUp() {
+		modalRef.current.close();
+		mapNameRef.current.value = '';
+	}
+	return (
+		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
+			<h3 className="pb-5 text-lg font-bold capitalize">Change Map</h3>
+			<p className="">
+				Use "ws:id/name" for a workshop map. You can read more about it{' '}
+				<a
+					href="https://github.com/daffyyyy/CS2-SimpleAdmin/"
+					target="_blank"
+					className="link link-primary"
+				>
+					here
+				</a>
+				. It uses the "css_map" command
+			</p>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					changeMap(String(mapNameRef.current.value));
+					mapNameRef.current.value = '';
+				}}
+			>
+				<input
+					required
+					ref={mapNameRef}
+					className="input mt-5 w-full"
+					placeholder="Map name"
+				></input>
+				<button type="submit" className="btn btn-success mt-5 w-full">
+					CHANGE MAP
+				</button>
+			</form>
+		</ConfirmationModalWrapper>
+	);
+}
+
 function ConfirmationModalWrapper({
 	modalRef,
 	closePopUp,
