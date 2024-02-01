@@ -391,10 +391,10 @@ export function AddAdminManualModal({
 					);
 				}}
 			>
-				<label className="label w-fit cursor-pointer">
+				<label className="label mt-5 cursor-pointer justify-start gap-5">
 					<span className="label-text">Global Admin</span>
 					<input
-						className="checkbox-error checkbox ml-3"
+						className="checkbox-error checkbox"
 						ref={isGlobalRef}
 						type="checkbox"
 						name="isGlobal"
