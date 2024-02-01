@@ -18,29 +18,31 @@ export default function PunishmentsListTable({
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	return (
 		<>
-			<table className="table">
-				<thead className="text-slate-300">
-					<tr className="border-slate-300 border-opacity-30">
-						<th>Name</th>
-						<th>IP</th>
-						<th>Type</th>
-						<th>Reason</th>
-						<th>Ends on</th>
-					</tr>
-				</thead>
-				<tbody>
-					{punishmentsList.map((punishment) => {
-						return (
-							<PunishmentItemList
-								key={`${punishment.id}-${punishment.type}`}
-								punishmentItem={punishment}
-								setSelectedPlayer={setSelectedPlayer}
-								removePunishmentModal={removePunishmentModal}
-							/>
-						);
-					})}
-				</tbody>
-			</table>
+			<div className="w-full overflow-x-auto">
+				<table className="table">
+					<thead className="text-slate-300">
+						<tr className="border-slate-300 border-opacity-30">
+							<th>Name</th>
+							<th>IP</th>
+							<th>Type</th>
+							<th>Reason</th>
+							<th>Ends on</th>
+						</tr>
+					</thead>
+					<tbody>
+						{punishmentsList.map((punishment) => {
+							return (
+								<PunishmentItemList
+									key={`${punishment.id}-${punishment.type}`}
+									punishmentItem={punishment}
+									setSelectedPlayer={setSelectedPlayer}
+									removePunishmentModal={removePunishmentModal}
+								/>
+							);
+						})}
+					</tbody>
+				</table>
+			</div>
 			<RemovePunishmentActionPopUp
 				player={selectedPlayer}
 				removePunishmentModal={removePunishmentModal}

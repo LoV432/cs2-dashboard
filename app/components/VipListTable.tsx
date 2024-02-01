@@ -27,27 +27,29 @@ export default function VipsListTable({
 			>
 				Add VIP
 			</button>
-			<table className="table">
-				<thead className="text-slate-300">
-					<tr className="border-slate-300 border-opacity-30">
-						<th>Name</th>
-						<th>Group</th>
-						<th>Ends on</th>
-					</tr>
-				</thead>
-				<tbody>
-					{vipsList.map((vip) => {
-						return (
-							<VipItemList
-								key={vip.account_id}
-								vipItem={vip}
-								setSelectedPlayer={setSelectedPlayer}
-								removeVipModal={removeVipModal}
-							/>
-						);
-					})}
-				</tbody>
-			</table>
+			<div className="w-full overflow-x-auto">
+				<table className="table">
+					<thead className="text-slate-300">
+						<tr className="border-slate-300 border-opacity-30">
+							<th>Name</th>
+							<th>Group</th>
+							<th>Ends on</th>
+						</tr>
+					</thead>
+					<tbody>
+						{vipsList.map((vip) => {
+							return (
+								<VipItemList
+									key={vip.account_id}
+									vipItem={vip}
+									setSelectedPlayer={setSelectedPlayer}
+									removeVipModal={removeVipModal}
+								/>
+							);
+						})}
+					</tbody>
+				</table>
+			</div>
 			<AddVipManualModal
 				modalRef={addVipModal}
 				updateVipsList={updateVipsList}

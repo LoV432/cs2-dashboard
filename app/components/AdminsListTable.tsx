@@ -25,28 +25,30 @@ export default function AdminsListTable({
 			>
 				Add ADMIN
 			</button>
-			<table className="table">
-				<thead className="text-slate-300">
-					<tr className="border-slate-300 border-opacity-30">
-						<th>Name</th>
-						<th>Immunity</th>
-						<th>Flag</th>
-						<th>Ends on</th>
-					</tr>
-				</thead>
-				<tbody>
-					{adminsList.map((punishment) => {
-						return (
-							<AdminItemList
-								key={`${punishment.id}`}
-								adminItem={punishment}
-								setSelectedPlayer={setSelectedPlayer}
-								removeAdminModal={removeAdminModal}
-							/>
-						);
-					})}
-				</tbody>
-			</table>
+			<div className="w-full overflow-x-auto">
+				<table className="table">
+					<thead className="text-slate-300">
+						<tr className="border-slate-300 border-opacity-30">
+							<th>Name</th>
+							<th>Immunity</th>
+							<th>Flag</th>
+							<th>Ends on</th>
+						</tr>
+					</thead>
+					<tbody>
+						{adminsList.map((punishment) => {
+							return (
+								<AdminItemList
+									key={`${punishment.id}`}
+									adminItem={punishment}
+									setSelectedPlayer={setSelectedPlayer}
+									removeAdminModal={removeAdminModal}
+								/>
+							);
+						})}
+					</tbody>
+				</table>
+			</div>
 			<AddAdminManualModal
 				modalRef={addAdminModal}
 				updateAdminsList={updateAdminsList}
