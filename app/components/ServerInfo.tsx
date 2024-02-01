@@ -30,7 +30,7 @@ export default function ServerInfo({
 				<p className="mr-3 pr-2">{serverInfo.name}</p>
 				{featureFlags.adminPluginIsEnabled ? (
 					<p
-						onClick={() => changeMapModalRef.current.showModal()}
+						onClick={() => (changeMapModalRef.current.open = true)}
 						className="mr-3 cursor-pointer pr-2 underline underline-offset-4"
 					>
 						{serverInfo.map}
