@@ -73,7 +73,8 @@ function AdminItemList({
 		<tr className="border-slate-300 border-opacity-30 text-base">
 			<th>
 				<a
-					className="link underline-offset-4"
+					className={`link underline-offset-4 ${adminItem.server_id == null ? 'link-error' : ''}`}
+					title={`${adminItem.server_id == null ? 'Global Admin' : ''}`}
 					target={'_blank'}
 					href={`https://steamcommunity.com/profiles/${adminItem.player_steamid}/`}
 				>

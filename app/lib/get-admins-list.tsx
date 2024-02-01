@@ -7,6 +7,7 @@ export type dbReturnAllAdmins = {
 	player_name: string;
 	immunity: number;
 	flags: string;
+	server_id: number | null;
 	ends: number;
 	created: string;
 }[];
@@ -24,6 +25,7 @@ export async function getAdmins() {
 					player_name,
 					immunity,
 					flags,
+					server_id,
 					UNIX_TIMESTAMP(ends) as ends,
 					UNIX_TIMESTAMP(created) as created
 				FROM 
