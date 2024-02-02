@@ -4,6 +4,9 @@ import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
 import AdminPanel from './AdminPanel';
 import { getPlayers } from '../lib/get-playes';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
+import { loadingPlayersStore } from '../store/loading-store';
 
 export default function ServerPlayers({
 	playersPreRendered,
@@ -16,18 +19,40 @@ export default function ServerPlayers({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [allPlayers, setAllPlayers] = useState(playersPreRendered);
+	const [selectedServer] = useRecoilState(activeServerStore);
+	const [, setLoading] = useRecoilState(loadingPlayersStore);
+	const [allPlayers, setAllPlayers] = useState<Player[] | { err: string }>(
+		playersPreRendered
+	);
+	const lastSelectedServer = useRef(selectedServer);
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const adminPanelModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
 	useEffect(() => {
+		if (selectedServer != lastSelectedServer.current) {
+			(async () => {
+				setLoading(true);
+				const players = await getPlayers(selectedServer);
+				setAllPlayers(players);
+				setLoading(false);
+			})();
+		}
+		lastSelectedServer.current = selectedServer;
 		const getPlayersInterval = setInterval(async () => {
-			const players = await getPlayers();
-			if (!('err' in players)) setAllPlayers(players);
+			const players = await getPlayers(selectedServer);
+			setAllPlayers(players);
 		}, 5000);
 		return () => clearInterval(getPlayersInterval);
-	}, []);
+	}, [selectedServer]);
+
+	if ('err' in allPlayers) {
+		return (
+			<div>
+				<p>RCON Failed</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className="overflow-x-auto pt-5">
