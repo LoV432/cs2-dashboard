@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { execRcon } from '../lib/exec-rcon';
 import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export function ConfirmationModal({
 	modalName,
@@ -170,6 +172,7 @@ export function ConfirmationModalAdmin({
 	playerName: string;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const flagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -181,15 +184,16 @@ export function ConfirmationModalAdmin({
 		immunity: number,
 		isGlobal: boolean
 	) {
-		const playerList = (await execRcon('css_players')) || '';
+		const playerList = (await execRcon('css_players', activeServer)) || '';
 		const userSteamId = searchSteamIDFromAdminPlugin(playerList, playerName);
 		if (userSteamId == '' || userSteamId == '0') {
 			alert('SteamID not found');
 		}
 		await execRcon(
-			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`
+			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`,
+			activeServer
 		);
-		await execRcon('css_reladmin');
+		await execRcon('css_reladmin', activeServer);
 		closePopUp();
 		adminPanelModal.current.close();
 	}
@@ -260,6 +264,7 @@ export function AddVipManualModal({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updateVipsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const groupRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -272,7 +277,10 @@ export function AddVipManualModal({
 		) {
 			return;
 		}
-		await execRcon(`css_vip_adduser "${steamId}" "${groupName}" ${time}`);
+		await execRcon(
+			`css_vip_adduser "${steamId}" "${groupName}" ${time}`,
+			activeServer
+		);
 		updateVipsList();
 		closePopUp();
 	}
@@ -336,6 +344,7 @@ export function AddAdminManualModal({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updateAdminsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const playerNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -361,7 +370,8 @@ export function AddAdminManualModal({
 			return;
 		}
 		await execRcon(
-			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`
+			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`,
+			activeServer
 		);
 		updateAdminsList();
 		closePopUp();
@@ -441,10 +451,11 @@ export function ConfirmationModalChangeMap({
 }: {
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const mapNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	function changeMap(mapName: string) {
 		if (mapName == '') return;
-		execRcon(`css_map ${mapName}`);
+		execRcon(`css_map ${mapName}`, activeServer);
 		closePopUp();
 	}
 	function closePopUp() {
@@ -493,6 +504,7 @@ export function ConfirmationModalBanMuteManual({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updatePunishmentsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const steamId = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const reasonRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -508,9 +520,12 @@ export function ConfirmationModalBanMuteManual({
 		gag: boolean
 	) {
 		if ([ban, mute, gag].filter(Boolean).length === 0) return;
-		if (ban) execRcon(`css_addban ${steamId} ${time} "${reason}"`);
-		if (mute) execRcon(`css_addmute ${steamId} ${time} "${reason}"`);
-		if (gag) execRcon(`css_addgag ${steamId} ${time} "${reason}"`);
+		if (ban)
+			execRcon(`css_addban ${steamId} ${time} "${reason}"`, activeServer);
+		if (mute)
+			execRcon(`css_addmute ${steamId} ${time} "${reason}"`, activeServer);
+		if (gag)
+			execRcon(`css_addgag ${steamId} ${time} "${reason}"`, activeServer);
 		updatePunishmentsList();
 		closePopUp();
 	}

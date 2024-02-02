@@ -5,8 +5,10 @@ import { chatStore as chatStoreImport } from '../store/chat-store';
 import { useRecoilState } from 'recoil';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../lib/exec-rcon';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function SendCommand() {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const [, setChatStore] = useRecoilState(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
 	const [commandsHistory, setCommandsHistory] = useState<string[]>([]);
@@ -44,7 +46,7 @@ export default function SendCommand() {
 				type: 'chat-end'
 			}
 		]);
-		const commandExec = await execRcon(command);
+		const commandExec = await execRcon(command, activeServer);
 		const commandReply =
 			commandExec !== false
 				? commandExec

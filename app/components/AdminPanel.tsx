@@ -11,6 +11,8 @@ import {
 	searchSteamIDFromAdminPlugin,
 	searchSteamIDFromNative
 } from '../lib/get-steamid';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function AdminPanel({
 	adminPanelModal,
@@ -220,8 +222,9 @@ function BanPlayerPopUp({
 	banPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const banPlayer = (time: number, reason: string) => {
-		execRcon(`css_ban #${player.id} ${time} "${reason}"`);
+		execRcon(`css_ban #${player.id} ${time} "${reason}"`, activeServer);
 		banPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -251,13 +254,14 @@ function MakeVipPopUp({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const makeVip = async (time: number, group: string) => {
 		let userSteamId = '';
 		if (featureFlags.adminPluginIsEnabled) {
-			const playerList = (await execRcon('css_players')) || '';
+			const playerList = (await execRcon('css_players', activeServer)) || '';
 			userSteamId = searchSteamIDFromAdminPlugin(playerList, player.name);
 		} else {
-			const playerList = (await execRcon('status_json')) || '';
+			const playerList = (await execRcon('status_json', activeServer)) || '';
 			userSteamId = await searchSteamIDFromNative(playerList, player.name);
 		}
 
@@ -270,7 +274,7 @@ function MakeVipPopUp({
 			);
 			return;
 		}
-		execRcon(`css_vip_adduser ${userSteamId} "${group}" ${time}`);
+		execRcon(`css_vip_adduser ${userSteamId} "${group}" ${time}`, activeServer);
 		makeVipModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -311,8 +315,9 @@ function KickPlayerPopUp({
 	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const kickPlayer = () => {
-		execRcon(`kickid ${player.id}`);
+		execRcon(`kickid ${player.id}`, activeServer);
 		kickPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -336,8 +341,9 @@ function SlayPlayerPopUp({
 	slayPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const slayPlayer = () => {
-		execRcon(`css_slay #${player.id}`);
+		execRcon(`css_slay #${player.id}`, activeServer);
 		slayPlayerModal.current.close();
 		adminPanelModal.current.close();
 	};
@@ -361,9 +367,10 @@ function MutePlayerPopUp({
 	mutePlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const mutePlayer = (time: number, reason: string) => {
-		execRcon(`css_mute #${player.id} ${time} "${reason}"`);
-		execRcon(`css_gag #${player.id} ${time} "${reason}"`);
+		execRcon(`css_mute #${player.id} ${time} "${reason}"`, activeServer);
+		execRcon(`css_gag #${player.id} ${time} "${reason}"`, activeServer);
 		mutePlayerModal.current.close();
 		adminPanelModal.current.close();
 	};

@@ -3,6 +3,8 @@ import { dbReturnAllAdmins } from '../lib/get-admins-list';
 import { AddAdminManualModal, ConfirmationModal } from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function AdminsListTable({
 	adminsList,
@@ -128,9 +130,11 @@ function RemoveAdminPopUp({
 	removeAdminModal: React.MutableRefObject<HTMLDialogElement>;
 	updateAdminsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const removeAdmin = () => {
 		execRcon(
-			`css_deladmin ${player?.player_steamid} ${player?.server_id == null ? '-g' : ''}`
+			`css_deladmin ${player?.player_steamid} ${player?.server_id == null ? '-g' : ''}`,
+			activeServer
 		);
 		removeAdminModal.current.close();
 		setTimeout(() => {
