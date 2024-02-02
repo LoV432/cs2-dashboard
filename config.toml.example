@@ -1,0 +1,23 @@
+# Example config
+
+[global]
+vipCore = false
+simpleAdmin = false
+mysqlHost = 'localhost'
+mysqlPort = 3306
+mysqlUser = 'root'
+mysqlDatabase = 'dbname'
+mysqlPassword = 'password'
+
+[[servers]]
+serverIp = '127.0.0.1'
+serverPort = 27015
+rconPort = 27015
+rconPassword = 'password'
+
+[[servers]]
+serverIp = '127.0.0.2'
+serverPort = 27014
+rconPort = 27014
+rconPassword = 'password'
+
