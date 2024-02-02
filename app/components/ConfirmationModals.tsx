@@ -486,6 +486,113 @@ export function ConfirmationModalChangeMap({
 	);
 }
 
+export function ConfirmationModalBanMuteManual({
+	modalRef,
+	updatePunishmentsList
+}: {
+	modalRef: React.MutableRefObject<HTMLDialogElement>;
+	updatePunishmentsList: () => Promise<void>;
+}) {
+	const steamId = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const reasonRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const banRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const muteRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const gagRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	function addPunishment(
+		steamId: string,
+		time: number,
+		reason: string,
+		ban: boolean,
+		mute: boolean,
+		gag: boolean
+	) {
+		if ([ban, mute, gag].filter(Boolean).length === 0) return;
+		if (ban) execRcon(`css_addban ${steamId} ${time} "${reason}"`);
+		if (mute) execRcon(`css_addmute ${steamId} ${time} "${reason}"`);
+		if (gag) execRcon(`css_addgag ${steamId} ${time} "${reason}"`);
+		updatePunishmentsList();
+		closePopUp();
+	}
+	function closePopUp() {
+		modalRef.current.close();
+		steamId.current.value = '';
+		timeRef.current.value = '';
+		reasonRef.current.value = '';
+		banRef.current.checked = false;
+		muteRef.current.checked = false;
+		gagRef.current.checked = false;
+	}
+	return (
+		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
+			<h3 className="pb-5 text-lg font-bold capitalize">Add new punishment</h3>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					addPunishment(
+						String(steamId.current.value),
+						Number(timeRef.current.value) | 0,
+						String(reasonRef.current.value) || 'Good Reason',
+						banRef.current.checked,
+						muteRef.current.checked,
+						gagRef.current.checked
+					);
+				}}
+			>
+				<input
+					required
+					ref={steamId}
+					className="input mt-5 w-full"
+					placeholder="SteamID*"
+				></input>
+				<input
+					ref={timeRef}
+					className="input mt-5 w-full"
+					placeholder="Time in minutes/0 perm"
+				></input>
+				<input
+					ref={reasonRef}
+					className="input mt-5 w-full"
+					placeholder="Reason"
+				></input>
+				<div className="mt-3 w-32">
+					<label className="label cursor-pointer">
+						<span className="label-text">Ban</span>
+						<input
+							ref={banRef}
+							type="checkbox"
+							className="toggle toggle-error"
+						/>
+					</label>
+				</div>
+				<div className="w-32">
+					<label className="label cursor-pointer">
+						<span className="label-text">Mute</span>
+						<input
+							ref={muteRef}
+							type="checkbox"
+							className="toggle toggle-error"
+						/>
+					</label>
+				</div>
+				<div className="w-32">
+					<label className="label cursor-pointer">
+						<span className="label-text">Gag</span>
+						<input
+							ref={gagRef}
+							type="checkbox"
+							className="toggle toggle-error"
+						/>
+					</label>
+				</div>
+				<button type="submit" className="btn btn-error mt-5 w-full">
+					ADD
+				</button>
+			</form>
+		</ConfirmationModalWrapper>
+	);
+}
+
 function ConfirmationModalWrapper({
 	modalRef,
 	closePopUp,

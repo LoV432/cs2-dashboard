@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
 import { dbReturnAllPunishmentAction } from '../lib/get-bans-mutes-list';
-import { ConfirmationModal } from './ConfirmationModals';
+import {
+	ConfirmationModal,
+	ConfirmationModalBanMuteManual
+} from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
 
@@ -16,8 +19,16 @@ export default function PunishmentsListTable({
 	>();
 	const removePunishmentModal =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
+	const addPunishmentModal =
+		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	return (
 		<>
+			<button
+				onClick={() => addPunishmentModal.current.showModal()}
+				className="btn btn-error float-right mr-2 h-9 min-h-0 w-32"
+			>
+				Add Ban/Mute
+			</button>
 			<div className="w-full overflow-x-auto">
 				<table className="table">
 					<thead className="text-slate-300">
@@ -43,6 +54,10 @@ export default function PunishmentsListTable({
 					</tbody>
 				</table>
 			</div>
+			<ConfirmationModalBanMuteManual
+				modalRef={addPunishmentModal}
+				updatePunishmentsList={updatePunishmentsList}
+			/>
 			<RemovePunishmentActionPopUp
 				player={selectedPlayer}
 				removePunishmentModal={removePunishmentModal}
@@ -69,7 +84,7 @@ function PunishmentItemList({
 					target={'_blank'}
 					href={`https://steamcommunity.com/profiles/${punishmentItem.player_steamid}/`}
 				>
-					{punishmentItem.player_name}
+					{punishmentItem.player_name || punishmentItem.player_steamid}
 				</a>
 			</th>
 			<td className="font-semibold">
@@ -161,7 +176,7 @@ function RemovePunishmentActionPopUp({
 			}}
 			modalName={`Un${player.type.toLowerCase()}`}
 			modalRef={removePunishmentModal}
-			playerName={player.player_name}
+			playerName={player.player_name || player.player_steamid}
 		/>
 	);
 }
