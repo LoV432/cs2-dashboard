@@ -4,6 +4,7 @@ import { getServerInfo } from '../lib/get-server-info';
 import { ConfirmationModalChangeMap } from './ConfirmationModals';
 import { useRecoilState } from 'recoil';
 import { activeServerStore } from '../store/active-server-store';
+import { loadingServerStore } from '../store/loading-store';
 
 export default function ServerInfo({
 	serverInfoPreRender,
@@ -16,6 +17,7 @@ export default function ServerInfo({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
+	const [, setLoading] = useRecoilState(loadingServerStore);
 	const [selectedServer] = useRecoilState(activeServerStore);
 	const lastSelectedServer = useRef(selectedServer);
 	const [serverInfo, setServerInfo] = useState<
@@ -26,12 +28,10 @@ export default function ServerInfo({
 	useEffect(() => {
 		if (selectedServer != lastSelectedServer.current) {
 			(async () => {
-				const changeToLoading = setInterval(() => {
-					setServerInfo({ name: 'Loading...', map: 'Loading...' });
-				}, 200);
+				setLoading(true);
 				const serverInfo = await getServerInfo(selectedServer, true);
 				setServerInfo(serverInfo);
-				clearInterval(changeToLoading);
+				setLoading(false);
 			})();
 		}
 		lastSelectedServer.current = selectedServer;
