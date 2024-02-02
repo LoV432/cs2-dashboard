@@ -17,14 +17,14 @@ export default function ServerInfo({
 	};
 }) {
 	const [selectedServer] = useRecoilState(activeServerStore);
-	const initRender = useRef(true);
+	const lastSelectedServer = useRef(selectedServer);
 	const [serverInfo, setServerInfo] = useState<
 		{ name: string; map: string } | { err: string }
 	>(serverInfoPreRender);
 	const changeMapModalRef =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	useEffect(() => {
-		if (!initRender.current) {
+		if (selectedServer != lastSelectedServer.current) {
 			(async () => {
 				const changeToLoading = setInterval(() => {
 					setServerInfo({ name: 'Loading...', map: 'Loading...' });
@@ -34,7 +34,7 @@ export default function ServerInfo({
 				clearInterval(changeToLoading);
 			})();
 		}
-		initRender.current = false;
+		lastSelectedServer.current = selectedServer;
 		const serverInfoInterval = setInterval(async () => {
 			const serverInfo = await getServerInfo(selectedServer);
 			setServerInfo(serverInfo);
