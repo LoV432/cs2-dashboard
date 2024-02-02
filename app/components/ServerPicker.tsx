@@ -13,6 +13,7 @@ export default function ServerPicker({
 		<div className="my-5 flex flex-row flex-wrap justify-center gap-5">
 			{[...Array(totalServers)].map((e, index) => (
 				<button
+					key={index}
 					className={`btn btn-circle btn-outline ${activeServerIndex == index ? 'btn-success' : ''} block`}
 					onClick={() => {
 						setActiveServerIndex(index);

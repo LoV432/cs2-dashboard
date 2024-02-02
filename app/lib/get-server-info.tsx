@@ -1,6 +1,7 @@
 'use server';
 import { csServerInit } from '@/app/lib/server';
 import type { Server } from '@fabricio-191/valve-server-query';
+import { getServersConfig } from './configParse';
 
 //@ts-ignore
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json
@@ -10,18 +11,22 @@ BigInt.prototype.toJSON = function () {
 	return this.toString();
 };
 
+const config = getServersConfig().servers;
 let lastReqTime = 0;
-let serverInfo: Server.Info;
+let serverInfo: Server.Info | { err: string };
 
-export async function getServerInfo() {
-	if (Date.now() - lastReqTime < 5000) {
+export async function getServerInfo(serverIndex = 0, forceUpadate = false) {
+	if (Date.now() - lastReqTime < 5000 && !forceUpadate) {
 		return serverInfo;
 	}
 	lastReqTime = Date.now();
-	const csServer = await csServerInit();
+	const csServer = await csServerInit(
+		config[serverIndex].serverIp,
+		config[serverIndex].serverPort
+	);
 	if ('err' in csServer) {
+		serverInfo = { err: 'error' };
 		console.log(csServer.err);
-		//TODO: Handle this on frontend
 		return { err: 'error' };
 	}
 	serverInfo = await csServer.getInfo();

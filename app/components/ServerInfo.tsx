@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { getServerInfo } from '../lib/get-server-info';
 import { ConfirmationModalChangeMap } from './ConfirmationModals';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function ServerInfo({
 	serverInfoPreRender,
@@ -14,16 +16,35 @@ export default function ServerInfo({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [serverInfo, setServerInfo] = useState(serverInfoPreRender);
+	const [selectedServer] = useRecoilState(activeServerStore);
+	const initRender = useRef(true);
+	const [serverInfo, setServerInfo] = useState<
+		{ name: string; map: string } | { err: string }
+	>(serverInfoPreRender);
 	const changeMapModalRef =
 		useRef() as React.MutableRefObject<HTMLDialogElement>;
 	useEffect(() => {
+		if (!initRender.current) {
+			(async () => {
+				const changeToLoading = setInterval(() => {
+					setServerInfo({ name: 'Loading...', map: 'Loading...' });
+				}, 200);
+				const serverInfo = await getServerInfo(selectedServer, true);
+				setServerInfo(serverInfo);
+				clearInterval(changeToLoading);
+			})();
+		}
+		initRender.current = false;
 		const serverInfoInterval = setInterval(async () => {
-			const serverInfo = await getServerInfo();
-			if (!('err' in serverInfo)) setServerInfo(serverInfo);
+			const serverInfo = await getServerInfo(selectedServer);
+			setServerInfo(serverInfo);
 		}, 5000);
 		return () => clearInterval(serverInfoInterval);
-	}, []);
+	}, [selectedServer]);
+
+	if ('err' in serverInfo) {
+		return <h1>Server connection failed</h1>;
+	}
 	return (
 		<>
 			<div className="flex flex-row justify-evenly font-bold">
