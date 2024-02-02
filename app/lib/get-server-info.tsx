@@ -3,6 +3,11 @@ import { csServerInit } from '@/app/lib/server';
 import type { Server } from '@fabricio-191/valve-server-query';
 import { getServersConfig } from './configParse';
 
+type cache = {
+	serverInfo: Server.Info | { err: string };
+	lastReqTime: number;
+}[];
+
 //@ts-ignore
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json
 // The return value of Server.getInfo() contains BigInt properties
@@ -12,24 +17,32 @@ BigInt.prototype.toJSON = function () {
 };
 
 const config = getServersConfig().servers;
-let lastReqTime = 0;
-let serverInfo: Server.Info | { err: string };
+let serversCache: cache = [];
+for (let i = 0; i < config.length; i++) {
+	serversCache.push({
+		serverInfo: { err: 'error' },
+		lastReqTime: 0
+	});
+}
 
 export async function getServerInfo(serverIndex = 0, forceUpadate = false) {
-	if (Date.now() - lastReqTime < 5000 && !forceUpadate) {
-		return serverInfo;
+	if (
+		Date.now() - serversCache[serverIndex].lastReqTime < 5000 &&
+		!forceUpadate
+	) {
+		return serversCache[serverIndex].serverInfo;
 	}
-	lastReqTime = Date.now();
+	serversCache[serverIndex].lastReqTime = Date.now();
 	const csServer = await csServerInit(
 		config[serverIndex].serverIp,
 		config[serverIndex].serverPort
 	);
 	if ('err' in csServer) {
-		serverInfo = { err: 'error' };
+		serversCache[serverIndex].serverInfo = { err: 'error' };
 		console.log(csServer.err);
 		return { err: 'error' };
 	}
-	serverInfo = await csServer.getInfo();
+	serversCache[serverIndex].serverInfo = await csServer.getInfo();
 	csServer.disconnect();
-	return serverInfo;
+	return serversCache[serverIndex].serverInfo;
 }

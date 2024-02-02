@@ -8,7 +8,7 @@ import { getServersConfig } from '../lib/configParse';
 
 export default async function ServerInfoPanel() {
 	const allPlayers = await getPlayers(0, true);
-	const serverInfo = await getServerInfo(0, true);
+	const serverInfo = await getServerInfo();
 	const config = getServersConfig();
 	if ('err' in serverInfo) {
 		console.log(serverInfo.err);

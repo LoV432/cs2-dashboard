@@ -29,7 +29,7 @@ export default function ServerInfo({
 		if (selectedServer != lastSelectedServer.current) {
 			(async () => {
 				setLoading(true);
-				const serverInfo = await getServerInfo(selectedServer, true);
+				const serverInfo = await getServerInfo(selectedServer);
 				setServerInfo(serverInfo);
 				setLoading(false);
 			})();
