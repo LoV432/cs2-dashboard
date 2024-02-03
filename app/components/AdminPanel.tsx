@@ -275,6 +275,7 @@ function MakeVipPopUp({
 			return;
 		}
 		execRcon(`css_vip_adduser ${userSteamId} "${group}" ${time}`, activeServer);
+		execRcon('css_vip_reload', activeServer);
 		makeVipModal.current.close();
 		adminPanelModal.current.close();
 	};

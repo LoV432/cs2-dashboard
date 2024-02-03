@@ -124,6 +124,7 @@ function RemoveVipActionPopUp({
 	const [activeServer] = useRecoilState(activeServerStore);
 	const removeVipAction = () => {
 		execRcon(`css_vip_deleteuser ${player?.account_id}`, activeServer);
+		execRcon('css_vip_reload', activeServer);
 		removeVipModal.current.close();
 		setTimeout(() => {
 			updateVipsList();

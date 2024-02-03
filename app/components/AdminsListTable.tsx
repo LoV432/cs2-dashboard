@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
 import { useRecoilState } from 'recoil';
 import { activeServerStore } from '../store/active-server-store';
+import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
 
 export default function AdminsListTable({
 	adminsList,
@@ -136,6 +137,11 @@ function RemoveAdminPopUp({
 			`css_deladmin ${player?.player_steamid} ${player?.server_id == null ? '-g' : ''}`,
 			activeServer
 		);
+		if (player?.server_id == null) {
+			reloadAllServerAdmin();
+		} else {
+			execRcon('css_reladmin', activeServer);
+		}
 		removeAdminModal.current.close();
 		setTimeout(() => {
 			updateAdminsList();

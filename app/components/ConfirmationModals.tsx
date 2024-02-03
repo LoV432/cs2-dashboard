@@ -3,7 +3,7 @@ import { execRcon } from '../lib/exec-rcon';
 import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
 import { useRecoilState } from 'recoil';
 import { activeServerStore } from '../store/active-server-store';
-
+import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
 export function ConfirmationModal({
 	modalName,
 	modalRef,
@@ -193,7 +193,11 @@ export function ConfirmationModalAdmin({
 			`css_addadmin ${userSteamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`,
 			activeServer
 		);
-		await execRcon('css_reladmin', activeServer);
+		if (isGlobal) {
+			reloadAllServerAdmin();
+		} else {
+			await execRcon('css_reladmin', activeServer);
+		}
 		closePopUp();
 		adminPanelModal.current.close();
 	}
@@ -281,6 +285,7 @@ export function AddVipManualModal({
 			`css_vip_adduser "${steamId}" "${groupName}" ${time}`,
 			activeServer
 		);
+		execRcon('css_vip_reload', activeServer);
 		updateVipsList();
 		closePopUp();
 	}
@@ -373,6 +378,11 @@ export function AddAdminManualModal({
 			`css_addadmin ${steamId} "${playerName}" "${adminFlags}" ${immunity} ${time} ${isGlobal ? '-g' : ''}`,
 			activeServer
 		);
+		if (isGlobal) {
+			reloadAllServerAdmin();
+		} else {
+			await execRcon('css_reladmin', activeServer);
+		}
 		updateAdminsList();
 		closePopUp();
 	}
