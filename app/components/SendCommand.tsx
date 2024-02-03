@@ -33,7 +33,9 @@ export default function SendCommand() {
 		setCommandsHistoryIndex(commandsHistory.length + 1);
 
 		if (command === 'clear' || command === 'clear ') {
-			setChatStore([]);
+			setChatStore((prev) =>
+				prev.filter((item) => item.serverIndex !== activeServer)
+			);
 			sendButtonRef.current.removeAttribute('disabled');
 			return;
 		}
@@ -43,7 +45,8 @@ export default function SendCommand() {
 			{
 				id: Date.now(),
 				text: command ? command : 'No command entered',
-				type: 'chat-end'
+				type: 'chat-end',
+				serverIndex: activeServer
 			}
 		]);
 		const commandExec = await execRcon(command, activeServer);
@@ -56,7 +59,8 @@ export default function SendCommand() {
 			{
 				id: Date.now(),
 				text: commandReply,
-				type: 'chat-start'
+				type: 'chat-start',
+				serverIndex: activeServer
 			}
 		]);
 		sendButtonRef.current.removeAttribute('disabled');
