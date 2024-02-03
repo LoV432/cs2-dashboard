@@ -25,7 +25,7 @@ export function getServersConfig() {
 	try {
 		return JSON.parse(
 			JSON.stringify(
-				toml.parse(fs.readFileSync('config.toml', { encoding: 'utf-8' }))
+				toml.parse(fs.readFileSync('config/config.toml', { encoding: 'utf-8' }))
 			)
 		) as configType;
 	} catch (err) {
