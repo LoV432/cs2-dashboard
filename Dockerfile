@@ -35,6 +35,9 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY --from=builder /app/public ./public
 
+RUN mkdir /app/config
+COPY config.toml.example /
+
 # Set the correct permission for prerender cache
 RUN mkdir .next
 
