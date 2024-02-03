@@ -1,5 +1,6 @@
 'use server';
 import { db } from '@/app/lib/db';
+import { getServersConfig } from './configParse';
 
 export type dbReturnAllPunishmentAction = {
 	id: number;
@@ -16,18 +17,21 @@ export type dbReturnAllPunishmentAction = {
 	status: string;
 }[];
 
-export async function getBansAndMutes() {
-	if (process.env.ADMIN_PLUGIN_INSTALLED != 'true') {
+const config = getServersConfig();
+export async function getBansAndMutes(selectedServerIndex: number) {
+	if ('err' in config || config.global.simpleAdmin != true) {
 		return { error: true };
 	}
 	try {
 		const allBans = (
 			await db.query(
-				'SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE"'
+				`SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE" AND server_id=${config.servers[selectedServerIndex].simpleAdminId}`
 			)
 		)[0] as dbReturnAllPunishmentAction;
 		const allMutes = (
-			await db.query('SELECT * FROM sa_mutes WHERE status="ACTIVE"')
+			await db.query(
+				`SELECT * FROM sa_mutes WHERE status="ACTIVE" AND server_id=${config.servers[selectedServerIndex].simpleAdminId}`
+			)
 		)[0] as dbReturnAllPunishmentAction;
 		const res = [...allBans, ...allMutes];
 		res.sort(

@@ -3,20 +3,10 @@ services:
   cs2dashboard:
     image: lov432/cs2-dashboard:latest
     container_name: cs2dashboard
+    volumes:
+      - ./dashboard-config:/app/config
     environment:
-      - SERVER_IP= # CS2 Server IP
-      - SERVER_PORT= # CS2 Server Port
-      - RCON_PORT= # RCON Port
-      - RCON_PASSWORD= # RCON Password
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
-      - VIP_PLUGIN_INSTALLED=false # Change this to true if you have this plugin installed: https://github.com/partiusfabaa/cs2-VIPCore
-      - ADMIN_PLUGIN_INSTALLED=false # Change this to true if you have CS2-SimpleAdmin plugin installed: https://github.com/daffyyyy/CS2-SimpleAdmin
-      # MySQL used in CS2-SimpleAdmin and cs2-VIPCore:
-      - SQL_HOST=
-      - SQL_PORT=
-      - SQL_USER=
-      - SQL_DB=
-      - SQL_PASSWORD=
     ports:
       - 3000:3000
     restart: unless-stopped

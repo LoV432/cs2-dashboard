@@ -6,6 +6,8 @@ import {
 } from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function PunishmentsListTable({
 	punishmentsList,
@@ -141,11 +143,18 @@ function RemovePunishmentActionPopUp({
 	removePunishmentModal: React.MutableRefObject<HTMLDialogElement>;
 	updatePunishmentsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const removePunishmentAction = (actionType: 'MUTE' | 'GAG' | 'BAN') => {
 		if (actionType == 'BAN') {
-			execRcon(`css_unban ${player?.player_steamid || player?.player_ip}`);
+			execRcon(
+				`css_unban ${player?.player_steamid || player?.player_ip}`,
+				activeServer
+			);
 		} else {
-			execRcon(`css_un${actionType.toLowerCase()} ${player?.player_steamid}`);
+			execRcon(
+				`css_un${actionType.toLowerCase()} ${player?.player_steamid}`,
+				activeServer
+			);
 		}
 		removePunishmentModal.current.close();
 		setTimeout(() => {

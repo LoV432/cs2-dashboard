@@ -6,6 +6,8 @@ import {
 } from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function VipsListTable({
 	vipsList,
@@ -119,8 +121,9 @@ function RemoveVipActionPopUp({
 	removeVipModal: React.MutableRefObject<HTMLDialogElement>;
 	updateVipsList: () => Promise<void>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const removeVipAction = () => {
-		execRcon(`css_vip_deleteuser ${player?.account_id}`);
+		execRcon(`css_vip_deleteuser ${player?.account_id}`, activeServer);
 		removeVipModal.current.close();
 		setTimeout(() => {
 			updateVipsList();

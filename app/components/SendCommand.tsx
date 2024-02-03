@@ -5,8 +5,10 @@ import { chatStore as chatStoreImport } from '../store/chat-store';
 import { useRecoilState } from 'recoil';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../lib/exec-rcon';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function SendCommand() {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const [, setChatStore] = useRecoilState(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
 	const [commandsHistory, setCommandsHistory] = useState<string[]>([]);
@@ -31,7 +33,9 @@ export default function SendCommand() {
 		setCommandsHistoryIndex(commandsHistory.length + 1);
 
 		if (command === 'clear' || command === 'clear ') {
-			setChatStore([]);
+			setChatStore((prev) =>
+				prev.filter((item) => item.serverIndex !== activeServer)
+			);
 			sendButtonRef.current.removeAttribute('disabled');
 			return;
 		}
@@ -41,10 +45,11 @@ export default function SendCommand() {
 			{
 				id: Date.now(),
 				text: command ? command : 'No command entered',
-				type: 'chat-end'
+				type: 'chat-end',
+				serverIndex: activeServer
 			}
 		]);
-		const commandExec = await execRcon(command);
+		const commandExec = await execRcon(command, activeServer);
 		const commandReply =
 			commandExec !== false
 				? commandExec
@@ -54,7 +59,8 @@ export default function SendCommand() {
 			{
 				id: Date.now(),
 				text: commandReply,
-				type: 'chat-start'
+				type: 'chat-start',
+				serverIndex: activeServer
 			}
 		]);
 		sendButtonRef.current.removeAttribute('disabled');

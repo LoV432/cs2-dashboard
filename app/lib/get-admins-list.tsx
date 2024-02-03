@@ -1,5 +1,6 @@
 'use server';
 import { db } from '@/app/lib/db';
+import { getServersConfig } from './configParse';
 
 export type dbReturnAllAdmins = {
 	id: number;
@@ -12,8 +13,10 @@ export type dbReturnAllAdmins = {
 	created: string;
 }[];
 
-export async function getAdmins() {
-	if (process.env.ADMIN_PLUGIN_INSTALLED != 'true') {
+const config = getServersConfig();
+
+export async function getAdmins(selectedServerIndex: number) {
+	if ('err' in config || config.global.simpleAdmin != true) {
 		return { error: true };
 	}
 	try {
@@ -31,7 +34,7 @@ export async function getAdmins() {
 				FROM 
 					sa_admins 
 				WHERE 
-					UNIX_TIMESTAMP(ends) > UNIX_TIMESTAMP(NOW()) OR ends IS NULL
+					(UNIX_TIMESTAMP(ends) > UNIX_TIMESTAMP(NOW()) OR ends IS NULL) AND (server_id=${config.servers[selectedServerIndex].simpleAdminId} OR server_id IS NULL)
 				ORDER BY
 					player_steamid`
 			)

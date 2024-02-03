@@ -12,13 +12,16 @@
 	"dependencies": {
 		"@fabricio-191/valve-server-query": "^4.1.9",
 		"@maxmind/geoip2-node": "^5.0.0",
+		"@recoiljs/refine": "^0.1.1",
 		"mysql2": "^3.7.0",
 		"next": "14.0.3",
 		"patch-package": "^8.0.0",
 		"react": "^18",
 		"react-dom": "^18",
 		"recoil": "^0.7.7",
-		"relevancy": "0.2.0"
+		"recoil-sync": "^0.2.0",
+		"relevancy": "0.2.0",
+		"toml": "^3.0.0"
 	},
 	"devDependencies": {
 		"@types/mysql": "^2.15.25",

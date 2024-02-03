@@ -30,20 +30,10 @@ services:
     networks:
       cs2:
         ipv4_address: 10.0.50.3
+    volumes:
+      - ./dashboard-config:/app/config
     environment:
-      - SERVER_IP=10.0.50.2
-      - SERVER_PORT=27015
-      - RCON_PORT=27015
-      - RCON_PASSWORD=veryweakrconpassword
       - MAXMIND_LICENSE_KEY= # Maxmind License Key (optional for geolocation)
-      - VIP_PLUGIN_INSTALLED=false # Change this to true if you have this plugin installed: https://github.com/partiusfabaa/cs2-VIPCore
-      - ADMIN_PLUGIN_INSTALLED=false # Change this to true if you have CS2-SimpleAdmin plugin installed: https://github.com/daffyyyy/CS2-SimpleAdmin
-      # MySQL used in CS2-SimpleAdmin and cs2-VIPCore:
-      - SQL_HOST=
-      - SQL_PORT=
-      - SQL_USER=
-      - SQL_DB=
-      - SQL_PASSWORD=
     ports:
       - 3000:3000
     restart: unless-stopped

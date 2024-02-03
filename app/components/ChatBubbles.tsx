@@ -2,21 +2,29 @@
 import { useEffect } from 'react';
 import { chatStore as chatStoreImport } from '../store/chat-store';
 import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function ChatBubbles({
 	chatWindowRef
 }: {
 	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	const [chatStore] = useRecoilState(chatStoreImport);
 	useEffect(() => {
 		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
 	}, [chatStore]);
 	return (
 		<>
-			{chatStore.map((message) => (
-				<ChatBubble key={message.id} text={message.text} type={message.type} />
-			))}
+			{chatStore
+				.filter((message) => message.serverIndex == activeServer)
+				.map((message) => (
+					<ChatBubble
+						key={message.id}
+						text={message.text}
+						type={message.type}
+					/>
+				))}
 		</>
 	);
 }

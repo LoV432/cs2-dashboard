@@ -1,0 +1,30 @@
+# RENAME THIS FILE TO config.toml AND THEN MAKE THE EDITS
+# You MUST restart the webserver after making any changes to this file otherwise bad stuff will happen
+
+[global]
+vipCore = false
+simpleAdmin = false
+mysqlHost = 'localhost'
+mysqlPort = 3306
+mysqlUser = 'root'
+mysqlDatabase = 'dbname'
+mysqlPassword = 'password'
+
+[[servers]]
+serverName = "Good Name"
+serverIp = '127.0.0.1'
+serverPort = 27015
+rconPort = 27015
+rconPassword = 'password'
+simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
+vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+
+[[servers]]
+serverName = "Great Name"
+serverIp = '127.0.0.2'
+serverPort = 27014
+rconPort = 27014
+rconPassword = 'password'
+simpleAdminId = 59 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
+vipCoreId = 1 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+
