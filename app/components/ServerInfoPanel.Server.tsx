@@ -7,7 +7,7 @@ import { getServerInfo } from '../lib/get-server-info';
 import { getServersConfig } from '../lib/configParse';
 
 export default async function ServerInfoPanel() {
-	const allPlayers = await getPlayers(0, true);
+	const allPlayers = await getPlayers();
 	const serverInfo = await getServerInfo();
 	const config = getServersConfig();
 	if ('err' in serverInfo) {
