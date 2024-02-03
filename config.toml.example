@@ -11,6 +11,7 @@ mysqlDatabase = 'dbname'
 mysqlPassword = 'password'
 
 [[servers]]
+serverName = "Good Name"
 serverIp = '127.0.0.1'
 serverPort = 27015
 rconPort = 27015
@@ -19,6 +20,7 @@ simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in 
 vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin configs folder
 
 [[servers]]
+serverName = "Great Name"
 serverIp = '127.0.0.2'
 serverPort = 27014
 rconPort = 27014

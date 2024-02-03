@@ -12,6 +12,7 @@ type configType = {
 		mysqlPassword: string;
 	};
 	servers: {
+		serverName: string;
 		serverIp: string;
 		serverPort: number;
 		rconPort: number;

@@ -35,9 +35,13 @@ export default async function ServerInfoPanel({
 		adminPluginIsEnabled,
 		vipPluginIsEnabled
 	};
+	const serverNames = config.servers.map((server) => server.serverName);
 	return (
 		<div>
-			<ServerPicker totalServers={config.servers.length} />
+			<ServerPicker
+				totalServers={config.servers.length}
+				serverNames={serverNames}
+			/>
 			<div className="m-5 h-fit rounded-md bg-zinc-800 p-4">
 				<ServerInfo
 					serverInfoPreRender={serverInfo}
