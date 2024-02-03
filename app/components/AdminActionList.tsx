@@ -9,6 +9,8 @@ import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
 import { getAdmins, dbReturnAllAdmins } from '../lib/get-admins-list';
 import VipsListTable from './VipListTable';
 import AdminsListTable from './AdminsListTable';
+import { useRecoilState } from 'recoil';
+import { activeServerStore } from '../store/active-server-store';
 
 export default function AdminActionListButton({
 	featureFlags
@@ -19,6 +21,7 @@ export default function AdminActionListButton({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
+	const [activeServer] = useRecoilState(activeServerStore);
 	function closePopUp() {
 		adminActionListModal.current.close();
 	}
@@ -34,17 +37,17 @@ export default function AdminActionListButton({
 	const defaultTab = useRef() as React.MutableRefObject<HTMLInputElement>;
 
 	async function updatePunishmentsList() {
-		const punishmentsList = await getBansAndMutes();
+		const punishmentsList = await getBansAndMutes(activeServer);
 		if ('error' in punishmentsList) return;
 		setPunishmentsList(punishmentsList);
 	}
 	async function updateVipsList() {
-		const vipsList = await getVipsList();
+		const vipsList = await getVipsList(activeServer);
 		if ('error' in vipsList) return;
 		setVipsList(vipsList);
 	}
 	async function updateAdminsList() {
-		const adminsList = await getAdmins();
+		const adminsList = await getAdmins(activeServer);
 		if ('error' in adminsList) return;
 		setAdminsList(adminsList);
 	}

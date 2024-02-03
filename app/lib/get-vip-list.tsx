@@ -1,5 +1,6 @@
 'use server';
 import { db } from '@/app/lib/db';
+import { getServersConfig } from './configParse';
 
 export type dbReturnAllVipsAction = {
 	id: number;
@@ -9,14 +10,16 @@ export type dbReturnAllVipsAction = {
 	expires: number;
 }[];
 
-export async function getVipsList() {
-	if (process.env.VIP_PLUGIN_INSTALLED != 'true') {
+const config = getServersConfig();
+
+export async function getVipsList(selectedServerIndex: number) {
+	if (config.global.vipCore != true) {
 		return { error: true };
 	}
 	try {
 		const allVips = (
 			await db.query(
-				'SELECT * FROM vip_users WHERE expires > UNIX_TIMESTAMP(NOW()) OR expires = 0'
+				`SELECT * FROM vip_users WHERE (expires > UNIX_TIMESTAMP(NOW()) OR expires = 0) AND sid=${config.servers[selectedServerIndex].vipCoreId}`
 			)
 		)[0] as dbReturnAllVipsAction;
 		return allVips;

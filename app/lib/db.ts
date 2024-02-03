@@ -1,11 +1,14 @@
 import mysql from 'mysql2';
+import { getServersConfig } from './configParse';
+
+const globalConfig = getServersConfig().global;
 
 export const db = mysql
 	.createPool({
-		host: process.env.SQL_HOST,
-		port: Number(process.env.SQL_PORT),
-		user: process.env.SQL_USER,
-		database: process.env.SQL_DB,
-		password: process.env.SQL_PASSWORD
+		host: globalConfig.mysqlHost,
+		port: globalConfig.mysqlPort,
+		user: globalConfig.mysqlUser,
+		database: globalConfig.mysqlDatabase,
+		password: globalConfig.mysqlPassword
 	})
 	.promise();

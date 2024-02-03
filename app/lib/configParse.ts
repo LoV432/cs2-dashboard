@@ -16,6 +16,8 @@ type configType = {
 		serverPort: number;
 		rconPort: number;
 		rconPassword: string;
+		simpleAdminId: number;
+		vipCoreId: number;
 	}[];
 };
 
