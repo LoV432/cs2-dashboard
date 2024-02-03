@@ -21,7 +21,7 @@ for (let i = 0; i < servers.length; i++) {
 	});
 }
 
-export async function getPlayers(selectedServer = 0, forceUpdate = false) {
+export async function getPlayers(selectedServer: number, forceUpdate = false) {
 	if (
 		Date.now() - serversCache[selectedServer].lastReqTime < 5000 &&
 		!forceUpdate

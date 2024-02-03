@@ -1,8 +1,9 @@
 import { atom } from 'recoil';
+import { syncEffect } from 'recoil-sync';
+import { number } from '@recoiljs/refine';
 
-type activeServerIndexStore = number;
-
-export const activeServerStore = atom({
+export const activeServerStore = atom<number>({
 	key: 'activeServerStore',
-	default: 0 as activeServerIndexStore
+	effects: [syncEffect({ refine: number() })],
+	default: 0
 });

@@ -6,9 +6,14 @@ import { getPlayers } from '../lib/get-playes';
 import { getServerInfo } from '../lib/get-server-info';
 import { getServersConfig } from '../lib/configParse';
 
-export default async function ServerInfoPanel() {
-	const allPlayers = await getPlayers();
-	const serverInfo = await getServerInfo();
+export default async function ServerInfoPanel({
+	searchParams
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	const serverIndex = Number(searchParams['activeServerStore']) || 0;
+	const allPlayers = await getPlayers(serverIndex);
+	const serverInfo = await getServerInfo(serverIndex);
 	const config = getServersConfig();
 	if ('err' in config) {
 		console.log(config.err);

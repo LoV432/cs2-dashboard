@@ -29,7 +29,7 @@ for (let i = 0; i < servers.length; i++) {
 	});
 }
 
-export async function getServerInfo(serverIndex = 0, forceUpadate = false) {
+export async function getServerInfo(serverIndex: number, forceUpadate = false) {
 	if (
 		Date.now() - serversCache[serverIndex].lastReqTime < 5000 &&
 		!forceUpadate
