@@ -11,6 +11,9 @@ export default function ServerPicker({
 }) {
 	const [activeServerIndex, setActiveServerIndex] =
 		useRecoilState(activeServerStore);
+	if (totalServers == 1) {
+		return null;
+	}
 	return (
 		<div className="my-5 flex flex-row flex-wrap justify-center gap-5">
 			{[...Array(totalServers)].map((e, index) => (
