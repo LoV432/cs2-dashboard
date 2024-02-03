@@ -23,7 +23,9 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
+COPY config.toml.example /app/config/config.toml
 RUN npm run build
+RUN rm /app/config/config.toml
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -34,8 +36,6 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY --from=builder /app/public ./public
-
-RUN mkdir /app/config
 COPY config.toml.example /
 
 # Set the correct permission for prerender cache
