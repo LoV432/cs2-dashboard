@@ -1,4 +1,5 @@
-# Example config
+# Example config. Rename this to config.toml and then make the edits
+# YOU MUST restart the server after making any changes to this file otherwise bad stuff will happen
 
 [global]
 vipCore = false

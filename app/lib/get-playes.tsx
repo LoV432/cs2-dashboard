@@ -8,9 +8,13 @@ type cache = {
 	lastReqTime: number;
 }[];
 
-const config = getServersConfig().servers;
+const config = getServersConfig();
+if ('err' in config) {
+	process.exit(1);
+}
+const servers = config.servers;
 let serversCache: cache = [];
-for (let i = 0; i < config.length; i++) {
+for (let i = 0; i < servers.length; i++) {
 	serversCache.push({
 		playersInfo: { err: 'error' },
 		lastReqTime: 0
@@ -26,9 +30,9 @@ export async function getPlayers(selectedServer = 0, forceUpdate = false) {
 	}
 	serversCache[selectedServer].lastReqTime = Date.now();
 	const rcon = await rconInit(
-		config[selectedServer].serverIp,
-		config[selectedServer].serverPort,
-		config[selectedServer].rconPassword
+		servers[selectedServer].serverIp,
+		servers[selectedServer].serverPort,
+		servers[selectedServer].rconPassword
 	);
 	if ('err' in rcon) {
 		console.log(rcon.err);

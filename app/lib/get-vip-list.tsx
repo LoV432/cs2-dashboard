@@ -13,7 +13,7 @@ export type dbReturnAllVipsAction = {
 const config = getServersConfig();
 
 export async function getVipsList(selectedServerIndex: number) {
-	if (config.global.vipCore != true) {
+	if ('err' in config || config.global.vipCore != true) {
 		return { error: true };
 	}
 	try {

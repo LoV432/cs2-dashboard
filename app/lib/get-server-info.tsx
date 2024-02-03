@@ -16,9 +16,13 @@ BigInt.prototype.toJSON = function () {
 	return this.toString();
 };
 
-const config = getServersConfig().servers;
+const config = getServersConfig();
+if ('err' in config) {
+	process.exit(1);
+}
+const servers = config.servers;
 let serversCache: cache = [];
-for (let i = 0; i < config.length; i++) {
+for (let i = 0; i < servers.length; i++) {
 	serversCache.push({
 		serverInfo: { err: 'error' },
 		lastReqTime: 0
@@ -34,8 +38,8 @@ export async function getServerInfo(serverIndex = 0, forceUpadate = false) {
 	}
 	serversCache[serverIndex].lastReqTime = Date.now();
 	const csServer = await csServerInit(
-		config[serverIndex].serverIp,
-		config[serverIndex].serverPort
+		servers[serverIndex].serverIp,
+		servers[serverIndex].serverPort
 	);
 	if ('err' in csServer) {
 		serversCache[serverIndex].serverInfo = { err: 'error' };

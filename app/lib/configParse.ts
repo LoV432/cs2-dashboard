@@ -22,9 +22,15 @@ type configType = {
 };
 
 export function getServersConfig() {
-	return JSON.parse(
-		JSON.stringify(
-			toml.parse(fs.readFileSync('config.toml', { encoding: 'utf-8' }))
-		)
-	) as configType;
+	try {
+		return JSON.parse(
+			JSON.stringify(
+				toml.parse(fs.readFileSync('config.toml', { encoding: 'utf-8' }))
+			)
+		) as configType;
+	} catch (err) {
+		console.log('Error parsing config.toml: ' + err);
+		console.log('CHECK YOUR CONFIG.TOML FILE');
+		return { err: 'error' };
+	}
 }

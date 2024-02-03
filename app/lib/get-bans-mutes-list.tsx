@@ -19,7 +19,7 @@ export type dbReturnAllPunishmentAction = {
 
 const config = getServersConfig();
 export async function getBansAndMutes(selectedServerIndex: number) {
-	if (config.global.simpleAdmin != true) {
+	if ('err' in config || config.global.simpleAdmin != true) {
 		return { error: true };
 	}
 	try {

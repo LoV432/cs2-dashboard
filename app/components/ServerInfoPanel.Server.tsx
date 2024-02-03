@@ -10,6 +10,10 @@ export default async function ServerInfoPanel() {
 	const allPlayers = await getPlayers();
 	const serverInfo = await getServerInfo();
 	const config = getServersConfig();
+	if ('err' in config) {
+		console.log(config.err);
+		return <h1>Config error. Make sure config.toml is valid</h1>;
+	}
 	if ('err' in serverInfo) {
 		console.log(serverInfo.err);
 		return <h1>Server connection failed</h1>;

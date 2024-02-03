@@ -1,7 +1,11 @@
 'use server';
 import { rconInit } from '@/app/lib/rcon';
 import { getServersConfig } from './configParse';
-const servers = getServersConfig().servers;
+const config = getServersConfig();
+if ('err' in config) {
+	process.exit(1);
+}
+const servers = config.servers;
 
 export async function execRcon(command: string, serverIndex: number) {
 	const rcon = await rconInit(
