@@ -11,7 +11,7 @@ export default async function ServerInfoPanel({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const serverIndex = Number(searchParams['activeServerStore']) || 0;
+	const serverIndex = Number(searchParams['SelectedServer']) || 0;
 	const allPlayers = await getPlayers(serverIndex);
 	const serverInfo = await getServerInfo(serverIndex);
 	const config = getServersConfig();

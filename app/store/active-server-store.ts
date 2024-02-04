@@ -3,7 +3,7 @@ import { syncEffect } from 'recoil-sync';
 import { number } from '@recoiljs/refine';
 
 export const activeServerStore = atom<number>({
-	key: 'activeServerStore',
+	key: 'SelectedServer',
 	effects: [syncEffect({ refine: number() })],
 	default: 0
 });
