@@ -147,10 +147,12 @@ export default function SendCommand() {
 		);
 		window.addEventListener('keydown', focusInputWithBackTick);
 		return () => {
-			suggestionsContainerRef.current.removeEventListener(
-				'wheel',
-				handleSuggestionScroll
-			);
+			if (suggestionsContainerRef.current) {
+				suggestionsContainerRef.current.removeEventListener(
+					'wheel',
+					handleSuggestionScroll
+				);
+			}
 			window.removeEventListener('keydown', focusInputWithBackTick);
 		};
 	}, []);
