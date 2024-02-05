@@ -35,7 +35,13 @@ This guide will walk you through the process of setting up Docker Compose and co
 If you haven't already, download and install Docker and Docker-Compose for your operating system. You can find installation instructions on the [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/standalone/).
 
 #### 2. Prepare Docker Compose File
-Ensure you have the [docker-compose.yml](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml) file provided in your working directory. You can set the `MAXMIND_LICENSE_KEY` if you like and then run `docker-compose up -d`. This will start the container.
+- Download the `docker-compose.yml` file from [here](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml) and place it in your working directory.
+- Optionally, set the `MAXMIND_LICENSE_KEY` in the `docker-compose.yml` file if needed.
+- Run the following command in your terminal:
+  ```
+  docker-compose up -d
+  ```
+  This command starts the container.
 
 #### 3. Customize the Configuration File
 After starting the CS2 Dashboard container for the first time, a `config.toml.example` file will be created in your `dashboard-config` directory. Follow these steps to customize the configuration:
@@ -56,14 +62,23 @@ After starting the CS2 Dashboard container for the first time, a `config.toml.ex
         - `vipCoreId`: ID of the server in VIP Core (if enabled).
 
 #### 4. Restart the CS2 Dashboard Container
-Navigate to the directory containing the `docker-compose.yml` file in your terminal and run the following command:
-```
-docker-compose restart
-```
-This command will restart the CS2 Dashboard container with the new config.
+- Navigate to the directory containing the `docker-compose.yml` file in your terminal.
+- Run the following command:
+  ```
+  docker-compose restart
+  ```
+  This command restarts the CS2 Dashboard container with the new configuration.
+
 
 #### 5. Access CS2 Dashboard
 Once the container is up and running, you can access the CS2 Dashboard by visiting `http://localhost:3000` in your web browser.
+
+#### 6. Updates
+You can update the container by running these 2 commands:
+```
+docker-compose pull
+docker-compose up -d
+```
 
 ### Additional Notes:
 - Remember to restart the CS2 Dashboard container after making changes to the `config.toml` file for the changes to take effect.
