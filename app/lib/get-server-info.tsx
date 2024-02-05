@@ -1,7 +1,7 @@
 'use server';
 import { csServerInit } from '@/app/lib/server';
 import type { Server } from '@fabricio-191/valve-server-query';
-import { getServersConfig } from './configParse';
+import { getServersConfig, configType } from './configParse';
 
 type cache = {
 	serverInfo: Server.Info | { err: string };
@@ -17,19 +17,32 @@ BigInt.prototype.toJSON = function () {
 };
 
 const config = getServersConfig();
-if ('err' in config) {
-	process.exit(1);
-}
-const servers = config.servers;
+let servers: configType['servers'] = [];
 let serversCache: cache = [];
-for (let i = 0; i < servers.length; i++) {
-	serversCache.push({
-		serverInfo: { err: 'error' },
-		lastReqTime: 0
-	});
+if (!('err' in config)) {
+	servers = config.servers;
+	for (let i = 0; i < servers.length; i++) {
+		serversCache.push({
+			serverInfo: { err: 'error' },
+			lastReqTime: 0
+		});
+	}
+} else {
+	serversCache = [];
 }
 
 export async function getServerInfo(serverIndex: number, forceUpadate = false) {
+	if ('err' in config) {
+		console.log(config.err);
+		console.log('Config error. Make sure config.toml is valid');
+		console.log(
+			'Make sure you have renamed config.toml.example to config.toml inside your "dashboard-config/" directory'
+		);
+		console.log(
+			'Also make sure you restarted the web server after editing the file'
+		);
+		return { err: 'error' };
+	}
 	if (
 		Date.now() - serversCache[serverIndex].lastReqTime < 5000 &&
 		!forceUpadate

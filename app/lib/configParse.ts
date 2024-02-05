@@ -1,7 +1,7 @@
 import toml from 'toml';
 import fs from 'fs';
 
-type configType = {
+export type configType = {
 	global: {
 		vipCore: boolean;
 		simpleAdmin: boolean;
@@ -31,7 +31,12 @@ export function getServersConfig() {
 		) as configType;
 	} catch (err) {
 		console.log('Error parsing config.toml: ' + err);
-		console.log('CHECK YOUR CONFIG.TOML FILE');
-		return { err: 'error' };
+		console.log(
+			'CHECK YOUR CONFIG.TOML FILE. NAKE SURE YOU HAVE RENAMED config.toml.example TO config.toml'
+		);
+		console.log(
+			'ALSO MAKE SURE YOU RESTARTED THE WEB SERVER AFTER EDITING THE FILE'
+		);
+		return { err };
 	}
 }

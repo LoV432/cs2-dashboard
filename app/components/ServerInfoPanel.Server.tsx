@@ -17,15 +17,30 @@ export default async function ServerInfoPanel({
 	const config = getServersConfig();
 	if ('err' in config) {
 		console.log(config.err);
-		return <h1>Config error. Make sure config.toml is valid</h1>;
+		return (
+			<>
+				<h1>Config error. Make sure config.toml is valid</h1>
+				<h1>
+					Make sure you have renamed config.toml.example to config.toml inside
+					your "dashboard-config/" directory
+				</h1>
+				<h1>
+					Also make sure you restarted the web server after editing the file
+				</h1>
+			</>
+		);
 	}
 	if ('err' in serverInfo) {
 		console.log(serverInfo.err);
-		return <h1>Server connection failed</h1>;
+		return (
+			<h1>
+				Server connection failed. Please check your docker logs for more info
+			</h1>
+		);
 	}
 	if ('err' in allPlayers) {
 		console.log(allPlayers.err);
-		return <h1>RCON failed</h1>;
+		return <h1>RCON failed. Please check your docker logs for more info</h1>;
 	}
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
 	const adminPluginIsEnabled = config.global.simpleAdmin;

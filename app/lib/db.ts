@@ -2,10 +2,19 @@ import mysql from 'mysql2';
 import { getServersConfig } from './configParse';
 
 const config = getServersConfig();
+let globalConfig;
 if ('err' in config) {
-	process.exit(1);
+	console.log(config.err);
+	globalConfig = {
+		mysqlHost: 'localhost',
+		mysqlPort: 3306,
+		mysqlUser: 'root',
+		mysqlDatabase: 'db',
+		mysqlPassword: 'password'
+	};
+} else {
+	globalConfig = config.global;
 }
-const globalConfig = config.global;
 
 export const db = mysql
 	.createPool({
