@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { execRcon } from '../lib/exec-rcon';
 import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
 import { useRecoilState } from 'recoil';
 import { activeServerStore } from '../store/active-server-store';
 import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
+import { getMapsList } from '../lib/get-public-configs';
 export function ConfirmationModal({
 	modalName,
 	modalRef,
@@ -462,16 +463,28 @@ export function ConfirmationModalChangeMap({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 }) {
 	const [activeServer] = useRecoilState(activeServerStore);
+	const [mapsList, setMapsList] = useState<Array<[string, string]>>([]);
 	const mapNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const mapNameSelectRef =
+		useRef() as React.MutableRefObject<HTMLSelectElement>;
 	function changeMap(mapName: string) {
-		if (mapName == '') return;
+		if (mapName == '' || mapName == 'Select Map') return;
 		execRcon(`css_map ${mapName}`, activeServer);
 		closePopUp();
 	}
 	function closePopUp() {
 		modalRef.current.close();
 		mapNameRef.current.value = '';
+		mapNameSelectRef.current.value = 'Select Map';
 	}
+	useEffect(() => {
+		(async () => {
+			const fetchedMapsList = await getMapsList();
+			if (fetchedMapsList && fetchedMapsList.maps) {
+				setMapsList(fetchedMapsList.maps);
+			}
+		})();
+	}, [activeServer]);
 	return (
 		<ConfirmationModalWrapper modalRef={modalRef} closePopUp={closePopUp}>
 			<h3 className="pb-5 text-lg font-bold capitalize">Change Map</h3>
@@ -489,16 +502,55 @@ export function ConfirmationModalChangeMap({
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					changeMap(String(mapNameRef.current.value));
-					mapNameRef.current.value = '';
+					changeMap(
+						String(mapNameRef.current.value || mapNameSelectRef.current.value)
+					);
 				}}
 			>
-				<input
-					required
-					ref={mapNameRef}
-					className="input mt-5 w-full"
-					placeholder="Map name*"
-				></input>
+				{mapsList.length > 0 ? (
+					<>
+						<select
+							defaultValue={'Select Map'}
+							ref={mapNameSelectRef}
+							className="select select-bordered mt-5 w-full min-w-full max-w-xs"
+						>
+							<option className="text-lg" value={'Select Map'} disabled>
+								Select Map
+							</option>
+							{mapsList.map((map) => {
+								return (
+									<option className="text-lg" key={map[1]} value={map[0]}>
+										{map[1]}
+									</option>
+								);
+							})}
+						</select>
+						<h1 className="divider">OR</h1>
+						<input
+							ref={mapNameRef}
+							className="input w-full"
+							placeholder="Custom Map"
+						></input>
+					</>
+				) : (
+					<>
+						<select
+							defaultValue={'Select Map'}
+							ref={mapNameSelectRef}
+							className="hidden"
+						>
+							<option className="text-lg" value={'Select Map'} disabled>
+								Select Map
+							</option>
+						</select>
+						<input
+							required
+							ref={mapNameRef}
+							className="input mt-5 w-full"
+							placeholder="Map name*"
+						></input>
+					</>
+				)}
 				<button type="submit" className="btn btn-success mt-5 w-full">
 					CHANGE MAP
 				</button>

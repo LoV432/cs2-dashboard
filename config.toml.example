@@ -9,6 +9,7 @@ mysqlPort = 3306
 mysqlUser = 'root'
 mysqlDatabase = 'dbname'
 mysqlPassword = 'password'
+preDefinedMaps = [['ws:fy_pool_day','Pool Day'], ['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # This is Not Required
 
 [[servers]]
 serverName = "Good Name"

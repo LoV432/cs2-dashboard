@@ -10,6 +10,7 @@ export type configType = {
 		mysqlUser: string;
 		mysqlDatabase: string;
 		mysqlPassword: string;
+		preDefinedMaps?: Array<[string, string]>;
 	};
 	servers: {
 		serverName: string;
