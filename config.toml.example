@@ -9,7 +9,7 @@ mysqlPort = 3306
 mysqlUser = 'root'
 mysqlDatabase = 'dbname'
 mysqlPassword = 'password'
-preDefinedMaps = [['ws:fy_pool_day','Pool Day'], ['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # This is Not Required
+preDefinedMaps = [['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # This is Not Required
 
 [[servers]]
 serverName = "Good Name"
@@ -19,6 +19,7 @@ rconPort = 27015
 rconPassword = 'password'
 simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
 vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+preDefinedMaps = [['ws:fy_pool_day','Pool Day']] # This is Not Required
 
 [[servers]]
 serverName = "Great Name"

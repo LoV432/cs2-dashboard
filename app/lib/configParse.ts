@@ -20,11 +20,21 @@ export type configType = {
 		rconPassword: string;
 		simpleAdminId: number;
 		vipCoreId: number;
+		preDefinedMaps?: Array<[string, string]>;
 	}[];
 };
 
 export function getServersConfig() {
 	try {
+		// console.log(
+		// 	JSON.parse(
+		// 		JSON.stringify(
+		// 			toml.parse(
+		// 				fs.readFileSync('config/config.toml', { encoding: 'utf-8' })
+		// 			)
+		// 		)
+		// 	)
+		// );
 		return JSON.parse(
 			JSON.stringify(
 				toml.parse(fs.readFileSync('config/config.toml', { encoding: 'utf-8' }))

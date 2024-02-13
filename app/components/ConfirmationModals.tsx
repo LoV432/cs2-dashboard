@@ -479,9 +479,9 @@ export function ConfirmationModalChangeMap({
 	}
 	useEffect(() => {
 		(async () => {
-			const fetchedMapsList = await getMapsList();
-			if (fetchedMapsList && fetchedMapsList.maps) {
-				setMapsList(fetchedMapsList.maps);
+			const fetchedMapsList = await getMapsList(activeServer);
+			if (fetchedMapsList) {
+				setMapsList(fetchedMapsList);
 			}
 		})();
 	}, [activeServer]);
