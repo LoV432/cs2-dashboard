@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { execRcon } from '../lib/exec-rcon';
 import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
-import { useRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
 import { getMapsList } from '../lib/get-public-configs';
@@ -173,7 +173,7 @@ export function ConfirmationModalAdmin({
 	playerName: string;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const immunityRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const flagsRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -269,7 +269,7 @@ export function AddVipManualModal({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updateVipsList: () => Promise<void>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const groupRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -350,7 +350,7 @@ export function AddAdminManualModal({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updateAdminsList: () => Promise<void>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const playerNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const idRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -462,7 +462,7 @@ export function ConfirmationModalChangeMap({
 }: {
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const [mapsList, setMapsList] = useState<Array<[string, string]>>([]);
 	const mapNameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const mapNameSelectRef =
@@ -566,7 +566,7 @@ export function ConfirmationModalBanMuteManual({
 	modalRef: React.MutableRefObject<HTMLDialogElement>;
 	updatePunishmentsList: () => Promise<void>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const steamId = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const timeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const reasonRef = useRef() as React.MutableRefObject<HTMLInputElement>;

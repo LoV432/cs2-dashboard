@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { chatStore as chatStoreImport } from '../store/chat-store';
-import { useRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../lib/exec-rcon';
 import { activeServerStore } from '../store/active-server-store';
 
 export default function SendCommand() {
-	const [activeServer] = useRecoilState(activeServerStore);
-	const [, setChatStore] = useRecoilState(chatStoreImport);
+	const activeServer = useAtomValue(activeServerStore);
+	const setChatStore = useSetAtom(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
 	const [commandsHistory, setCommandsHistory] = useState<string[]>([]);
 	const [commandsHistoryIndex, setCommandsHistoryIndex] = useState(0);

@@ -1,13 +1,4 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-type loadingStore = boolean;
-
-export const loadingPlayersStore = atom({
-	key: 'loadingPlayersStore',
-	default: false as loadingStore
-});
-
-export const loadingServerStore = atom({
-	key: 'loadingServerStore',
-	default: false as loadingStore
-});
+export const loadingPlayersStore = atom<boolean>(false);
+export const loadingServerStore = atom<boolean>(false);

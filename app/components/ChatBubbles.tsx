@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { chatStore as chatStoreImport } from '../store/chat-store';
-import { useRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 
 export default function ChatBubbles({
@@ -9,8 +9,8 @@ export default function ChatBubbles({
 }: {
 	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
-	const [chatStore] = useRecoilState(chatStoreImport);
+	const activeServer = useAtomValue(activeServerStore);
+	const chatStore = useAtomValue(chatStoreImport);
 	useEffect(() => {
 		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
 	}, [chatStore]);

@@ -9,7 +9,7 @@ import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
 import { getAdmins, dbReturnAllAdmins } from '../lib/get-admins-list';
 import VipsListTable from './VipListTable';
 import AdminsListTable from './AdminsListTable';
-import { useRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 
 export default function AdminActionListButton({
@@ -21,7 +21,7 @@ export default function AdminActionListButton({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	function closePopUp() {
 		adminActionListModal.current.close();
 	}

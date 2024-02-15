@@ -11,7 +11,7 @@ import {
 	searchSteamIDFromAdminPlugin,
 	searchSteamIDFromNative
 } from '../lib/get-steamid';
-import { useRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 
 export default function AdminPanel({
@@ -222,7 +222,7 @@ function BanPlayerPopUp({
 	banPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const banPlayer = (time: number, reason: string) => {
 		execRcon(`css_ban #${player.id} ${time} "${reason}"`, activeServer);
 		banPlayerModal.current.close();
@@ -254,7 +254,7 @@ function MakeVipPopUp({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const makeVip = async (time: number, group: string) => {
 		let userSteamId = '';
 		if (featureFlags.adminPluginIsEnabled) {
@@ -316,7 +316,7 @@ function KickPlayerPopUp({
 	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const kickPlayer = () => {
 		execRcon(`kickid ${player.id}`, activeServer);
 		kickPlayerModal.current.close();
@@ -342,7 +342,7 @@ function SlayPlayerPopUp({
 	slayPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const slayPlayer = () => {
 		execRcon(`css_slay #${player.id}`, activeServer);
 		slayPlayerModal.current.close();
@@ -368,7 +368,7 @@ function MutePlayerPopUp({
 	mutePlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const mutePlayer = (time: number, reason: string) => {
 		execRcon(`css_mute #${player.id} ${time} "${reason}"`, activeServer);
 		execRcon(`css_gag #${player.id} ${time} "${reason}"`, activeServer);

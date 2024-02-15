@@ -6,8 +6,8 @@ import {
 } from './ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../lib/exec-rcon';
-import { useRecoilState } from 'recoil';
 import { activeServerStore } from '../store/active-server-store';
+import { useAtomValue } from 'jotai';
 
 export default function PunishmentsListTable({
 	punishmentsList,
@@ -143,7 +143,7 @@ function RemovePunishmentActionPopUp({
 	removePunishmentModal: React.MutableRefObject<HTMLDialogElement>;
 	updatePunishmentsList: () => Promise<void>;
 }) {
-	const [activeServer] = useRecoilState(activeServerStore);
+	const activeServer = useAtomValue(activeServerStore);
 	const removePunishmentAction = (actionType: 'MUTE' | 'GAG' | 'BAN') => {
 		if (actionType == 'BAN') {
 			execRcon(

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { getServerInfo } from '../lib/get-server-info';
 import { ConfirmationModalChangeMap } from './ConfirmationModals';
-import { useRecoilState } from 'recoil';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 import { loadingServerStore } from '../store/loading-store';
 
@@ -17,8 +17,8 @@ export default function ServerInfo({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [, setLoading] = useRecoilState(loadingServerStore);
-	const [selectedServer] = useRecoilState(activeServerStore);
+	const setLoading = useSetAtom(loadingServerStore);
+	const selectedServer = useAtomValue(activeServerStore);
 	const lastSelectedServer = useRef(selectedServer);
 	const [serverInfo, setServerInfo] = useState<
 		{ name: string; map: string } | { err: string }

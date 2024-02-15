@@ -1,6 +1,6 @@
 'use client';
 import { activeServerStore } from '../store/active-server-store';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 
 export default function ServerPicker({
 	totalServers,
@@ -9,8 +9,7 @@ export default function ServerPicker({
 	totalServers: number;
 	serverNames: string[];
 }) {
-	const [activeServerIndex, setActiveServerIndex] =
-		useRecoilState(activeServerStore);
+	const [activeServerIndex, setActiveServerIndex] = useAtom(activeServerStore);
 	if (totalServers == 1) {
 		return null;
 	}

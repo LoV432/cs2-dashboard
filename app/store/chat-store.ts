@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
 type chatStore = {
 	id: number;
@@ -7,7 +7,4 @@ type chatStore = {
 	serverIndex: number;
 }[];
 
-export const chatStore = atom({
-	key: 'chatStore',
-	default: [] as chatStore
-});
+export const chatStore = atom([] as chatStore);

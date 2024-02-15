@@ -4,7 +4,7 @@ import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
 import AdminPanel from './AdminPanel';
 import { getPlayers } from '../lib/get-playes';
-import { useRecoilState } from 'recoil';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 import { loadingPlayersStore } from '../store/loading-store';
 
@@ -19,8 +19,8 @@ export default function ServerPlayers({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const [selectedServer] = useRecoilState(activeServerStore);
-	const [, setLoading] = useRecoilState(loadingPlayersStore);
+	const selectedServer = useAtomValue(activeServerStore);
+	const setLoading = useSetAtom(loadingPlayersStore);
 	const [allPlayers, setAllPlayers] = useState<Player[] | { err: string }>(
 		playersPreRendered
 	);

@@ -1,9 +1,18 @@
-import { atom } from 'recoil';
-import { syncEffect } from 'recoil-sync';
-import { number } from '@recoiljs/refine';
+import { atomWithLocation } from 'jotai-location';
+import { atom } from 'jotai';
 
-export const activeServerStore = atom<number>({
-	key: 'SelectedServer',
-	effects: [syncEffect({ refine: number() })],
-	default: 0
-});
+const locationAtom = atomWithLocation();
+
+export const activeServerStore = atom(
+	(get) => Number(get(locationAtom).searchParams?.get('SelectedServer') || 0),
+	(get, set, newValue: number) => {
+		try {
+			set(locationAtom, (prev) => ({
+				...prev,
+				searchParams: new URLSearchParams([
+					['SelectedServer', String(newValue) || '0']
+				])
+			}));
+		} catch {}
+	}
+);
