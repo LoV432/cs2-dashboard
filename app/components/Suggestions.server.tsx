@@ -1,7 +1,10 @@
 'use client';
 import { allCommands } from '../lib/all-commands';
-//@ts-ignore
-import relevancy from 'relevancy';
+import Fuse from 'fuse.js';
+
+const fuseSearch = new Fuse(allCommands, {
+	threshold: 0.05
+});
 
 export default function Suggestions({
 	suggestionText,
@@ -78,25 +81,23 @@ export default function Suggestions({
 			});
 		}
 	}
+	const filterdCommands = fuseSearch.search(suggestionText);
 
-	let filterdCommands = allCommands.filter((s) => s.includes(suggestionText));
-	filterdCommands = relevancy.sort(filterdCommands, suggestionText);
-
-	return filterdCommands.slice(0, 10).map((command) => {
+	return filterdCommands.slice(0, 15).map((command) => {
 		return (
 			<button
-				key={command}
-				onClick={() => autoFill(command)}
+				key={command.item}
+				onClick={() => autoFill(command.item)}
 				onKeyUp={(e) => {
 					if (e.key === 'Enter') {
-						autoFill(command);
+						autoFill(command.item);
 					}
 				}}
 				onKeyDown={moveFocus}
 				className="suggestions btn btn-active m-1 scroll-m-3 rounded border-zinc-700 border-opacity-60"
 				tabIndex={0}
 			>
-				{command}
+				{command.item}
 			</button>
 		);
 	});
