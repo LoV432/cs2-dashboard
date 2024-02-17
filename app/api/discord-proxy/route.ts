@@ -14,9 +14,9 @@ type discordMessage = {
 		}
 	];
 };
-
-const createTable = await db.execute(
-	`CREATE TABLE IF NOT EXISTS server_messages (
+try {
+	await db.execute(
+		`CREATE TABLE IF NOT EXISTS server_messages (
         id INT AUTO_INCREMENT PRIMARY KEY,
         time DATETIME,
         team VARCHAR(50),
@@ -27,7 +27,8 @@ const createTable = await db.execute(
         author_icon_url VARCHAR(255),
         server_index INT
         )`
-);
+	);
+} catch {}
 
 const regexPattern =
 	/^\[(\d{2}-\d{2}-\d{4}) - (\d{2}:\d{2}:\d{2})\] \[(\w+)\] (.+) \(IpAddress: (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\)$/;
