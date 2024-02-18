@@ -5,6 +5,7 @@ export type configType = {
 	global: {
 		vipCore: boolean;
 		simpleAdmin: boolean;
+		serverMessages: boolean;
 		mysqlHost: string;
 		mysqlPort: number;
 		mysqlUser: string;
