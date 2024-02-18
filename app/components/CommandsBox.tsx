@@ -1,5 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
+import CommandBubbles from './CommandBubbles';
 import ChatBubbles from './ChatBubbles';
 import SendCommand from './SendCommand';
 
@@ -48,10 +49,12 @@ export default function CommandsBox({
 				)}
 
 				{chatPanelActive ? (
-					<></>
-				) : (
 					<>
 						<ChatBubbles chatWindowRef={chatWindowsRef} />
+					</>
+				) : (
+					<>
+						<CommandBubbles chatWindowRef={chatWindowsRef} />
 						<SendCommand />
 					</>
 				)}

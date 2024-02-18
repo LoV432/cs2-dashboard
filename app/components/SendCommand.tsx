@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { chatStore as chatStoreImport } from '../store/chat-store';
+import { commandStore as chatStoreImport } from '../store/command-store';
 import { useAtomValue, useSetAtom } from 'jotai';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../lib/exec-rcon';

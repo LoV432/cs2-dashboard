@@ -21,6 +21,7 @@ export type configType = {
 		rconPassword: string;
 		simpleAdminId: number;
 		vipCoreId: number;
+		serverMessagesId: number;
 		preDefinedMaps?: Array<[string, string]>;
 	}[];
 };

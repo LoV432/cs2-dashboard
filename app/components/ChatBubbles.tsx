@@ -1,8 +1,11 @@
 'use client';
-import { useEffect } from 'react';
-import { chatStore as chatStoreImport } from '../store/chat-store';
+import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
+import {
+	getServerMessages,
+	dbReturnAllMessages
+} from '../lib/get-server-messages';
 
 export default function ChatBubbles({
 	chatWindowRef
@@ -10,41 +13,60 @@ export default function ChatBubbles({
 	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
 }) {
 	const activeServer = useAtomValue(activeServerStore);
-	const chatStore = useAtomValue(chatStoreImport);
-	useEffect(() => {
+	const [chatStore, setChatStore] = useState<dbReturnAllMessages>([]);
+	async function updateChat() {
+		const allMessages = await getServerMessages(activeServer);
+		if ('error' in allMessages) {
+			console.log('Error loading messages');
+			setChatStore([]);
+			return;
+		}
+		setChatStore(allMessages);
 		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-	}, [chatStore]);
+	}
+	useEffect(() => {
+		updateChat();
+	}, [activeServer]);
 	return (
 		<>
-			{chatStore
-				.filter((message) => message.serverIndex == activeServer)
-				.map((message) => (
-					<ChatBubble
-						key={message.id}
-						text={message.text}
-						type={message.type}
-					/>
-				))}
+			{chatStore.map((message) => (
+				<ChatBubble key={message.id} message={message} />
+			))}
 		</>
 	);
 }
 
-export function ChatBubble({
-	text,
-	type
-}: {
-	text: string;
-	type: 'chat-start' | 'chat-end';
-}) {
+export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 	return (
-		<div className={`chat ${type}`}>
-			<div className="chat-bubble w-auto">
-				<pre className="no-scrollbar overflow-x-scroll">
-					{text.split('\n').map((line, i) => (
-						<p key={i}>{line}</p>
-					))}
-				</pre>
+		<>
+			<div className="chat chat-start">
+				<div className="avatar chat-image">
+					<div className="w-10 rounded-full">
+						<a
+							href={`https://steamcommunity.com/profiles/${message.author_id}`}
+							target={'_blank'}
+						>
+							<img
+								alt={message.author_name}
+								src={`https://avatars.akamai.steamstatic.com/${message.author_icon_url}`}
+							/>
+						</a>
+					</div>
+				</div>
+				<div className="chat-header">
+					<a
+						href={`https://steamcommunity.com/profiles/${message.author_id}`}
+						target={'_blank'}
+					>
+						{message.author_name}
+					</a>
+					<time className="text-xs opacity-50">
+						{' '}
+						{message.time.toLocaleTimeString()}
+					</time>
+				</div>
+				<div className="chat-bubble mb-2 mt-1">{message.message}</div>
 			</div>
-		</div>
+		</>
 	);
 }
