@@ -26,16 +26,16 @@ export default function CommandsBox({
 			>
 				{featureFlags.serverMessagesIsEnabled ? (
 					<>
-						<div className="sticky top-0 z-40 mb-3 flex flex-col place-items-center justify-center gap-0 rounded-md bg-zinc-700 p-2 text-center text-xl font-bold sm:flex-row sm:gap-5">
+						<div className="sticky top-0 z-40 mb-3 flex flex-col place-items-center justify-center rounded-md bg-zinc-700 p-2 text-center text-xl font-bold sm:flex-row">
 							<div
-								className={`${chatPanelActive ? 'text-success' : ''} cursor-pointer`}
+								className={`${chatPanelActive ? 'text-success' : ''} w-full cursor-pointer hover:rounded hover:outline hover:outline-emerald-600`}
 								onClick={() => setChatPanelActive(true)}
 							>
 								Server Messages
 							</div>
-							<div className="divider m-0 sm:divider-horizontal"></div>
+							<div className="divider m-0 sm:divider-horizontal sm:m-0"></div>
 							<div
-								className={`${!chatPanelActive ? 'text-success' : ''} cursor-pointer`}
+								className={`${!chatPanelActive ? 'text-success' : ''} w-full cursor-pointer hover:rounded hover:outline hover:outline-emerald-600`}
 								onClick={() => setChatPanelActive(false)}
 							>
 								Console Panel
