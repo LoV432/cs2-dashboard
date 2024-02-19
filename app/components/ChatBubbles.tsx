@@ -74,7 +74,13 @@ export function ChatBubble({
 					</a>
 					<time className="text-xs opacity-50">
 						{' '}
-						{message.time.toLocaleTimeString()}
+						{message.time.toLocaleString('en-US', {
+							year: '2-digit',
+							month: 'numeric',
+							day: 'numeric',
+							hour: 'numeric',
+							minute: 'numeric'
+						})}
 					</time>
 				</div>
 				<div className="chat-bubble mb-2 mt-1">{message.message}</div>
