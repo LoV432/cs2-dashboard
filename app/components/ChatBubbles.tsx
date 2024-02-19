@@ -22,7 +22,6 @@ export default function ChatBubbles({
 			return;
 		}
 		setChatStore(allMessages);
-		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
 	}
 	useEffect(() => {
 		updateChat();
@@ -30,13 +29,26 @@ export default function ChatBubbles({
 	return (
 		<>
 			{chatStore.map((message) => (
-				<ChatBubble key={message.id} message={message} />
+				<ChatBubble
+					key={message.id}
+					message={message}
+					chatWindowRef={chatWindowRef}
+				/>
 			))}
 		</>
 	);
 }
 
-export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
+export function ChatBubble({
+	message,
+	chatWindowRef
+}: {
+	message: dbReturnAllMessages[0];
+	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
+}) {
+	useEffect(() => {
+		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+	}, []);
 	return (
 		<>
 			<div className="chat chat-start">
