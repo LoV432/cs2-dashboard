@@ -15,17 +15,30 @@ export type dbReturnAllMessages = {
 }[];
 
 const config = getServersConfig();
-export async function getServerMessages(selectedServerIndex: number) {
+export async function getServerMessages(
+	selectedServerIndex: number,
+	olderThan = 0,
+	newerThan = 0
+) {
 	if ('err' in config || config.global.simpleAdmin != true) {
 		return { error: true };
 	}
 	try {
-		const allMessages = (
-			await db.query(
-				`SELECT * FROM server_messages WHERE server_index=${config.servers[selectedServerIndex].serverMessagesId}`
-			)
-		)[0] as dbReturnAllMessages;
-		return allMessages;
+		if (olderThan === 0) {
+			const allMessages = (
+				await db.query(
+					`SELECT * FROM server_messages WHERE server_index=${config.servers[selectedServerIndex].serverMessagesId} AND id > ${newerThan} ORDER BY id DESC LIMIT 30`
+				)
+			)[0] as dbReturnAllMessages;
+			return allMessages;
+		} else {
+			const allMessages = (
+				await db.query(
+					`SELECT * FROM server_messages WHERE server_index=${config.servers[selectedServerIndex].serverMessagesId} AND id < ${olderThan} ORDER BY id ASC LIMIT 30`
+				)
+			)[0] as dbReturnAllMessages;
+			return allMessages;
+		}
 	} catch (err) {
 		console.log(err);
 		return { error: true };

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 import {
@@ -10,26 +10,47 @@ import {
 export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
 	const [chatStore, setChatStore] = useState<dbReturnAllMessages>([]);
-	async function updateChat() {
+	const chatStoreRef = useRef<dbReturnAllMessages>([]);
+	async function getInitChat() {
 		const allMessages = await getServerMessages(activeServer);
 		if ('error' in allMessages) {
 			console.log('Error loading messages');
 			setChatStore([]);
 			return;
 		}
-		setChatStore(allMessages);
+		chatStoreRef.current = allMessages;
+		setChatStore(chatStoreRef.current);
+	}
+	async function updateChat() {
+		const lastMessageId = chatStoreRef.current[0]?.id;
+		const allMessages = await getServerMessages(
+			activeServer,
+			0,
+			lastMessageId || 0
+		);
+		if ('error' in allMessages) {
+			console.log('Error loading messages');
+			return;
+		}
+		chatStoreRef.current = [...allMessages, ...chatStoreRef.current];
+		setChatStore(chatStoreRef.current);
 	}
 	useEffect(() => {
-		updateChat();
-		const interval = setInterval(updateChat, 5000);
-		return () => clearInterval(interval);
+		getInitChat();
+		const interval = setInterval(() => updateChat(), 5000);
+		return () => {
+			clearInterval(interval);
+		};
 	}, [activeServer]);
 	return (
 		<div className="flex h-full flex-col-reverse overflow-auto">
 			<div>
-				{chatStore.map((message) => (
-					<ChatBubble key={message.id} message={message} />
-				))}
+				{chatStore
+					.slice()
+					.reverse()
+					.map((message) => (
+						<ChatBubble key={message.id} message={message} />
+					))}
 			</div>
 		</div>
 	);
