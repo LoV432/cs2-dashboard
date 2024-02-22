@@ -4,7 +4,8 @@ import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
 import {
 	getServerMessages,
-	dbReturnAllMessages
+	dbReturnAllMessages,
+	getFirstMessageId
 } from '../lib/get-server-messages';
 
 export default function ChatBubbles() {
@@ -43,8 +44,12 @@ export default function ChatBubbles() {
 		};
 	}, [activeServer]);
 	return (
-		<div className="flex h-full flex-col-reverse overflow-auto">
+		<div className="flex h-full flex-col-reverse overflow-x-hidden overflow-y-scroll">
 			<div>
+				<OlderMessagesButton
+					setChatStore={setChatStore}
+					chatStoreRef={chatStoreRef}
+				/>
 				{chatStore
 					.slice()
 					.reverse()
@@ -93,6 +98,62 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 				</div>
 				<div className="chat-bubble mb-2 mt-1">{message.message}</div>
 			</div>
+		</>
+	);
+}
+
+export function OlderMessagesButton({
+	setChatStore,
+	chatStoreRef
+}: {
+	setChatStore: React.Dispatch<React.SetStateAction<dbReturnAllMessages>>;
+	chatStoreRef: React.MutableRefObject<dbReturnAllMessages>;
+}) {
+	const activeServer = useAtomValue(activeServerStore);
+	const [firstMessageId, setFirstMessageId] = useState<
+		number | { error: boolean }
+	>({ error: true });
+	const [isLoading, setIsLoading] = useState(false);
+	const shouldLoadButton =
+		chatStoreRef.current[chatStoreRef.current.length - 1]?.id != firstMessageId;
+	async function updateOlderMessages() {
+		if (isLoading) return;
+		setIsLoading(true);
+		const olderThan = chatStoreRef.current[chatStoreRef.current.length - 1]?.id;
+		const allMessages = await getServerMessages(activeServer, olderThan || 0);
+		if ('error' in allMessages) {
+			console.log('Error loading messages');
+			return;
+		}
+		chatStoreRef.current = [...chatStoreRef.current, ...allMessages];
+		setChatStore(chatStoreRef.current);
+		setIsLoading(false);
+	}
+	useEffect(() => {
+		(async () => {
+			setFirstMessageId(await getFirstMessageId(activeServer));
+		})();
+	}, [activeServer]);
+	if (
+		typeof firstMessageId == 'object' ||
+		chatStoreRef.current[chatStoreRef.current.length - 1]?.id == undefined
+	)
+		return null;
+	return (
+		<>
+			{shouldLoadButton && !isLoading && (
+				<button
+					onClick={updateOlderMessages}
+					className={`btn btn-ghost btn-sm w-full text-center`}
+				>
+					Load older messages
+				</button>
+			)}
+			{isLoading && (
+				<button className={`btn btn-ghost btn-sm w-full text-center`}>
+					Loading...
+				</button>
+			)}
 		</>
 	);
 }
