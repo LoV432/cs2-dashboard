@@ -1,8 +1,7 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CommandBubbles from './CommandBubbles';
 import ChatBubbles from './ChatBubbles';
-import SendCommand from './SendCommand';
 
 export default function CommandsBox({
 	featureFlags
@@ -14,16 +13,12 @@ export default function CommandsBox({
 		serverMessagesIsEnabled: boolean;
 	};
 }) {
-	const chatWindowsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 	const [chatPanelActive, setChatPanelActive] = useState(
 		featureFlags.serverMessagesIsEnabled
 	);
 	return (
 		<>
-			<div
-				ref={chatWindowsRef}
-				className="relative m-5 mb-16 flex h-[35rem] w-full flex-col overflow-hidden rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]"
-			>
+			<div className="relative m-5 mb-16 flex h-[35rem] w-full flex-col overflow-hidden rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]">
 				{featureFlags.serverMessagesIsEnabled ? (
 					<>
 						<div className="sticky top-0 z-40 mb-3 flex flex-col rounded-md bg-zinc-700 p-2 text-center text-xl font-bold sm:flex-row">
@@ -50,7 +45,7 @@ export default function CommandsBox({
 
 				{chatPanelActive ? (
 					<>
-						<ChatBubbles chatWindowRef={chatWindowsRef} />
+						<ChatBubbles />
 					</>
 				) : (
 					<>

@@ -7,11 +7,7 @@ import {
 	dbReturnAllMessages
 } from '../lib/get-server-messages';
 
-export default function ChatBubbles({
-	chatWindowRef
-}: {
-	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
-}) {
+export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
 	const [chatStore, setChatStore] = useState<dbReturnAllMessages>([]);
 	async function updateChat() {
@@ -30,24 +26,14 @@ export default function ChatBubbles({
 		<div className="flex h-full flex-col-reverse overflow-auto">
 			<div>
 				{chatStore.map((message) => (
-					<ChatBubble
-						key={message.id}
-						message={message}
-						chatWindowRef={chatWindowRef}
-					/>
+					<ChatBubble key={message.id} message={message} />
 				))}
 			</div>
 		</div>
 	);
 }
 
-export function ChatBubble({
-	message,
-	chatWindowRef
-}: {
-	message: dbReturnAllMessages[0];
-	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
-}) {
+export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 	return (
 		<>
 			<div className="chat chat-start">
