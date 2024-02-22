@@ -27,15 +27,17 @@ export default function ChatBubbles({
 		updateChat();
 	}, [activeServer]);
 	return (
-		<>
-			{chatStore.map((message) => (
-				<ChatBubble
-					key={message.id}
-					message={message}
-					chatWindowRef={chatWindowRef}
-				/>
-			))}
-		</>
+		<div className="flex h-full flex-col-reverse overflow-auto">
+			<div>
+				{chatStore.map((message) => (
+					<ChatBubble
+						key={message.id}
+						message={message}
+						chatWindowRef={chatWindowRef}
+					/>
+				))}
+			</div>
+		</div>
 	);
 }
 
@@ -46,9 +48,6 @@ export function ChatBubble({
 	message: dbReturnAllMessages[0];
 	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
 }) {
-	useEffect(() => {
-		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-	}, []);
 	return (
 		<>
 			<div className="chat chat-start">

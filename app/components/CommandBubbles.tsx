@@ -1,30 +1,28 @@
 'use client';
-import { useEffect } from 'react';
 import { commandStore as commadStoreImport } from '../store/command-store';
 import { useAtomValue } from 'jotai';
 import { activeServerStore } from '../store/active-server-store';
+import SendCommand from './SendCommand';
 
-export default function CommandBubbles({
-	chatWindowRef
-}: {
-	chatWindowRef: React.MutableRefObject<HTMLDivElement>;
-}) {
+export default function CommandBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
 	const commandStore = useAtomValue(commadStoreImport);
-	useEffect(() => {
-		chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-	}, [commandStore]);
 	return (
 		<>
-			{commandStore
-				.filter((message) => message.serverIndex == activeServer)
-				.map((message) => (
-					<CommandBubble
-						key={message.id}
-						text={message.text}
-						type={message.type}
-					/>
-				))}
+			<div className="flex h-full flex-col-reverse overflow-auto">
+				<div>
+					{commandStore
+						.filter((message) => message.serverIndex == activeServer)
+						.map((message) => (
+							<CommandBubble
+								key={message.id}
+								text={message.text}
+								type={message.type}
+							/>
+						))}
+					<SendCommand />
+				</div>
+			</div>
 		</>
 	);
 }

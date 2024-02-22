@@ -170,7 +170,7 @@ export default function SendCommand() {
 					inputValueRef={inputValueRef}
 				/>
 			</div>
-			<div className="join flex justify-center">
+			<div className="join flex justify-center pb-1">
 				<div className="w-4/6">
 					<div>
 						<input
