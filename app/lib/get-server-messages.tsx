@@ -21,7 +21,7 @@ export async function getServerMessages(
 	olderThan = 0,
 	newerThan = 0
 ) {
-	if ('err' in config || config.global.simpleAdmin != true) {
+	if ('err' in config || config.global.serverMessages != true) {
 		return { error: true };
 	}
 	try {
@@ -47,7 +47,7 @@ export async function getServerMessages(
 }
 
 export async function getFirstMessageId(selectedServerIndex: number) {
-	if ('err' in config || config.global.simpleAdmin != true) {
+	if ('err' in config || config.global.serverMessages != true) {
 		return { error: true };
 	}
 	try {
