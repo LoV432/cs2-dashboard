@@ -21,6 +21,8 @@ export default function ChatBubbles() {
 	}
 	useEffect(() => {
 		updateChat();
+		const interval = setInterval(updateChat, 5000);
+		return () => clearInterval(interval);
 	}, [activeServer]);
 	return (
 		<div className="flex h-full flex-col-reverse overflow-auto">
