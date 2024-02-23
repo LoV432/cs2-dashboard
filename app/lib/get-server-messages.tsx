@@ -54,6 +54,7 @@ export async function getFirstMessageId(selectedServerIndex: number) {
 		const firstMessageId = (await db.query(
 			`SELECT id FROM server_messages WHERE server_id=${config.servers[selectedServerIndex].chatLoggerId} ORDER BY id ASC LIMIT 1`
 		)) as RowDataPacket[][];
+		if (firstMessageId[0].length === 0) return { error: 'No messages' };
 		return firstMessageId[0][0].id as number;
 	} catch (err) {
 		console.log(err);

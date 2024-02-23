@@ -108,9 +108,9 @@ export function OlderMessagesButton({
 	chatStoreRef: React.MutableRefObject<dbReturnAllMessages>;
 }) {
 	const activeServer = useAtomValue(activeServerStore);
-	const [firstMessageId, setFirstMessageId] = useState<
-		number | { error: boolean }
-	>({ error: true });
+	const [firstMessageId, setFirstMessageId] = useState<number | { error: any }>(
+		{ error: true }
+	);
 	const [isLoading, setIsLoading] = useState(false);
 	const shouldLoadButton = chatStoreRef.current[0]?.id != firstMessageId;
 	async function updateOlderMessages() {
