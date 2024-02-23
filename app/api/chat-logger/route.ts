@@ -17,24 +17,6 @@ type discordMessage = {
 };
 const config = getServersConfig();
 
-if (!('err' in config) && config.global.chatLogger == true) {
-	try {
-		await db.execute(
-			`CREATE TABLE IF NOT EXISTS server_messages (
-			id INT AUTO_INCREMENT PRIMARY KEY,
-			time DATETIME,
-			team VARCHAR(50),
-			message TEXT,
-			ipAddress VARCHAR(15),
-			author_name VARCHAR(255),
-			author_id VARCHAR(255),
-			author_icon_url VARCHAR(255),
-			server_id INT
-			)`
-		);
-	} catch {}
-}
-
 const regexPattern =
 	/^\[(\d{2}-\d{2}-\d{4}) - (\d{2}:\d{2}:\d{2})\] \[(\w+)\] (.+) \(IpAddress: (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\)$/;
 export async function POST(request: NextRequest) {
