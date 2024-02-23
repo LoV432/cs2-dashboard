@@ -9,7 +9,7 @@ export default function CommandBubbles() {
 	const commandStore = useAtomValue(commadStoreImport);
 	return (
 		<>
-			<div className="flex h-full flex-col-reverse overflow-auto">
+			<div className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden">
 				<div>
 					{commandStore
 						.filter((message) => message.serverIndex == activeServer)

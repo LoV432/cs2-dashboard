@@ -45,7 +45,7 @@ export default function ChatBubbles() {
 		};
 	}, [activeServer]);
 	return (
-		<div className="flex h-full flex-col-reverse overflow-x-hidden overflow-y-scroll">
+		<div className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden">
 			<div>
 				<OlderMessagesButton
 					setChatStore={setChatStore}
@@ -94,7 +94,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 						})}
 					</time>
 				</div>
-				<div className="chat-bubble mb-2 mt-1">{message.message}</div>
+				<div className="chat-bubble mb-2 mt-1 break-all">{message.message}</div>
 			</div>
 		</>
 	);
