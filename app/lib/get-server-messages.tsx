@@ -31,14 +31,14 @@ export async function getServerMessages(
 					`SELECT * FROM server_messages WHERE server_index=${config.servers[selectedServerIndex].serverMessagesId} AND id > ${newerThan} ORDER BY id DESC LIMIT 30`
 				)
 			)[0] as dbReturnAllMessages;
-			return allMessages;
+			return allMessages.reverse();
 		} else {
 			const allMessages = (
 				await db.query(
 					`SELECT * FROM server_messages WHERE server_index=${config.servers[selectedServerIndex].serverMessagesId} AND id < ${olderThan} ORDER BY id DESC LIMIT 30`
 				)
 			)[0] as dbReturnAllMessages;
-			return allMessages;
+			return allMessages.reverse();
 		}
 	} catch (err) {
 		console.log(err);

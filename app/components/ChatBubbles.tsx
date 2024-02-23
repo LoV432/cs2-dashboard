@@ -23,17 +23,18 @@ export default function ChatBubbles() {
 		setChatStore(chatStoreRef.current);
 	}
 	async function updateChat() {
-		const lastMessageId = chatStoreRef.current[0]?.id;
-		const allMessages = await getServerMessages(
+		const lastMessageId =
+			chatStoreRef.current[chatStoreRef.current.length - 1]?.id;
+		const newMessages = await getServerMessages(
 			activeServer,
 			0,
 			lastMessageId || 0
 		);
-		if ('error' in allMessages) {
+		if ('error' in newMessages) {
 			console.log('Error loading messages');
 			return;
 		}
-		chatStoreRef.current = [...allMessages, ...chatStoreRef.current];
+		chatStoreRef.current = [...chatStoreRef.current, ...newMessages];
 		setChatStore(chatStoreRef.current);
 	}
 	useEffect(() => {
@@ -50,12 +51,9 @@ export default function ChatBubbles() {
 					setChatStore={setChatStore}
 					chatStoreRef={chatStoreRef}
 				/>
-				{chatStore
-					.slice()
-					.reverse()
-					.map((message) => (
-						<ChatBubble key={message.id} message={message} />
-					))}
+				{chatStore.map((message) => (
+					<ChatBubble key={message.id} message={message} />
+				))}
 			</div>
 		</div>
 	);
@@ -114,18 +112,17 @@ export function OlderMessagesButton({
 		number | { error: boolean }
 	>({ error: true });
 	const [isLoading, setIsLoading] = useState(false);
-	const shouldLoadButton =
-		chatStoreRef.current[chatStoreRef.current.length - 1]?.id != firstMessageId;
+	const shouldLoadButton = chatStoreRef.current[0]?.id != firstMessageId;
 	async function updateOlderMessages() {
 		if (isLoading) return;
 		setIsLoading(true);
-		const olderThan = chatStoreRef.current[chatStoreRef.current.length - 1]?.id;
-		const allMessages = await getServerMessages(activeServer, olderThan || 0);
-		if ('error' in allMessages) {
+		const olderThan = chatStoreRef.current[0]?.id;
+		const olderMessages = await getServerMessages(activeServer, olderThan || 0);
+		if ('error' in olderMessages) {
 			console.log('Error loading messages');
 			return;
 		}
-		chatStoreRef.current = [...chatStoreRef.current, ...allMessages];
+		chatStoreRef.current = [...olderMessages, ...chatStoreRef.current];
 		setChatStore(chatStoreRef.current);
 		setIsLoading(false);
 	}
@@ -136,7 +133,7 @@ export function OlderMessagesButton({
 	}, [activeServer]);
 	if (
 		typeof firstMessageId == 'object' ||
-		chatStoreRef.current[chatStoreRef.current.length - 1]?.id == undefined
+		chatStoreRef.current[0]?.id == undefined
 	)
 		return null;
 	return (
