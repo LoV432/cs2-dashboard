@@ -10,16 +10,16 @@ export default function CommandsBox({
 		maxMindIsEnabled: boolean;
 		adminPluginIsEnabled: boolean;
 		vipPluginIsEnabled: boolean;
-		serverMessagesIsEnabled: boolean;
+		chatLoggerEnabled: boolean;
 	};
 }) {
 	const [chatPanelActive, setChatPanelActive] = useState(
-		featureFlags.serverMessagesIsEnabled
+		featureFlags.chatLoggerEnabled
 	);
 	return (
 		<>
 			<div className="relative m-5 mb-16 flex h-[35rem] w-full flex-col overflow-hidden rounded-lg border-2 border-zinc-700 bg-zinc-800 p-5 sm:w-[44rem]">
-				{featureFlags.serverMessagesIsEnabled ? (
+				{featureFlags.chatLoggerEnabled ? (
 					<>
 						<div className="sticky top-0 z-40 mb-3 flex flex-col rounded-md bg-zinc-700 p-2 text-center text-xl font-bold sm:flex-row">
 							<div

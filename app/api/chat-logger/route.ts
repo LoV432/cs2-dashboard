@@ -25,7 +25,7 @@ try {
         author_name VARCHAR(255),
         author_id VARCHAR(255),
         author_icon_url VARCHAR(255),
-        server_index INT
+        server_id INT
         )`
 	);
 } catch {}
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 		author: body.embeds[0].author
 	};
 	await db.execute(
-		`INSERT INTO server_messages (time, team, message, ipAddress, author_name, author_id, author_icon_url, server_index) 
+		`INSERT INTO server_messages (time, team, message, ipAddress, author_name, author_id, author_icon_url, server_id) 
     	VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 		[
 			parsedMessage.time,

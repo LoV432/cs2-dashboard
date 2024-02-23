@@ -15,7 +15,7 @@ export default async function ServerInfoPanel({
 		maxMindIsEnabled: boolean;
 		adminPluginIsEnabled: boolean;
 		vipPluginIsEnabled: boolean;
-		serverMessagesIsEnabled: boolean;
+		chatLoggerEnabled: boolean;
 	};
 	serverNames: string[];
 }) {

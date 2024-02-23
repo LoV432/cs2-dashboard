@@ -30,12 +30,12 @@ export default function Home({
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
 	const adminPluginIsEnabled = config.global.simpleAdmin;
 	const vipPluginIsEnabled = config.global.vipCore;
-	const serverMessagesIsEnabled = config.global.serverMessages;
+	const chatLoggerEnabled = config.global.chatLogger;
 	const featureFlags = {
 		maxMindIsEnabled,
 		adminPluginIsEnabled,
 		vipPluginIsEnabled,
-		serverMessagesIsEnabled
+		chatLoggerEnabled
 	};
 	const serverNames = config.servers.map((server) => server.serverName || '');
 	return (
