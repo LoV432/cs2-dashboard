@@ -4,6 +4,8 @@
 [global]
 vipCore = false
 simpleAdmin = false
+chatLogger = false
+chatLoggerToken = 'VerySecureTokenHere' # This MUST match the "chat_logger_token" in your discord webhook url
 mysqlHost = 'localhost'
 mysqlPort = 3306
 mysqlUser = 'root'
@@ -12,21 +14,23 @@ mysqlPassword = 'password'
 preDefinedMaps = [['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # This is Not Required
 
 [[servers]]
-serverName = "Good Name"
+serverName = 'Good Name'
 serverIp = '127.0.0.1'
 serverPort = 27015
 rconPort = 27015
 rconPassword = 'password'
 simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
 vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+chatLoggerId = 1 # The "server_id" value you are using in your discord webhook url
 preDefinedMaps = [['ws:fy_pool_day','Pool Day']] # This is Not Required
 
 [[servers]]
-serverName = "Great Name"
+serverName = 'Great Name'
 serverIp = '127.0.0.2'
 serverPort = 27014
 rconPort = 27014
 rconPassword = 'password'
 simpleAdminId = 59 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
 vipCoreId = 1 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+chatLoggerId = 2 # The "server_id" value you are using in your discord webhook url
 

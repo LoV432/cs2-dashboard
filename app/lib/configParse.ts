@@ -6,6 +6,7 @@ export type configType = {
 		vipCore: boolean;
 		simpleAdmin: boolean;
 		chatLogger: boolean;
+		chatLoggerToken?: string;
 		mysqlHost: string;
 		mysqlPort: number;
 		mysqlUser: string;

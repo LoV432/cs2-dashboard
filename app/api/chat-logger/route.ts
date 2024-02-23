@@ -58,6 +58,15 @@ export async function POST(request: NextRequest) {
 			}
 		}
 	);
+	const searchParams = request.nextUrl.searchParams;
+	if (searchParams.get('chat_logger_token') !== config.global.chatLoggerToken) {
+		return new Response(JSON.stringify({ error: 'Invalid API token' }), {
+			status: 400,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	}
 	const body = (await request.json()) as discordMessage;
 	if (
 		!body.embeds ||
@@ -70,7 +79,6 @@ export async function POST(request: NextRequest) {
 	) {
 		return invalidResponse;
 	}
-	const searchParams = request.nextUrl.searchParams;
 	const serverIdFromUrl = parseInt(searchParams.get('server_id') || '');
 	if (isNaN(serverIdFromUrl)) {
 		return invalidResponse;
