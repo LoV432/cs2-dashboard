@@ -55,8 +55,8 @@ export async function POST(request: NextRequest) {
 		return invalidResponse;
 	}
 	const searchParams = request.nextUrl.searchParams;
-	const serverIndexFromUrl = parseInt(searchParams.get('serverIndex') || '');
-	if (isNaN(serverIndexFromUrl)) {
+	const serverIdFromUrl = parseInt(searchParams.get('server_id') || '');
+	if (isNaN(serverIdFromUrl)) {
 		return invalidResponse;
 	}
 	const messageDescription = body.embeds[0].description;
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
 			parsedMessage.author.name,
 			parsedMessage.author.url?.split('/').slice(-1)[0] || '',
 			parsedMessage.author.icon_url?.split('/').slice(-1)[0] || '',
-			serverIndexFromUrl
+			serverIdFromUrl
 		]
 	);
 	return new Response(JSON.stringify({ success: true }), {
