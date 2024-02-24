@@ -7,6 +7,7 @@ import {
 	dbReturnAllMessages,
 	getFirstMessageId
 } from '../lib/get-server-messages';
+import SendMessage from './SendMessage';
 
 export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
@@ -61,12 +62,50 @@ export default function ChatBubbles() {
 				{chatStore.map((message) => (
 					<ChatBubble key={message.id} message={message} />
 				))}
+				<SendMessage updateChat={updateChat} />
 			</div>
 		</div>
 	);
 }
 
 export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
+	if (message.team == 'CONSOLE') {
+		return (
+			<>
+				<div className="chat chat-start">
+					<div className="avatar chat-image">
+						<div className="w-11 rounded-full">
+							<a href={`admin.jpg`} target={'_blank'}>
+								<img
+									alt={message.author_name}
+									className="p-1"
+									src={`terminal-outline.svg`}
+								/>
+							</a>
+						</div>
+					</div>
+					<div className="chat-header">
+						<a href={`admin.jpg`} target={'_blank'} className="text-rose-600">
+							Console
+						</a>
+						<time className="text-xs opacity-50">
+							{' '}
+							{message.time.toLocaleString('en-US', {
+								year: '2-digit',
+								month: 'numeric',
+								day: 'numeric',
+								hour: 'numeric',
+								minute: 'numeric'
+							})}
+						</time>
+					</div>
+					<div className="chat-bubble mb-2 mt-1 break-all">
+						{message.message}
+					</div>
+				</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<div className="chat chat-start">

@@ -61,3 +61,32 @@ export async function getFirstMessageId(selectedServerIndex: number) {
 		return { error: true };
 	}
 }
+
+export async function addConsoleMessage(
+	selectedServerIndex: number,
+	message: string
+) {
+	if ('err' in config || config.global.chatLogger != true) {
+		return { error: true };
+	}
+	try {
+		await db.query(
+			`INSERT INTO server_messages (server_id, time, team, ipAddress, author_name, author_id, author_icon_url, message) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+			[
+				config.servers[selectedServerIndex].chatLoggerId,
+				new Date(),
+				'CONSOLE',
+				'127.0.0.1',
+				'CONSOLE',
+				'CONSOLE',
+				'CONSOLE',
+				message
+			]
+		);
+		return true;
+	} catch (err) {
+		console.log(err);
+		return { error: true };
+	}
+}
