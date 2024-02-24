@@ -12,6 +12,9 @@ export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
 	const [chatStore, setChatStore] = useState<dbReturnAllMessages>([]);
 	const chatStoreRef = useRef<dbReturnAllMessages>([]);
+	const chatBoxAreaRef = useRef(
+		null
+	) as unknown as React.MutableRefObject<HTMLDivElement>;
 	async function getInitChat() {
 		const allMessages = await getServerMessages(activeServer);
 		if ('error' in allMessages) {
@@ -45,11 +48,15 @@ export default function ChatBubbles() {
 		};
 	}, [activeServer]);
 	return (
-		<div className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden">
+		<div
+			ref={chatBoxAreaRef}
+			className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden"
+		>
 			<div>
 				<OlderMessagesButton
 					setChatStore={setChatStore}
 					chatStoreRef={chatStoreRef}
+					chatBoxAreaRef={chatBoxAreaRef}
 				/>
 				{chatStore.map((message) => (
 					<ChatBubble key={message.id} message={message} />
@@ -102,16 +109,20 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 
 export function OlderMessagesButton({
 	setChatStore,
-	chatStoreRef
+	chatStoreRef,
+	chatBoxAreaRef
 }: {
 	setChatStore: React.Dispatch<React.SetStateAction<dbReturnAllMessages>>;
 	chatStoreRef: React.MutableRefObject<dbReturnAllMessages>;
+	chatBoxAreaRef: React.MutableRefObject<HTMLDivElement>;
 }) {
 	const activeServer = useAtomValue(activeServerStore);
 	const [firstMessageId, setFirstMessageId] = useState<number | { error: any }>(
 		{ error: true }
 	);
 	const [isLoading, setIsLoading] = useState(false);
+	const deBounce = useRef<NodeJS.Timeout>();
+	const loadMoreButtonRef = useRef<HTMLButtonElement>(null);
 	const shouldLoadButton = chatStoreRef.current[0]?.id != firstMessageId;
 	async function updateOlderMessages() {
 		if (isLoading) return;
@@ -126,10 +137,28 @@ export function OlderMessagesButton({
 		setChatStore(chatStoreRef.current);
 		setIsLoading(false);
 	}
+	function updateOnScroll() {
+		if (deBounce.current) clearTimeout(deBounce.current);
+		deBounce.current = setTimeout(() => {
+			if (
+				chatBoxAreaRef.current.scrollHeight +
+					(chatBoxAreaRef.current.scrollTop -
+						chatBoxAreaRef.current.clientHeight) ===
+					0 &&
+				loadMoreButtonRef.current
+			) {
+				updateOlderMessages();
+			}
+		}, 150);
+	}
 	useEffect(() => {
 		(async () => {
 			setFirstMessageId(await getFirstMessageId(activeServer));
 		})();
+		chatBoxAreaRef.current?.addEventListener('scroll', updateOnScroll);
+		return () => {
+			chatBoxAreaRef.current?.removeEventListener('scroll', updateOnScroll);
+		};
 	}, [activeServer]);
 	if (
 		typeof firstMessageId == 'object' ||
@@ -140,6 +169,7 @@ export function OlderMessagesButton({
 		<>
 			{shouldLoadButton && !isLoading && (
 				<button
+					ref={loadMoreButtonRef}
 					onClick={updateOlderMessages}
 					className={`btn btn-ghost btn-sm w-full text-center`}
 				>
