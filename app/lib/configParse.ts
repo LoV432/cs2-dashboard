@@ -5,6 +5,8 @@ export type configType = {
 	global: {
 		vipCore: boolean;
 		simpleAdmin: boolean;
+		chatLogger: boolean;
+		chatLoggerToken?: string;
 		mysqlHost: string;
 		mysqlPort: number;
 		mysqlUser: string;
@@ -20,6 +22,7 @@ export type configType = {
 		rconPassword: string;
 		simpleAdminId: number;
 		vipCoreId: number;
+		chatLoggerId: number;
 		preDefinedMaps?: Array<[string, string]>;
 	}[];
 };
