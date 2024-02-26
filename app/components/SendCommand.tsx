@@ -2,17 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { commandStore as chatStoreImport } from '../store/command-store';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../lib/exec-rcon';
 import { activeServerStore } from '../store/active-server-store';
+import { serverSpecificCommandHistory } from '../store/command-store';
 
 export default function SendCommand() {
 	const activeServer = useAtomValue(activeServerStore);
 	const setChatStore = useSetAtom(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
-	const [commandsHistory, setCommandsHistory] = useState<string[]>([]);
-	const [commandsHistoryIndex, setCommandsHistoryIndex] = useState(0);
+	const [commandsHistory, setCommandsHistory] = useAtom(
+		serverSpecificCommandHistory
+	);
+	const commandsHistoryIndex = useRef(0);
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const suggestionsContainerRef =
@@ -29,8 +32,8 @@ export default function SendCommand() {
 		sendButtonRef.current.setAttribute('disabled', 'true');
 		inputValueRef.current.value = '';
 		setSuggestionText('');
-		setCommandsHistory([...commandsHistory, command]);
-		setCommandsHistoryIndex(commandsHistory.length + 1);
+		setCommandsHistory(command);
+		commandsHistoryIndex.current = commandsHistory.length + 1;
 
 		if (command === 'clear' || command === 'clear ') {
 			setChatStore((prev) =>
@@ -83,26 +86,26 @@ export default function SendCommand() {
 			case 'ArrowUp': {
 				e.preventDefault();
 				const totalCommands = commandsHistory.length;
-				const nextIndex = commandsHistoryIndex - 1;
+				const nextIndex = commandsHistoryIndex.current - 1;
 				if (totalCommands < 0 || nextIndex < 0) {
 					break;
 				}
 				setSuggestionText(commandsHistory[nextIndex]);
 				inputValueRef.current.value = commandsHistory[nextIndex];
-				setCommandsHistoryIndex(nextIndex);
+				commandsHistoryIndex.current = nextIndex;
 				break;
 			}
 
 			case 'ArrowDown': {
 				e.preventDefault();
 				const totalCommands = commandsHistory.length;
-				const nextIndex = commandsHistoryIndex + 1;
+				const nextIndex = commandsHistoryIndex.current + 1;
 				if (totalCommands < 0 || nextIndex >= totalCommands) {
 					break;
 				}
 				setSuggestionText(commandsHistory[nextIndex]);
 				inputValueRef.current.value = commandsHistory[nextIndex];
-				setCommandsHistoryIndex(nextIndex);
+				commandsHistoryIndex.current = nextIndex;
 				break;
 			}
 
@@ -123,7 +126,7 @@ export default function SendCommand() {
 				break;
 
 			default:
-				setCommandsHistoryIndex(commandsHistory.length);
+				commandsHistoryIndex.current = commandsHistory.length;
 				break;
 		}
 	}
@@ -137,6 +140,10 @@ export default function SendCommand() {
 			}, 1);
 		}
 	}
+
+	useEffect(() => {
+		commandsHistoryIndex.current = commandsHistory.length;
+	}, [activeServer]);
 
 	useEffect(() => {
 		// Using this event listener becuase default React event object is passive.
