@@ -18,6 +18,7 @@ export default function ServerInfo({
 	};
 }) {
 	const setLoading = useSetAtom(loadingServerStore);
+	setLoading(false);
 	const selectedServer = useAtomValue(activeServerStore);
 	const lastSelectedServer = useRef(selectedServer);
 	const [serverInfo, setServerInfo] = useState<

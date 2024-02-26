@@ -21,6 +21,7 @@ export default function ServerPlayers({
 }) {
 	const selectedServer = useAtomValue(activeServerStore);
 	const setLoading = useSetAtom(loadingPlayersStore);
+	setLoading(false);
 	const [allPlayers, setAllPlayers] = useState<Player[] | { err: string }>(
 		playersPreRendered
 	);
