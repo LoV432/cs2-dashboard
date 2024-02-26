@@ -15,7 +15,7 @@ export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
 	const [chatStore, setChatStore] =
 		useState<dbReturnAllMessages>(prefetchedMessages);
-	const chatStoreRef = useRef<dbReturnAllMessages>([]);
+	const chatStoreRef = useRef<dbReturnAllMessages>(prefetchedMessages);
 	const chatBoxAreaRef = useRef(
 		null
 	) as unknown as React.MutableRefObject<HTMLDivElement>;
