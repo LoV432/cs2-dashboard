@@ -182,8 +182,8 @@ export function OlderMessagesButton({
 			if (
 				chatBoxAreaRef.current.scrollHeight +
 					(chatBoxAreaRef.current.scrollTop -
-						chatBoxAreaRef.current.clientHeight) ===
-					0 &&
+						chatBoxAreaRef.current.clientHeight) <
+					1 &&
 				loadMoreButtonRef.current
 			) {
 				updateOlderMessages();
