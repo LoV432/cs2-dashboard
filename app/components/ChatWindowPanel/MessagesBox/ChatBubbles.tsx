@@ -8,14 +8,11 @@ import {
 	getFirstMessageId
 } from '../../../lib/get-server-messages';
 import SendMessage from './SendMessage';
-import { prefetchedMessagesAtom } from '../../Misc/PrefetchedMessagesStore';
 
 export default function ChatBubbles() {
-	const prefetchedMessages = useAtomValue(prefetchedMessagesAtom);
 	const activeServer = useAtomValue(activeServerStore);
-	const [chatStore, setChatStore] =
-		useState<dbReturnAllMessages>(prefetchedMessages);
-	const chatStoreRef = useRef<dbReturnAllMessages>(prefetchedMessages);
+	const [chatStore, setChatStore] = useState<dbReturnAllMessages>([]);
+	const chatStoreRef = useRef<dbReturnAllMessages>([]);
 	const chatBoxAreaRef = useRef(
 		null
 	) as unknown as React.MutableRefObject<HTMLDivElement>;

@@ -4,7 +4,6 @@ import { Provider } from 'jotai';
 import Loading from './components/Misc/Loading';
 import ActiveServerURLSync from './components/Misc/ActiveServerURLSync';
 import { getServersConfig } from './lib/configParse';
-import PrefetchMessages from './components/ChatWindowPanel/PrefetchMessages.server';
 export const dynamic = 'force-dynamic';
 
 export default function Home({
@@ -50,9 +49,7 @@ export default function Home({
 							featureFlags={featureFlags}
 							serverNames={serverNames}
 						/>
-						<PrefetchMessages searchParams={searchParams}>
-							<ChatWindowPanel featureFlags={featureFlags} />
-						</PrefetchMessages>
+						<ChatWindowPanel featureFlags={featureFlags} />
 					</ActiveServerURLSync>
 				</Provider>
 			</div>
