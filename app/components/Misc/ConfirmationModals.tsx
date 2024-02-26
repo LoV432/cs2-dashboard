@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { execRcon } from '../lib/exec-rcon';
-import { searchSteamIDFromAdminPlugin } from '../lib/get-steamid';
+import { execRcon } from '../../lib/exec-rcon';
+import { searchSteamIDFromAdminPlugin } from '../../lib/get-steamid';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
-import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
-import { getMapsList } from '../lib/get-public-configs';
+import { activeServerStore } from '../../store/active-server-store';
+import { reloadAllServerAdmin } from '../../lib/reload-admin-vip';
+import { getMapsList } from '../../lib/get-public-configs';
 export function ConfirmationModal({
 	modalName,
 	modalRef,

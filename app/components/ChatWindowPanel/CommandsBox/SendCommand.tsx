@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { commandStore as chatStoreImport } from '../store/command-store';
+import { commandStore as chatStoreImport } from '../../../store/command-store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import Suggestions from './Suggestions.server';
-import { execRcon } from '../lib/exec-rcon';
-import { activeServerStore } from '../store/active-server-store';
-import { serverSpecificCommandHistory } from '../store/command-store';
+import { execRcon } from '../../../lib/exec-rcon';
+import { activeServerStore } from '../../../store/active-server-store';
+import { serverSpecificCommandHistory } from '../../../store/command-store';
 
 export default function SendCommand() {
 	const activeServer = useAtomValue(activeServerStore);

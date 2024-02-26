@@ -1,7 +1,7 @@
 'use client';
-import { commandStore as commadStoreImport } from '../store/command-store';
+import { commandStore as commadStoreImport } from '../../../store/command-store';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../../store/active-server-store';
 import SendCommand from './SendCommand';
 
 export default function CommandBubbles() {

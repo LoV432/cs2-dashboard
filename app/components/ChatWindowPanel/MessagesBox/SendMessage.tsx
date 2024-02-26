@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import { execRcon } from '../lib/exec-rcon';
-import { activeServerStore } from '../store/active-server-store';
-import { addConsoleMessage } from '../lib/get-server-messages';
+import { execRcon } from '../../../lib/exec-rcon';
+import { activeServerStore } from '../../../store/active-server-store';
+import { addConsoleMessage } from '../../../lib/get-server-messages';
 
 export default function SendMessage({
 	updateChat

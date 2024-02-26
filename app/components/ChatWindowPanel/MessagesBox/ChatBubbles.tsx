@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../../store/active-server-store';
 import {
 	getServerMessages,
 	dbReturnAllMessages,
 	getFirstMessageId
-} from '../lib/get-server-messages';
+} from '../../../lib/get-server-messages';
 import SendMessage from './SendMessage';
 
 export default function ChatBubbles() {

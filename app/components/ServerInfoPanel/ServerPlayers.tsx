@@ -2,11 +2,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
-import AdminPanel from './AdminPanel';
-import { getPlayers } from '../lib/get-playes';
+import AdminPanel from './AdminPanel/AdminPanel';
+import { getPlayers } from '../../lib/get-playes';
 import { useSetAtom, useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
-import { loadingPlayersStore } from '../store/loading-store';
+import { activeServerStore } from '../../store/active-server-store';
+import { loadingPlayersStore } from '../../store/loading-store';
 
 export default function ServerPlayers({
 	playersPreRendered,

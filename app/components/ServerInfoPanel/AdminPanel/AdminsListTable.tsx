@@ -1,11 +1,14 @@
 import { useRef, useState } from 'react';
-import { dbReturnAllAdmins } from '../lib/get-admins-list';
-import { AddAdminManualModal, ConfirmationModal } from './ConfirmationModals';
+import { dbReturnAllAdmins } from '../../../lib/get-admins-list';
+import {
+	AddAdminManualModal,
+	ConfirmationModal
+} from '../../Misc/ConfirmationModals';
 import Image from 'next/image';
-import { execRcon } from '../lib/exec-rcon';
+import { execRcon } from '../../../lib/exec-rcon';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
-import { reloadAllServerAdmin } from '../lib/reload-admin-vip';
+import { activeServerStore } from '../../../store/active-server-store';
+import { reloadAllServerAdmin } from '../../../lib/reload-admin-vip';
 
 export default function AdminsListTable({
 	adminsList,

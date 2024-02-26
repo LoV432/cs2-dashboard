@@ -1,18 +1,18 @@
 import { useRef } from 'react';
-import { Player } from '../lib/parse-players';
+import { Player } from '../../../lib/parse-players';
 import {
 	ConfirmationModalWithInput,
 	ConfirmationModal,
 	ConfirmationModalVip,
 	ConfirmationModalAdmin
-} from './ConfirmationModals';
-import { execRcon } from '../lib/exec-rcon';
+} from '../../Misc/ConfirmationModals';
+import { execRcon } from '../../../lib/exec-rcon';
 import {
 	searchSteamIDFromAdminPlugin,
 	searchSteamIDFromNative
-} from '../lib/get-steamid';
+} from '../../../lib/get-steamid';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../../store/active-server-store';
 
 export default function AdminPanel({
 	adminPanelModal,

@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import {
 	getBansAndMutes,
 	dbReturnAllPunishmentAction
-} from '../lib/get-bans-mutes-list';
+} from '../../../lib/get-bans-mutes-list';
 import PunishmentsListTable from './PunishmentsListTable';
-import { dbReturnAllVipsAction, getVipsList } from '../lib/get-vip-list';
-import { getAdmins, dbReturnAllAdmins } from '../lib/get-admins-list';
+import { dbReturnAllVipsAction, getVipsList } from '../../../lib/get-vip-list';
+import { getAdmins, dbReturnAllAdmins } from '../../../lib/get-admins-list';
 import VipsListTable from './VipListTable';
 import AdminsListTable from './AdminsListTable';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../../store/active-server-store';
 
 export default function AdminActionListButton({
 	featureFlags

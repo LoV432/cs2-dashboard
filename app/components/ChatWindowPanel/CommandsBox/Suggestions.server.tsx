@@ -1,5 +1,5 @@
 'use client';
-import { allCommands } from '../lib/all-commands';
+import { allCommands } from '../../../lib/all-commands';
 import Fuse from 'fuse.js';
 
 const fuseSearch = new Fuse(allCommands, {

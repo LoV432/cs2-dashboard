@@ -1,5 +1,5 @@
 'use client';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../store/active-server-store';
 import { useHydrateAtoms } from 'jotai/utils';
 
 export default function ActiveServerURLSync({
@@ -12,5 +12,5 @@ export default function ActiveServerURLSync({
 	useHydrateAtoms([
 		[activeServerStore, Number(searchParams['SelectedServer']) || 0]
 	]);
-	return <>{ children }</>;
+	return <>{children}</>;
 }

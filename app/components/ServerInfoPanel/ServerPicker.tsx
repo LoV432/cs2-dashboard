@@ -1,5 +1,5 @@
 'use client';
-import { activeServerStore } from '../store/active-server-store';
+import { activeServerStore } from '../../store/active-server-store';
 import { useAtom } from 'jotai';
 
 export default function ServerPicker({

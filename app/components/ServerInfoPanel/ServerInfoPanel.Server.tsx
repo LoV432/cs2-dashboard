@@ -1,9 +1,9 @@
 import ServerInfo from './ServerInfo';
 import ServerPlayers from './ServerPlayers';
-import AdminActionList from './AdminActionList';
+import AdminActionList from './AdminPanel/AdminActionList';
 import ServerPicker from './ServerPicker';
-import { getPlayers } from '../lib/get-playes';
-import { getServerInfo } from '../lib/get-server-info';
+import { getPlayers } from '../../lib/get-playes';
+import { getServerInfo } from '../../lib/get-server-info';
 
 export default async function ServerInfoPanel({
 	searchParams,

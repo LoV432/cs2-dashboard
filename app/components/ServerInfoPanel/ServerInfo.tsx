@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { getServerInfo } from '../lib/get-server-info';
-import { ConfirmationModalChangeMap } from './ConfirmationModals';
+import { getServerInfo } from '../../lib/get-server-info';
+import { ConfirmationModalChangeMap } from '../Misc/ConfirmationModals';
 import { useSetAtom, useAtomValue } from 'jotai';
-import { activeServerStore } from '../store/active-server-store';
-import { loadingServerStore } from '../store/loading-store';
+import { activeServerStore } from '../../store/active-server-store';
+import { loadingServerStore } from '../../store/loading-store';
 
 export default function ServerInfo({
 	serverInfoPreRender,

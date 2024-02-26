@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import {
 	loadingPlayersStore,
 	loadingServerStore
-} from '../store/loading-store';
+} from '../../store/loading-store';
 
 export default function Loading() {
 	const loadingPlayersCheck = useAtomValue(loadingPlayersStore);

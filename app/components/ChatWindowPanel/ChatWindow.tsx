@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import CommandBubbles from './CommandBubbles';
-import ChatBubbles from './ChatBubbles';
+import CommandBubbles from './CommandsBox/CommandBubbles';
+import ChatBubbles from './MessagesBox/ChatBubbles';
 
 export default function CommandsBox({
 	featureFlags

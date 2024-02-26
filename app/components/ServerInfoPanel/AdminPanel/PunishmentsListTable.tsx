@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
-import { dbReturnAllPunishmentAction } from '../lib/get-bans-mutes-list';
+import { dbReturnAllPunishmentAction } from '../../../lib/get-bans-mutes-list';
 import {
 	ConfirmationModal,
 	ConfirmationModalBanMuteManual
-} from './ConfirmationModals';
+} from '../../Misc/ConfirmationModals';
 import Image from 'next/image';
-import { execRcon } from '../lib/exec-rcon';
-import { activeServerStore } from '../store/active-server-store';
+import { execRcon } from '../../../lib/exec-rcon';
+import { activeServerStore } from '../../../store/active-server-store';
 import { useAtomValue } from 'jotai';
 
 export default function PunishmentsListTable({

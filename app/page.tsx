@@ -1,8 +1,8 @@
-import ServerInfoPanel from './components/ServerInfoPanel.Server';
-import CommandsBox from './components/CommandsBox';
+import ServerInfoPanel from './components/ServerInfoPanel/ServerInfoPanel.Server';
+import ChatWindowPanel from './components/ChatWindowPanel/ChatWindow';
 import { Provider } from 'jotai';
-import Loading from './components/Loading';
-import ActiveServerURLSync from './components/ActiveServerURLSync';
+import Loading from './components/Misc/Loading';
+import ActiveServerURLSync from './components/Misc/ActiveServerURLSync';
 import { getServersConfig } from './lib/configParse';
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +49,7 @@ export default function Home({
 							featureFlags={featureFlags}
 							serverNames={serverNames}
 						/>
-						<CommandsBox featureFlags={featureFlags} />
+						<ChatWindowPanel featureFlags={featureFlags} />
 					</ActiveServerURLSync>
 				</Provider>
 			</div>
