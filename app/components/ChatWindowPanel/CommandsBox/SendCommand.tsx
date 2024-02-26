@@ -21,12 +21,8 @@ export default function SendCommand() {
 	const suggestionsContainerRef =
 		useRef() as React.MutableRefObject<HTMLDivElement>;
 
-	async function postCommand(
-		e:
-			| React.MouseEvent<HTMLButtonElement>
-			| React.KeyboardEvent<HTMLInputElement>
-	) {
-		if (e.currentTarget.getAttribute('disabled') == 'true') return;
+	async function postCommand() {
+		if (sendButtonRef.current.getAttribute('disabled') == 'true') return;
 		const command = inputValueRef.current.value;
 		if (command.trim().length === 0) return;
 		sendButtonRef.current.setAttribute('disabled', 'true');
@@ -80,7 +76,7 @@ export default function SendCommand() {
 	function handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
 		switch (e.key) {
 			case 'Enter':
-				postCommand(e);
+				postCommand();
 				break;
 
 			case 'ArrowUp': {
@@ -194,7 +190,7 @@ export default function SendCommand() {
 				<div className="indicator w-1/5">
 					<button
 						ref={sendButtonRef}
-						onClick={(e) => postCommand(e)}
+						onClick={postCommand}
 						className="btn join-item w-full"
 					>
 						Send

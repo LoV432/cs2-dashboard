@@ -15,12 +15,8 @@ export default function SendMessage({
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-	async function sendMessaage(
-		e:
-			| React.MouseEvent<HTMLButtonElement>
-			| React.KeyboardEvent<HTMLInputElement>
-	) {
-		if (e.currentTarget.getAttribute('disabled') == 'true') return;
+	async function sendMessaage() {
+		if (sendButtonRef.current.getAttribute('disabled') == 'true') return;
 		const message = inputValueRef.current.value;
 		if (message.trim().length === 0) return;
 		sendButtonRef.current.setAttribute('disabled', 'true');
@@ -38,7 +34,7 @@ export default function SendMessage({
 	function handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
 		switch (e.key) {
 			case 'Enter':
-				sendMessaage(e);
+				sendMessaage();
 				break;
 
 			default:
@@ -81,7 +77,7 @@ export default function SendMessage({
 				<div className="indicator w-1/5">
 					<button
 						ref={sendButtonRef}
-						onClick={(e) => sendMessaage(e)}
+						onClick={sendMessaage}
 						className="btn join-item w-full"
 					>
 						Send
