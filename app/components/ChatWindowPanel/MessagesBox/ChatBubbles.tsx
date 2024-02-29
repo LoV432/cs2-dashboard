@@ -8,6 +8,7 @@ import {
 	getFirstMessageId
 } from '../../../lib/get-server-messages';
 import SendMessage from './SendMessage';
+import Image from 'next/image';
 
 export default function ChatBubbles() {
 	const activeServer = useAtomValue(activeServerStore);
@@ -74,12 +75,14 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 			<>
 				<div className="chat chat-start">
 					<div className="avatar chat-image">
-						<div className="w-11 rounded-full">
+						<div className="w-10 !overflow-visible rounded-full">
 							<a href={`admin.jpg`} target={'_blank'}>
-								<img
+								<Image
+									loading="eager"
 									alt={message.author_name}
-									className="p-1"
 									src={`terminal-outline.svg`}
+									width={80}
+									height={80}
 								/>
 							</a>
 						</div>
@@ -115,9 +118,12 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 							href={`https://steamcommunity.com/profiles/${message.author_id}`}
 							target={'_blank'}
 						>
-							<img
+							<Image
+								loading="eager"
 								alt={message.author_name}
 								src={`https://avatars.akamai.steamstatic.com/${message.author_icon_url}`}
+								width={80}
+								height={80}
 							/>
 						</a>
 					</div>
