@@ -11,6 +11,7 @@ A very basic CounterStrike 2 Server Dashboard!
 - **IP Lookup**: Optionally view IP details such as country, city, ASN, and ASN number.
 - **Admin Actions**: A quick and easy way to kick/(un)ban/slay/(un)mute players using [CS2-SimpleAdmin](https://github.com/daffyyyy/CS2-SimpleAdmin) plugin.
 - **VIPs Managers**: A quick and easy to add/remove/see all your VIPS using [cs2-VIPCore](https://github.com/partiusfabaa/cs2-VIPCore) plugin.
+- **Chat Logging**: Keep logs of all chat messages and display them on the dashboard using [CS2 Chat Logger](https://github.com/oqyh/cs2-Chat-Logger) plugin.
 - **Console**: Execute RCON commands with some basic auto-complete suggestions.
 
 ## Installation
@@ -18,7 +19,7 @@ A very basic CounterStrike 2 Server Dashboard!
 The recommended way to use this is through Docker and Docker Compose. I have provided 3 example docker-compose files.
 1) [Standalone](https://github.com/LoV432/cs2-dashboard/blob/master/examples/dashboard-only)
 2) [Dashboard with CS2](https://github.com/LoV432/cs2-dashboard/blob/master/examples/dashboard-with-cs)
-3) [Dashboard with CS2 and MySQL DB for CS2-SimpleAdmin and cs2-VIPCore plugin](https://github.com/LoV432/cs2-dashboard/blob/master/examples/dashboard-with-cs-db)
+3) [Dashboard with CS2 and MySQL DB](https://github.com/LoV432/cs2-dashboard/blob/master/examples/dashboard-with-cs-db)
 
 ## Guide: Setting Up Docker Compose and Configuring CS2 Dashboard
 
