@@ -35,7 +35,7 @@ This guide will walk you through the process of setting up Docker Compose and co
 If you haven't already, download and install Docker and Docker-Compose for your operating system. You can find installation instructions on the [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/standalone/).
 
 #### 2. Prepare Docker Compose File
-- Download the `docker-compose.yml` file from [here](https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml) and place it in your working directory.
+- Download the `docker-compose.yml` file from [here](https://github.com/LoV432/cs2-dashboard/blob/master/examples/dashboard-only/docker-compose.yml) and place it in your working directory.
 - Optionally, set the `MAXMIND_LICENSE_KEY` in the `docker-compose.yml` file if needed.
 - Run the following command in your terminal:
   ```
@@ -47,19 +47,7 @@ If you haven't already, download and install Docker and Docker-Compose for your 
 After starting the CS2 Dashboard container for the first time, a `config.toml.example` file will be created in your `dashboard-config` directory. Follow these steps to customize the configuration:
 
 - Rename `config.toml.example` to `config.toml`.
-- Edit the `config.toml` file according to your requirements. Here's a breakdown of the parameters you might need to adjust:
-
-    - `vipCore`: Set to `true` if you are using VIP Core, otherwise `false`.
-    - `simpleAdmin`: Set to `true` if you are using SimpleAdmin, otherwise `false`.
-    - `mysqlHost`, `mysqlPort`, `mysqlUser`, `mysqlDatabase`, `mysqlPassword`: Configure MySQL connection details.
-    - For each game server, configure the server details under `[[servers]]`:
-        - `serverName`: A descriptive name for your server.
-        - `serverIp`: IP address of your server.
-        - `serverPort`: Port number of your server.
-        - `rconPort`: RCON port of your server.
-        - `rconPassword`: RCON password of your server.
-        - `simpleAdminId`: ID of the server in SimpleAdmin (if enabled).
-        - `vipCoreId`: ID of the server in VIP Core (if enabled).
+- Edit the `config.toml` file according to your requirements.
 
 #### 4. Restart the CS2 Dashboard Container
 - Navigate to the directory containing the `docker-compose.yml` file in your terminal.

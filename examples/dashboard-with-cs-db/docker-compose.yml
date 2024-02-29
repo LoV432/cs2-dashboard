@@ -16,7 +16,7 @@ services:
         ipv4_address: 10.0.50.2
     ports:
       - '27015:27015/udp'
-      # - "27015:27015/tcp" # This is not required for dashboard to work correctly
+      - '27015:27015/tcp' # This is not required for dashboard to work correctly
     volumes:
       - ./cs2:/home/steam/cs2-dedicated/
       - ./steam:/home/steam/Steam

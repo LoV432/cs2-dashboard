@@ -2,16 +2,32 @@
 # You MUST restart the webserver after making any changes to this file otherwise bad stuff will happen
 
 [global]
-vipCore = false
+
+### SimpleAdmin ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md
 simpleAdmin = false
+preDefinedMaps = [['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # Optional
+
+
+### VipCore ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md
+vipCore = false
+
+
+### ChatLogger ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/ChatLogger.md
 chatLogger = false
-chatLoggerToken = 'VerySecureTokenHere' # This MUST match the "chat_logger_token" in your discord webhook url
+chatLoggerToken = 'VerySecureTokenHere'
+
+
+### MySQL ###
+# This is only required if you have enabled any of the above plugins
 mysqlHost = 'localhost'
 mysqlPort = 3306
-mysqlUser = 'root'
-mysqlDatabase = 'dbname'
+mysqlUser = 'user'
+mysqlDatabase = 'db_name'
 mysqlPassword = 'password'
-preDefinedMaps = [['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # This is Not Required
+
 
 [[servers]]
 serverName = 'Good Name'
@@ -19,10 +35,17 @@ serverIp = '127.0.0.1'
 serverPort = 27015
 rconPort = 27015
 rconPassword = 'password'
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md
 simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
+preDefinedMaps = [['ws:fy_pool_day','Pool Day']] # Optional
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md
 vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/ChatLogger.md
 chatLoggerId = 1 # The "server_id" value you are using in your discord webhook url
-preDefinedMaps = [['ws:fy_pool_day','Pool Day']] # This is Not Required
+
 
 [[servers]]
 serverName = 'Great Name'
@@ -30,7 +53,7 @@ serverIp = '127.0.0.2'
 serverPort = 27014
 rconPort = 27014
 rconPassword = 'password'
-simpleAdminId = 59 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
-vipCoreId = 1 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
-chatLoggerId = 2 # The "server_id" value you are using in your discord webhook url
+simpleAdminId = 59
+vipCoreId = 1
+chatLoggerId = 2
 

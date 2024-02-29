@@ -37,4 +37,4 @@ next-env.d.ts
 
 maxmind
 parse-commands.js
-config.toml
+/config/config.toml

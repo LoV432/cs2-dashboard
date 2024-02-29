@@ -1,0 +1,55 @@
+[global]
+
+### SimpleAdmin ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md
+simpleAdmin = false
+preDefinedMaps = [['de_mirage', 'Mirage'], ['de_dust2', 'Dust 2']] # Optional
+
+
+### VipCore ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md
+vipCore = false
+
+
+### ChatLogger ###
+# https://github.com/LoV432/cs2-dashboard/blob/master/ChatLogger.md
+chatLogger = false
+chatLoggerToken = 'VerySecureTokenHere'
+
+
+### MySQL ###
+# This is only required if you have enabled any of the above plugins
+mysqlHost = '10.0.50.4'
+mysqlPort = 3306
+mysqlUser = 'cs2'
+mysqlDatabase = 'cs2'
+mysqlPassword = 'veryweakdbpassword'
+
+
+[[servers]]
+serverName = 'Good Name'
+serverIp = '10.0.50.2'
+serverPort = 27015
+rconPort = 27015
+rconPassword = 'veryweakrconpassword'
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md
+simpleAdminId = 36 # Required if simpleAdmin = true. You can find this value in the database under sa_servers table
+preDefinedMaps = [['ws:fy_pool_day','Pool Day']] # Optional
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md
+vipCoreId = 0 # required if vipCore = true. You can find this value in your "vip_core.json" file in your plugin config folder
+
+# https://github.com/LoV432/cs2-dashboard/blob/master/ChatLogger.md
+chatLoggerId = 1 # The "server_id" value you are using in your discord webhook url
+
+
+[[servers]]
+serverName = 'Great Name'
+serverIp = '127.0.0.2'
+serverPort = 27014
+rconPort = 27014
+rconPassword = 'password'
+simpleAdminId = 59
+vipCoreId = 1
+chatLoggerId = 2

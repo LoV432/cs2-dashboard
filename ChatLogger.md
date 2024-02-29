@@ -47,3 +47,7 @@
 
    - Ensure `chatLogger` is set to `true`.
    - Set `chatLoggerToken` to match the token used in the Discord webhook URL.
+
+4. **Not working?**
+
+   - Make sure the /api/chat-logger path of your web server is completely public. No basic auth or any kind of auth. The `chatLoggerToken` insures no one else can post messages to it.

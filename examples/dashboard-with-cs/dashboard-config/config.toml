@@ -1,0 +1,11 @@
+[global]
+vipCore = false
+simpleAdmin = false
+chatLogger = false
+
+[[servers]]
+serverName = 'Good Name'
+serverIp = '10.0.50.2'
+serverPort = 27015
+rconPort = 27015
+rconPassword = 'veryweakrconpassword'
