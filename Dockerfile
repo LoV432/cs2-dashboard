@@ -23,7 +23,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-COPY config.toml.example /app/config/config.toml
+COPY config.toml /app/config/config.toml
 RUN npm run build
 RUN rm /app/config/config.toml
 
