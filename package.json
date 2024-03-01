@@ -20,6 +20,7 @@
 		"patch-package": "^8.0.0",
 		"react": "^18",
 		"react-dom": "^18",
+		"sharp": "^0.33.2",
 		"toml": "^3.0.0"
 	},
 	"devDependencies": {
