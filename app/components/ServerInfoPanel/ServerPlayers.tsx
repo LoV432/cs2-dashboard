@@ -62,6 +62,7 @@ export default function ServerPlayers({
 					<tr>
 						<th>Ping</th>
 						<th className="hidden sm:table-cell">Loss</th>
+						<th className="hidden sm:table-cell">Play time</th>
 						<th>Name</th>
 						<th className="hidden sm:table-cell">Address</th>
 						{featureFlags.maxMindIsEnabled && <th>Geo</th>}
@@ -126,6 +127,7 @@ function PlayerRow({
 		>
 			<td>{player.ping}</td>
 			<td className="hidden sm:table-cell">{player.loss}</td>
+			<td className="hidden sm:table-cell">{player.time}</td>
 			<td>
 				<p className="line-clamp-1 break-all">{player.name}</p>
 			</td>
@@ -202,6 +204,10 @@ function AllUserDataPopUp({
 							<tr className="table-row sm:hidden">
 								<th>Loss</th>
 								<td>{selectedPlayer.loss}</td>
+							</tr>
+							<tr className="table-row sm:hidden">
+								<th>Play time</th>
+								<td>{selectedPlayer.time}</td>
 							</tr>
 							<tr className="table-row break-all sm:hidden">
 								<th>Name</th>
