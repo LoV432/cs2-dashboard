@@ -53,7 +53,7 @@ export default function AdminActionListButton({
 	}
 
 	useEffect(() => {
-		defaultTab.current.click(); // TODO: If i put "checked" directly on the HTML Input element the tabs dont switch
+		//defaultTab.current.click(); // TODO: If i put "checked" directly on the HTML Input element the tabs dont switch
 		updatePunishmentsList();
 		updateVipsList();
 		updateAdminsList();
@@ -82,7 +82,9 @@ export default function AdminActionListButton({
 							className="tabs tabs-bordered grid-cols-3 grid-rows-[auto]"
 						>
 							<input
-								ref={defaultTab}
+								defaultChecked={
+									featureFlags.adminPluginIsEnabled ? true : false
+								}
 								type="radio"
 								name="Admin_Action_Borders"
 								role="tab"
@@ -98,60 +100,13 @@ export default function AdminActionListButton({
 									/>
 								) : (
 									<p>
-										You can enable this panel by installing{' '}
 										<a
 											className="link link-primary"
 											target="_blank"
-											href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
 										>
-											CS2-SimpleAdmin
-										</a>{' '}
-										and then setting the{' '}
-										<a
-											className="link link-primary"
-											target="_blank"
-											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
-										>
-											ENV
-										</a>{' '}
-										to true in your docker_compose.
-									</p>
-								)}
-							</div>
-
-							<input
-								type="radio"
-								name="Admin_Action_Borders"
-								role="tab"
-								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
-								aria-label="VIPs"
-								onClick={updateVipsList}
-							/>
-							<div role="tabpanel" className="tab-content pt-5">
-								{featureFlags.vipPluginIsEnabled ? (
-									<VipsListTable
-										vipsList={vipsList}
-										updateVipsList={updateVipsList}
-									/>
-								) : (
-									<p>
-										You can enable this panel by installing{' '}
-										<a
-											className="link link-primary"
-											target="_blank"
-											href="https://github.com/partiusfabaa/cs2-VIPCore"
-										>
-											cs2-VIPCore
-										</a>{' '}
-										and then setting the{' '}
-										<a
-											className="link link-primary"
-											target="_blank"
-											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
-										>
-											ENV
-										</a>{' '}
-										to true in your docker_compose.
+											How to enable this?
+										</a>
 									</p>
 								)}
 							</div>
@@ -172,23 +127,43 @@ export default function AdminActionListButton({
 									/>
 								) : (
 									<p>
-										You can enable this panel by installing{' '}
 										<a
 											className="link link-primary"
 											target="_blank"
-											href="https://github.com/daffyyyy/CS2-SimpleAdmin"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
 										>
-											CS2-SimpleAdmin
-										</a>{' '}
-										and then setting the{' '}
+											How to enable this?
+										</a>
+									</p>
+								)}
+							</div>
+
+							<input
+								defaultChecked={
+									featureFlags.adminPluginIsEnabled ? false : true
+								}
+								type="radio"
+								name="Admin_Action_Borders"
+								role="tab"
+								className="tab h-12 text-lg font-semibold transition-all checked:bg-zinc-700 hover:bg-zinc-800 checked:hover:bg-zinc-700 focus:outline-0"
+								aria-label="VIPs"
+								onClick={updateVipsList}
+							/>
+							<div role="tabpanel" className="tab-content pt-5">
+								{featureFlags.vipPluginIsEnabled ? (
+									<VipsListTable
+										vipsList={vipsList}
+										updateVipsList={updateVipsList}
+									/>
+								) : (
+									<p>
 										<a
 											className="link link-primary"
 											target="_blank"
-											href="https://github.com/LoV432/cs2-dashboard/blob/master/examples/docker-compose.yml"
+											href="https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md"
 										>
-											ENV
-										</a>{' '}
-										to true in your docker_compose.
+											How to enable this?
+										</a>
 									</p>
 								)}
 							</div>
