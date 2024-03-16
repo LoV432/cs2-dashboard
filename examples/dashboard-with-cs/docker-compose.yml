@@ -19,8 +19,6 @@ services:
       - '27015:27015/tcp'
     volumes:
       - ./cs2:/home/steam/cs2-dedicated/
-      - ./steam:/home/steam/Steam
-      - ./steamcmd:/home/steam/steamcmd
     image: joedwards32/cs2
     restart: unless-stopped
 
