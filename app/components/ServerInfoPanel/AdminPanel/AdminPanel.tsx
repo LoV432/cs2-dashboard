@@ -111,28 +111,28 @@ export default function AdminPanel({
 								<a
 									target="_blank"
 									href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
-									className="btn btn-disabled btn-outline pointer-events-auto w-1/3"
+									className="btn w-1/3 bg-zinc-800 hover:bg-zinc-800 active:bg-zinc-800"
 								>
 									Ban
 								</a>
 								<a
 									target="_blank"
 									href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
-									className="btn btn-disabled btn-outline pointer-events-auto w-1/3"
+									className="btn w-1/3 bg-zinc-800 hover:bg-zinc-800 active:bg-zinc-800"
 								>
 									Mute
 								</a>
 								<a
 									target="_blank"
 									href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
-									className="btn btn-disabled btn-outline pointer-events-auto w-1/3"
+									className="btn w-1/3 bg-zinc-800 hover:bg-zinc-800 active:bg-zinc-800"
 								>
 									Slay
 								</a>
 								<a
 									target="_blank"
 									href="https://github.com/LoV432/cs2-dashboard/blob/master/SimpleAdmin.md"
-									className="btn btn-disabled btn-outline pointer-events-auto w-1/3"
+									className="btn w-1/3 bg-zinc-800 hover:bg-zinc-800 active:bg-zinc-800"
 								>
 									Make ADMIN
 								</a>
@@ -151,7 +151,7 @@ export default function AdminPanel({
 							<a
 								target="_blank"
 								href="https://github.com/LoV432/cs2-dashboard/blob/master/VipCore.md"
-								className="btn btn-disabled btn-outline pointer-events-auto w-1/3"
+								className="btn w-1/3 bg-zinc-800 hover:bg-zinc-800 active:bg-zinc-800"
 							>
 								Make VIP
 							</a>
