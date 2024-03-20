@@ -36,7 +36,7 @@ export async function getPlayers(selectedServer: number, forceUpdate = false) {
 		return { err: 'error' };
 	}
 	if (
-		Date.now() - serversCache[selectedServer].lastReqTime < 5000 &&
+		Date.now() - serversCache[selectedServer].lastReqTime < 4000 &&
 		!forceUpdate
 	) {
 		return serversCache[selectedServer].playersInfo;
