@@ -6,7 +6,7 @@ export const csServerInit = async (ip: string, port: number) => {
 		return await Server({
 			ip,
 			port,
-			timeout: 500
+			timeout: 3000
 		});
 	} catch (err) {
 		return { err };

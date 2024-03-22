@@ -7,7 +7,7 @@ export const rconInit = async (ip: string, port: number, password: string) => {
 			ip,
 			port,
 			password,
-			timeout: 500
+			timeout: 3000
 		});
 	} catch (err) {
 		return { err };
