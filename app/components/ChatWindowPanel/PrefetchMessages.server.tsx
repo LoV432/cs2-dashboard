@@ -13,7 +13,6 @@ export default async function PrefetchMessages({
 	const serverIndex = Number(searchParams['SelectedServer']) || 0;
 	const allMessages = await getServerMessages(serverIndex);
 	if ('error' in allMessages) {
-		console.log('Error loading messages');
 		return (
 			<PrefetchedMessagesStore prefetchedMessages={[]}>
 				{children}
@@ -53,7 +52,7 @@ async function getServerMessages(
 			return allMessages.reverse();
 		}
 	} catch (err) {
-		console.log(err);
+		console.log('Error loading messages: ', err);
 		return { error: true };
 	}
 }

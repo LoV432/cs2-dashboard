@@ -28,7 +28,6 @@ export default function ChatBubbles() {
 	async function getInitChat() {
 		const allMessages = await getServerMessages(activeServer);
 		if ('error' in allMessages) {
-			console.log('Error loading messages');
 			setChatStore([]);
 			return;
 		}
@@ -45,7 +44,6 @@ export default function ChatBubbles() {
 			lastMessageId || 0
 		);
 		if ('error' in newMessages) {
-			console.log('Error loading messages');
 			return;
 		}
 		chatStoreRef.current = [...chatStoreRef.current, ...newMessages];
@@ -193,7 +191,6 @@ export function OlderMessagesButton({
 		const olderThan = chatStoreRef.current[0]?.id;
 		const olderMessages = await getServerMessages(activeServer, olderThan || 0);
 		if ('error' in olderMessages) {
-			console.log('Error loading messages');
 			return;
 		}
 		chatStoreRef.current = [...olderMessages, ...chatStoreRef.current];

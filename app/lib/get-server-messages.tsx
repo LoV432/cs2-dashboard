@@ -41,7 +41,7 @@ export async function getServerMessages(
 			return allMessages.reverse();
 		}
 	} catch (err) {
-		console.log(err);
+		console.log('Error loading messages: ', err);
 		return { error: true };
 	}
 }
