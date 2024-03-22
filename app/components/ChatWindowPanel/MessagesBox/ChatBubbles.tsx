@@ -28,6 +28,7 @@ export default function ChatBubbles() {
 	async function getInitChat() {
 		const allMessages = await getServerMessages(activeServer);
 		if ('error' in allMessages) {
+			chatStoreRef.current = [];
 			setChatStore([]);
 			return;
 		}
