@@ -35,6 +35,7 @@ export default function PunishmentsListTable({
 				<table className="table">
 					<thead className="text-slate-300">
 						<tr className="border-slate-300 border-opacity-30">
+							<th>Server ID</th>
 							<th>Name</th>
 							<th>IP</th>
 							<th>Type</th>
@@ -80,6 +81,7 @@ function PunishmentItemList({
 }) {
 	return (
 		<tr className="border-slate-300 border-opacity-30 text-base">
+			<th>{punishmentItem.server_id}</th>
 			<th>
 				<a
 					className="link underline-offset-4"

@@ -15,6 +15,7 @@ export type dbReturnAllPunishmentAction = {
 	created: string;
 	type: 'MUTE' | 'GAG' | 'BAN';
 	status: string;
+	server_id: number;
 }[];
 
 const config = getServersConfig();
@@ -25,13 +26,11 @@ export async function getBansAndMutes(selectedServerIndex: number) {
 	try {
 		const allBans = (
 			await db.query(
-				`SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE" AND server_id=${config.servers[selectedServerIndex].simpleAdminId}`
+				`SELECT *, "BAN" AS type FROM sa_bans WHERE status="ACTIVE"`
 			)
 		)[0] as dbReturnAllPunishmentAction;
 		const allMutes = (
-			await db.query(
-				`SELECT * FROM sa_mutes WHERE status="ACTIVE" AND server_id=${config.servers[selectedServerIndex].simpleAdminId}`
-			)
+			await db.query(`SELECT * FROM sa_mutes WHERE status="ACTIVE"`)
 		)[0] as dbReturnAllPunishmentAction;
 		const res = [...allBans, ...allMutes];
 		res.sort(
