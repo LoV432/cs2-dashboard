@@ -36,7 +36,7 @@ export async function getBansAndMutes(selectedServerIndex: number) {
 		res.sort(
 			(a, b) => new Date(a.created).getTime() - new Date(b.created).getTime()
 		);
-		return res;
+		return JSON.parse(JSON.stringify(res));
 	} catch (err) {
 		console.log(err);
 		return { error: true };

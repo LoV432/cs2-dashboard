@@ -22,7 +22,7 @@ export async function getVipsList(selectedServerIndex: number) {
 				`SELECT * FROM vip_users WHERE (expires > UNIX_TIMESTAMP(NOW()) OR expires = 0) AND sid=${config.servers[selectedServerIndex].vipCoreId}`
 			)
 		)[0] as dbReturnAllVipsAction;
-		return allVips;
+		return JSON.parse(JSON.stringify(allVips));
 	} catch (err) {
 		console.log(err);
 		return { error: true };

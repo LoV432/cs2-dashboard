@@ -51,7 +51,7 @@ export async function getAdmins(selectedServerIndex: number) {
 		// 		allAdmins.push(admin);
 		// 	}
 		// }
-		return allAdminsList;
+		return JSON.parse(JSON.stringify(allAdminsList));
 	} catch (err) {
 		console.log(err);
 		return { error: true };
