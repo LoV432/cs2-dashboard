@@ -80,11 +80,9 @@ export default function ChatBubbles() {
 export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 	const isHydrated = useAtomValue(isHydratedAtom);
 	const time = useMemo(() => {
-		let time = new Date(message.time).getTime();
-		time -= new Date().getTimezoneOffset() * 60 * 1000;
-		const dateTime = new Date(time);
+		let time = new Date(message.time);
 		if (!isHydrated)
-			return dateTime.toLocaleString('en-US', {
+			return time.toLocaleString('en-US', {
 				year: '2-digit',
 				month: 'numeric',
 				day: 'numeric',
@@ -92,7 +90,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 				minute: 'numeric',
 				timeZone: 'UTC'
 			});
-		return dateTime.toLocaleString('en-US', {
+		return time.toLocaleString('en-US', {
 			year: '2-digit',
 			month: 'numeric',
 			day: 'numeric',
