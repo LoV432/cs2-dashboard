@@ -5,7 +5,7 @@ import { RowDataPacket } from 'mysql2';
 
 export type dbReturnAllMessages = {
 	id: number;
-	time: Date;
+	time: Date | string;
 	team: string;
 	message: string;
 	ipAddress: string;
@@ -25,21 +25,23 @@ export async function getServerMessages(
 		return { error: true };
 	}
 	try {
+		let allMessages: dbReturnAllMessages = [];
 		if (olderThan === 0) {
-			const allMessages = (
+			allMessages = (
 				await db.query(
 					`SELECT * FROM server_messages WHERE server_id=${config.servers[selectedServerIndex].chatLoggerId} AND id > ${newerThan} ORDER BY id DESC LIMIT 30`
 				)
 			)[0] as dbReturnAllMessages;
-			return JSON.parse(JSON.stringify(allMessages.reverse()));
 		} else {
-			const allMessages = (
+			allMessages = (
 				await db.query(
 					`SELECT * FROM server_messages WHERE server_id=${config.servers[selectedServerIndex].chatLoggerId} AND id < ${olderThan} ORDER BY id DESC LIMIT 30`
 				)
 			)[0] as dbReturnAllMessages;
-			return JSON.parse(JSON.stringify(allMessages.reverse()));
 		}
+		return JSON.parse(
+			JSON.stringify(allMessages.reverse())
+		) as dbReturnAllMessages;
 	} catch (err) {
 		console.log('Error loading messages: ', err);
 		return { error: true };
