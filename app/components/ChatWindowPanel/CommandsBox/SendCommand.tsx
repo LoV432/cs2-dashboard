@@ -1,21 +1,25 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { commandStore as chatStoreImport } from '../../../store/command-store';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import {
+	commandHistory,
+	commandChatHistory
+} from '../../../store/command-store';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../../../lib/exec-rcon';
-import { serverSpecificCommandHistory } from '../../../store/command-store';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
 import { useContext } from 'react';
 
-export default function SendCommand() {
+export default function SendCommand({
+	setCommandChatHistory
+}: {
+	setCommandChatHistory: React.Dispatch<
+		React.SetStateAction<commandChatHistory>
+	>;
+}) {
 	const activeServer = useContext(ActiveServerContext);
-	const setChatStore = useSetAtom(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
-	const [commandsHistory, setCommandsHistory] = useAtom(
-		serverSpecificCommandHistory
-	);
+	const [commandsHistory, setCommandsHistory] = useState<commandHistory>([]);
 	const commandsHistoryIndex = useRef(0);
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -29,18 +33,16 @@ export default function SendCommand() {
 		sendButtonRef.current.setAttribute('disabled', 'true');
 		inputValueRef.current.value = '';
 		setSuggestionText('');
-		setCommandsHistory(command);
+		setCommandsHistory((prev) => [...prev, command]);
 		commandsHistoryIndex.current = commandsHistory.length + 1;
 
 		if (command === 'clear' || command === 'clear ') {
-			setChatStore((prev) =>
-				prev.filter((item) => item.serverIndex !== activeServer)
-			);
+			setCommandChatHistory([]);
 			sendButtonRef.current.removeAttribute('disabled');
 			return;
 		}
 
-		setChatStore((prev) => [
+		setCommandChatHistory((prev) => [
 			...prev,
 			{
 				id: Date.now(),
@@ -54,7 +56,7 @@ export default function SendCommand() {
 			commandExec !== false
 				? commandExec
 				: 'Command failed to exec. Check server logs for more info.';
-		setChatStore((prev) => [
+		setCommandChatHistory((prev) => [
 			...prev,
 			{
 				id: Date.now(),

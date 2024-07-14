@@ -1,27 +1,47 @@
 'use client';
-import { commandStore as commadStoreImport } from '../../../store/command-store';
-import { useAtomValue } from 'jotai';
+import { commandChatHistory } from '../../../store/command-store';
 import SendCommand from './SendCommand';
+import { useState, useMemo } from 'react';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 export default function CommandBubbles() {
-	const commandStore = useAtomValue(commadStoreImport);
 	const activeServer = useContext(ActiveServerContext);
+	const [commandChatHistory, setCommandChatHistory] =
+		useState<commandChatHistory>([]);
+
+	useMemo(() => {
+		if (commandChatHistory.length > 100) {
+			commandChatHistory.splice(0, commandChatHistory.length - 100);
+		}
+		if (commandChatHistory.length === 0) {
+			return;
+		}
+		sessionStorage.setItem(
+			`command-chat-history-${activeServer}`,
+			JSON.stringify(commandChatHistory)
+		);
+	}, [commandChatHistory]);
+	useEffect(() => {
+		const storedCommandChatHistory = sessionStorage.getItem(
+			`command-chat-history-${activeServer}`
+		);
+		if (storedCommandChatHistory) {
+			setCommandChatHistory(JSON.parse(storedCommandChatHistory));
+		}
+	}, []);
 	return (
 		<>
 			<div className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden">
 				<div>
-					{commandStore
-						.filter((message) => message.serverIndex == activeServer)
-						.map((message) => (
-							<CommandBubble
-								key={message.id}
-								text={message.text}
-								type={message.type}
-							/>
-						))}
-					<SendCommand />
+					{commandChatHistory.map((message) => (
+						<CommandBubble
+							key={message.id}
+							text={message.text}
+							type={message.type}
+						/>
+					))}
+					<SendCommand setCommandChatHistory={setCommandChatHistory} />
 				</div>
 			</div>
 		</>
