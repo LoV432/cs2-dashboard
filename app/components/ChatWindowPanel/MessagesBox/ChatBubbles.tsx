@@ -63,15 +63,18 @@ export default function ChatBubbles({
 }
 
 export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
-	const time = useMemo(() => {
-		let time = new Date(message.time);
-		return time.toLocaleString('en-US', {
-			year: '2-digit',
-			month: 'numeric',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric'
-		});
+	const [time, setTime] = useState<string>('');
+	useEffect(() => {
+		const time = new Date(message.time);
+		setTime(
+			time.toLocaleString('en-US', {
+				year: '2-digit',
+				month: 'numeric',
+				day: 'numeric',
+				hour: 'numeric',
+				minute: 'numeric'
+			})
+		);
 	}, []);
 	if (message.team == 'CONSOLE') {
 		return (
