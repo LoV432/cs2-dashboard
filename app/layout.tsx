@@ -1,4 +1,5 @@
 import './globals.css';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata = {
 	title: 'CS2 Dashboard',
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
 	return (
 		<html className="bg-black" lang="en">
-			<body>{children}</body>
+			<body>
+				<NextTopLoader color="white" />
+				{children}
+			</body>
 		</html>
 	);
 }
