@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAtomValue, useAtom } from 'jotai';
 import {
 	getServerMessages,
 	dbReturnAllMessages,
@@ -8,35 +7,21 @@ import {
 } from '../../../lib/get-server-messages';
 import SendMessage from './SendMessage';
 import Image from 'next/image';
-import {
-	prefetchedMessagesAtom,
-	isHydrated as isHydratedAtom
-} from '../../Misc/PrefetchedMessagesStore';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
 import { useContext } from 'react';
 
-export default function ChatBubbles() {
+export default function ChatBubbles({
+	chatStore,
+	setChatStore
+}: {
+	chatStore: dbReturnAllMessages;
+	setChatStore: React.Dispatch<React.SetStateAction<dbReturnAllMessages>>;
+}) {
 	const activeServer = useContext(ActiveServerContext);
-	const [prefetchedMessages, setPrefetchedMessages] = useAtom(
-		prefetchedMessagesAtom
-	);
-	const [chatStore, setChatStore] =
-		useState<dbReturnAllMessages>(prefetchedMessages);
-	const chatStoreRef = useRef<dbReturnAllMessages>(prefetchedMessages);
+	const chatStoreRef = useRef<dbReturnAllMessages>(chatStore);
 	const chatBoxAreaRef = useRef(
 		null
 	) as unknown as React.MutableRefObject<HTMLDivElement>;
-	async function getInitChat() {
-		const allMessages = await getServerMessages(activeServer);
-		if ('error' in allMessages) {
-			chatStoreRef.current = [];
-			setChatStore([]);
-			return;
-		}
-		chatStoreRef.current = allMessages;
-		setChatStore(chatStoreRef.current);
-		setPrefetchedMessages([]); // Clear prefetched messages or otherwise they will be shown when switching servers
-	}
 	async function updateChat() {
 		const lastMessageId =
 			chatStoreRef.current[chatStoreRef.current.length - 1]?.id;
@@ -52,7 +37,6 @@ export default function ChatBubbles() {
 		setChatStore(chatStoreRef.current);
 	}
 	useEffect(() => {
-		getInitChat();
 		const interval = setInterval(() => updateChat(), 5000);
 		return () => {
 			clearInterval(interval);
@@ -79,18 +63,8 @@ export default function ChatBubbles() {
 }
 
 export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
-	const isHydrated = useAtomValue(isHydratedAtom);
 	const time = useMemo(() => {
 		let time = new Date(message.time);
-		if (!isHydrated)
-			return time.toLocaleString('en-US', {
-				year: '2-digit',
-				month: 'numeric',
-				day: 'numeric',
-				hour: 'numeric',
-				minute: 'numeric',
-				timeZone: 'UTC'
-			});
 		return time.toLocaleString('en-US', {
 			year: '2-digit',
 			month: 'numeric',
@@ -98,7 +72,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 			hour: 'numeric',
 			minute: 'numeric'
 		});
-	}, [isHydrated]);
+	}, []);
 	if (message.team == 'CONSOLE') {
 		return (
 			<>
@@ -109,7 +83,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 								<Image
 									loading="eager"
 									alt={message.author_name}
-									src={`terminal-outline.svg`}
+									src={`/terminal-outline.svg`}
 									width={80}
 									height={80}
 								/>
@@ -120,11 +94,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 						<a href={`admin.jpg`} target={'_blank'} className="text-rose-600">
 							Console
 						</a>
-						<time
-							className={`pl-2 text-xs opacity-50 ${isHydrated ? '' : 'invisible'}}`}
-						>
-							{time}
-						</time>
+						<time className={`pl-2 text-xs opacity-50`}>{time}</time>
 					</div>
 					<div className="chat-bubble mb-2 mt-1 break-all">
 						{message.message}
@@ -159,11 +129,7 @@ export function ChatBubble({ message }: { message: dbReturnAllMessages[0] }) {
 					>
 						{message.author_name}
 					</a>
-					<time
-						className={`pl-2 text-xs opacity-50 ${isHydrated ? '' : 'invisible'}`}
-					>
-						{time}
-					</time>
+					<time className={`pl-2 text-xs opacity-50`}>{time}</time>
 				</div>
 				<div className="chat-bubble mb-2 mt-1 break-all">{message.message}</div>
 			</div>

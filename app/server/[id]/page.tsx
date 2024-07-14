@@ -3,10 +3,10 @@ import ChatWindowPanel from '@/app/components/ChatWindowPanel/ChatWindow';
 import { Provider } from 'jotai';
 import Providers from '@/app/providers/Providers';
 import { getServersConfig } from '@/app/lib/configParse';
-import PrefetchMessages from '@/app/components/ChatWindowPanel/PrefetchMessages.server';
+import { prefetchMessages } from '@/app/lib/prefetchMessages';
 export const dynamic = 'force-dynamic';
 
-export default function Home({ params }: { params: { id: string } }) {
+export default async function Home({ params }: { params: { id: string } }) {
 	const config = getServersConfig();
 	if ('err' in config) {
 		console.log(config.err);
@@ -42,6 +42,10 @@ export default function Home({ params }: { params: { id: string } }) {
 		chatLoggerEnabled
 	};
 	const serverNames = config.servers.map((server) => server.serverName || '');
+	let prefetchedMessages = await prefetchMessages(activeServer);
+	if ('error' in prefetchedMessages) {
+		prefetchedMessages = [];
+	}
 	return (
 		<>
 			<div className="relative flex min-h-screen w-full flex-row flex-wrap justify-evenly">
@@ -52,9 +56,10 @@ export default function Home({ params }: { params: { id: string } }) {
 							featureFlags={featureFlags}
 							serverNames={serverNames}
 						/>
-						<PrefetchMessages selectedServer={activeServer}>
-							<ChatWindowPanel featureFlags={featureFlags} />
-						</PrefetchMessages>
+						<ChatWindowPanel
+							featureFlags={featureFlags}
+							prefetchedMessages={prefetchedMessages}
+						/>
 					</Providers>
 				</Provider>
 			</div>

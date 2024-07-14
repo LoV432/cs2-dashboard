@@ -10,6 +10,11 @@ const nextConfig = {
 				port: ''
 			}
 		]
+	},
+	experimental: {
+		staleTimes: {
+			dynamic: 0
+		}
 	}
 };
 

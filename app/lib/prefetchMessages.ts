@@ -1,32 +1,8 @@
 import { db } from '@/app/lib/db';
 import { getServersConfig } from '@/app/lib/configParse';
 import type { dbReturnAllMessages } from '@/app/lib/get-server-messages';
-import PrefetchedMessagesStore from '../Misc/PrefetchedMessagesStore';
 
-export default async function PrefetchMessages({
-	selectedServer,
-	children
-}: {
-	selectedServer: number;
-	children: React.ReactNode;
-}) {
-	const serverIndex = selectedServer;
-	const allMessages = await getServerMessages(serverIndex);
-	if ('error' in allMessages) {
-		return (
-			<PrefetchedMessagesStore prefetchedMessages={[]}>
-				{children}
-			</PrefetchedMessagesStore>
-		);
-	}
-	return (
-		<PrefetchedMessagesStore prefetchedMessages={allMessages}>
-			{children}
-		</PrefetchedMessagesStore>
-	);
-}
-
-async function getServerMessages(
+export async function prefetchMessages(
 	selectedServerIndex: number,
 	olderThan = 0,
 	newerThan = 0

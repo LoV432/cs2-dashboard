@@ -2,10 +2,13 @@
 import { useState } from 'react';
 import CommandBubbles from './CommandsBox/CommandBubbles';
 import ChatBubbles from './MessagesBox/ChatBubbles';
+import { dbReturnAllMessages } from '@/app/lib/get-server-messages';
 
 export default function CommandsBox({
+	prefetchedMessages,
 	featureFlags
 }: {
+	prefetchedMessages: dbReturnAllMessages;
 	featureFlags: {
 		maxMindIsEnabled: boolean;
 		adminPluginIsEnabled: boolean;
@@ -16,6 +19,11 @@ export default function CommandsBox({
 	const [chatPanelActive, setChatPanelActive] = useState(
 		featureFlags.chatLoggerEnabled
 	);
+	if ('error' in prefetchedMessages) {
+		prefetchedMessages = [];
+	}
+	const [chatStore, setChatStore] =
+		useState<dbReturnAllMessages>(prefetchedMessages);
 	return (
 		<div className="mx-5 mb-16 mt-5 flex h-[38rem] w-full flex-col overflow-hidden sm:mb-0 sm:w-[44rem]">
 			{featureFlags.chatLoggerEnabled ? (
@@ -42,7 +50,7 @@ export default function CommandsBox({
 			<div className="h-full overflow-hidden rounded-lg border-2 border-zinc-700 bg-zinc-800 px-3 py-2">
 				{chatPanelActive ? (
 					<>
-						<ChatBubbles />
+						<ChatBubbles chatStore={chatStore} setChatStore={setChatStore} />
 					</>
 				) : (
 					<>
