@@ -1,6 +1,5 @@
 import ServerInfoPanel from '@/app/components/ServerInfoPanel/ServerInfoPanel.Server';
 import ChatWindowPanel from '@/app/components/ChatWindowPanel/ChatWindow';
-import { Provider } from 'jotai';
 import Providers from '@/app/providers/Providers';
 import { getServersConfig } from '@/app/lib/configParse';
 import { prefetchMessages } from '@/app/lib/prefetchMessages';
@@ -49,19 +48,17 @@ export default async function Home({ params }: { params: { id: string } }) {
 	return (
 		<>
 			<div className="relative flex min-h-screen w-full flex-row flex-wrap justify-evenly">
-				<Provider>
-					<Providers activeServer={activeServer}>
-						<ServerInfoPanel
-							selectedServer={activeServer}
-							featureFlags={featureFlags}
-							serverNames={serverNames}
-						/>
-						<ChatWindowPanel
-							featureFlags={featureFlags}
-							prefetchedMessages={prefetchedMessages}
-						/>
-					</Providers>
-				</Provider>
+				<Providers activeServer={activeServer}>
+					<ServerInfoPanel
+						selectedServer={activeServer}
+						featureFlags={featureFlags}
+						serverNames={serverNames}
+					/>
+					<ChatWindowPanel
+						featureFlags={featureFlags}
+						prefetchedMessages={prefetchedMessages}
+					/>
+				</Providers>
 			</div>
 		</>
 	);

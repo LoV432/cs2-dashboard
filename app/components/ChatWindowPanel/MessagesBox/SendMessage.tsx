@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useAtomValue } from 'jotai';
 import { execRcon } from '../../../lib/exec-rcon';
 import { addConsoleMessage } from '../../../lib/get-server-messages';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
