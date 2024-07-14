@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export default function Page() {
-	redirect('/server/0');
+	permanentRedirect('/server/0');
 }
