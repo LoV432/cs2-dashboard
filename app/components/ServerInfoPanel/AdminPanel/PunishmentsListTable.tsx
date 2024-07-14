@@ -6,8 +6,8 @@ import {
 } from '../../Misc/ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../../../lib/exec-rcon';
-import { activeServerStore } from '../../../store/active-server-store';
-import { useAtomValue } from 'jotai';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function PunishmentsListTable({
 	punishmentsList,
@@ -145,7 +145,7 @@ function RemovePunishmentActionPopUp({
 	removePunishmentModal: React.MutableRefObject<HTMLDialogElement>;
 	updatePunishmentsList: () => Promise<void>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const removePunishmentAction = (actionType: 'MUTE' | 'GAG' | 'BAN') => {
 		if (actionType == 'BAN') {
 			execRcon(

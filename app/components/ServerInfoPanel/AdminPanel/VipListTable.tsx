@@ -6,8 +6,8 @@ import {
 } from '../../Misc/ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../../../lib/exec-rcon';
-import { activeServerStore } from '../../../store/active-server-store';
-import { useAtomValue } from 'jotai';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function VipsListTable({
 	vipsList,
@@ -121,7 +121,7 @@ function RemoveVipActionPopUp({
 	removeVipModal: React.MutableRefObject<HTMLDialogElement>;
 	updateVipsList: () => Promise<void>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const removeVipAction = () => {
 		execRcon(`css_vip_deleteuser ${player?.account_id}`, activeServer);
 		execRcon('css_vip_reload', activeServer);

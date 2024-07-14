@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useAtom } from 'jotai';
-import { activeServerStore } from '../../../store/active-server-store';
 import {
 	getServerMessages,
 	dbReturnAllMessages,
@@ -13,12 +12,14 @@ import {
 	prefetchedMessagesAtom,
 	isHydrated as isHydratedAtom
 } from '../../Misc/PrefetchedMessagesStore';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function ChatBubbles() {
+	const activeServer = useContext(ActiveServerContext);
 	const [prefetchedMessages, setPrefetchedMessages] = useAtom(
 		prefetchedMessagesAtom
 	);
-	const activeServer = useAtomValue(activeServerStore);
 	const [chatStore, setChatStore] =
 		useState<dbReturnAllMessages>(prefetchedMessages);
 	const chatStoreRef = useRef<dbReturnAllMessages>(prefetchedMessages);
@@ -179,7 +180,7 @@ export function OlderMessagesButton({
 	chatStoreRef: React.MutableRefObject<dbReturnAllMessages>;
 	chatBoxAreaRef: React.MutableRefObject<HTMLDivElement>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const [firstMessageId, setFirstMessageId] = useState<number | { error: any }>(
 		{ error: true }
 	);

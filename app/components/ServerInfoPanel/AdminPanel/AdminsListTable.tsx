@@ -6,9 +6,9 @@ import {
 } from '../../Misc/ConfirmationModals';
 import Image from 'next/image';
 import { execRcon } from '../../../lib/exec-rcon';
-import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../../../store/active-server-store';
 import { reloadAllServerAdmin } from '../../../lib/reload-admin-vip';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function AdminsListTable({
 	adminsList,
@@ -134,7 +134,7 @@ function RemoveAdminPopUp({
 	removeAdminModal: React.MutableRefObject<HTMLDialogElement>;
 	updateAdminsList: () => Promise<void>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const removeAdmin = () => {
 		execRcon(
 			`css_deladmin ${player?.player_steamid} ${player?.server_id == null ? '-g' : ''}`,

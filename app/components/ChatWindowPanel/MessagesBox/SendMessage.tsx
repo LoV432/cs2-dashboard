@@ -3,15 +3,16 @@
 import { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { execRcon } from '../../../lib/exec-rcon';
-import { activeServerStore } from '../../../store/active-server-store';
 import { addConsoleMessage } from '../../../lib/get-server-messages';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function SendMessage({
 	updateChat
 }: {
 	updateChat: () => Promise<void>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const sendButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 	const inputValueRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 

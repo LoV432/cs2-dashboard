@@ -9,8 +9,8 @@ import { dbReturnAllVipsAction, getVipsList } from '../../../lib/get-vip-list';
 import { getAdmins, dbReturnAllAdmins } from '../../../lib/get-admins-list';
 import VipsListTable from './VipListTable';
 import AdminsListTable from './AdminsListTable';
-import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../../../store/active-server-store';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function AdminActionListButton({
 	featureFlags
@@ -21,7 +21,7 @@ export default function AdminActionListButton({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	function closePopUp() {
 		adminActionListModal.current.close();
 	}

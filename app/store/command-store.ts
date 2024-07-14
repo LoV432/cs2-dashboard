@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-import { activeServerStore } from './active-server-store';
 
 type commandStore = {
 	id: number;
@@ -19,7 +18,8 @@ const allCommandHistory = atom([] as commandHistory);
 export const serverSpecificCommandHistory = atom(
 	(get) => {
 		const allCommands = get(allCommandHistory);
-		const serverIndex = get(activeServerStore);
+		// TODO: Temporary bypass for testing
+		const serverIndex = 0;
 		const filteredCommands = allCommands.filter(
 			(command) => command.serverIndex === serverIndex
 		);
@@ -28,7 +28,7 @@ export const serverSpecificCommandHistory = atom(
 	(get, set, command: string) => {
 		set(allCommandHistory, [
 			...get(allCommandHistory),
-			{ command, serverIndex: get(activeServerStore) }
+			{ command, serverIndex: 0 }
 		]);
 	}
 );

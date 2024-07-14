@@ -1,17 +1,12 @@
-import ServerInfoPanel from './components/ServerInfoPanel/ServerInfoPanel.Server';
-import ChatWindowPanel from './components/ChatWindowPanel/ChatWindow';
+import ServerInfoPanel from '@/app/components/ServerInfoPanel/ServerInfoPanel.Server';
+import ChatWindowPanel from '@/app/components/ChatWindowPanel/ChatWindow';
 import { Provider } from 'jotai';
-import Loading from './components/Misc/Loading';
-import ActiveServerURLSync from './components/Misc/ActiveServerURLSync';
-import { getServersConfig } from './lib/configParse';
-import PrefetchMessages from './components/ChatWindowPanel/PrefetchMessages.server';
+import Providers from '@/app/providers/Providers';
+import { getServersConfig } from '@/app/lib/configParse';
+import PrefetchMessages from '@/app/components/ChatWindowPanel/PrefetchMessages.server';
 export const dynamic = 'force-dynamic';
 
-export default function Home({
-	searchParams
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function Home({ params }: { params: { id: string } }) {
 	const config = getServersConfig();
 	if ('err' in config) {
 		console.log(config.err);
@@ -28,6 +23,14 @@ export default function Home({
 			</>
 		);
 	}
+	const activeServer = Number(params.id);
+	if (
+		isNaN(activeServer) ||
+		activeServer < 0 ||
+		activeServer >= config.servers.length
+	) {
+		return <h1>Invalid server ID</h1>;
+	}
 	const maxMindIsEnabled = process.env.MAXMIND_LICENSE_KEY ? true : false;
 	const adminPluginIsEnabled = config.global.simpleAdmin;
 	const vipPluginIsEnabled = config.global.vipCore;
@@ -43,17 +46,16 @@ export default function Home({
 		<>
 			<div className="relative flex min-h-screen w-full flex-row flex-wrap justify-evenly">
 				<Provider>
-					<ActiveServerURLSync searchParams={searchParams}>
-						<Loading />
+					<Providers activeServer={activeServer}>
 						<ServerInfoPanel
-							searchParams={searchParams}
+							selectedServer={activeServer}
 							featureFlags={featureFlags}
 							serverNames={serverNames}
 						/>
-						<PrefetchMessages searchParams={searchParams}>
+						<PrefetchMessages selectedServer={activeServer}>
 							<ChatWindowPanel featureFlags={featureFlags} />
 						</PrefetchMessages>
-					</ActiveServerURLSync>
+					</Providers>
 				</Provider>
 			</div>
 		</>

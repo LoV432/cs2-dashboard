@@ -4,9 +4,8 @@ import { Player } from '@/app/lib/parse-players';
 import Image from 'next/image';
 import AdminPanel from './AdminPanel/AdminPanel';
 import { getPlayers } from '../../lib/get-playes';
-import { useSetAtom, useAtomValue } from 'jotai';
-import { activeServerStore } from '../../store/active-server-store';
-import { loadingPlayersStore } from '../../store/loading-store';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function ServerPlayers({
 	playersPreRendered,
@@ -19,33 +18,21 @@ export default function ServerPlayers({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const selectedServer = useAtomValue(activeServerStore);
-	const setLoading = useSetAtom(loadingPlayersStore);
-	setLoading(false);
+	const activeServer = useContext(ActiveServerContext);
 	const [allPlayers, setAllPlayers] = useState<Player[] | { err: string }>(
 		playersPreRendered
 	);
-	const lastSelectedServer = useRef(selectedServer);
 	const userDataModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const adminPanelModal = useRef() as React.MutableRefObject<HTMLDialogElement>;
 	const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
 	useEffect(() => {
-		if (selectedServer != lastSelectedServer.current) {
-			(async () => {
-				setLoading(true);
-				const players = await getPlayers(selectedServer);
-				setAllPlayers(players);
-				setLoading(false);
-			})();
-		}
-		lastSelectedServer.current = selectedServer;
 		const getPlayersInterval = setInterval(async () => {
-			const players = await getPlayers(selectedServer);
+			const players = await getPlayers(activeServer);
 			setAllPlayers(players);
 		}, 5000);
 		return () => clearInterval(getPlayersInterval);
-	}, [selectedServer]);
+	}, [activeServer]);
 
 	if ('err' in allPlayers) {
 		return (

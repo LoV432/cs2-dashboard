@@ -1,12 +1,13 @@
 'use client';
 import { commandStore as commadStoreImport } from '../../../store/command-store';
 import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../../../store/active-server-store';
 import SendCommand from './SendCommand';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function CommandBubbles() {
-	const activeServer = useAtomValue(activeServerStore);
 	const commandStore = useAtomValue(commadStoreImport);
+	const activeServer = useContext(ActiveServerContext);
 	return (
 		<>
 			<div className="flex h-full flex-col-reverse overflow-y-auto overflow-x-hidden">

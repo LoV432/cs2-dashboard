@@ -6,11 +6,11 @@ import { getPlayers } from '../../lib/get-playes';
 import { getServerInfo } from '../../lib/get-server-info';
 
 export default async function ServerInfoPanel({
-	searchParams,
+	selectedServer,
 	featureFlags,
 	serverNames
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	selectedServer: number;
 	featureFlags: {
 		maxMindIsEnabled: boolean;
 		adminPluginIsEnabled: boolean;
@@ -19,20 +19,28 @@ export default async function ServerInfoPanel({
 	};
 	serverNames: string[];
 }) {
-	const serverIndex = Number(searchParams['SelectedServer']) || 0;
+	const serverIndex = selectedServer;
 	const allPlayers = await getPlayers(serverIndex);
 	const serverInfo = await getServerInfo(serverIndex);
 	if ('err' in serverInfo) {
 		console.log(serverInfo.err);
 		return (
-			<h1>
-				Server connection failed. Please check your docker logs for more info
-			</h1>
+			<div>
+				<ServerPicker serverNames={serverNames} />
+				<h1>
+					Server connection failed. Please check your docker logs for more info
+				</h1>
+			</div>
 		);
 	}
 	if ('err' in allPlayers) {
 		console.log(allPlayers.err);
-		return <h1>RCON failed. Please check your docker logs for more info</h1>;
+		return (
+			<div>
+				<ServerPicker serverNames={serverNames} />
+				<h1>RCON failed. Please check your docker logs for more info</h1>
+			</div>
+		);
 	}
 	return (
 		<div>

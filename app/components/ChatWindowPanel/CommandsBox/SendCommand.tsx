@@ -5,11 +5,12 @@ import { commandStore as chatStoreImport } from '../../../store/command-store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../../../lib/exec-rcon';
-import { activeServerStore } from '../../../store/active-server-store';
 import { serverSpecificCommandHistory } from '../../../store/command-store';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function SendCommand() {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const setChatStore = useSetAtom(chatStoreImport);
 	const [suggestionText, setSuggestionText] = useState('');
 	const [commandsHistory, setCommandsHistory] = useAtom(

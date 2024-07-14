@@ -4,13 +4,13 @@ import type { dbReturnAllMessages } from '@/app/lib/get-server-messages';
 import PrefetchedMessagesStore from '../Misc/PrefetchedMessagesStore';
 
 export default async function PrefetchMessages({
-	searchParams,
+	selectedServer,
 	children
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	selectedServer: number;
 	children: React.ReactNode;
 }) {
-	const serverIndex = Number(searchParams['SelectedServer']) || 0;
+	const serverIndex = selectedServer;
 	const allMessages = await getServerMessages(serverIndex);
 	if ('error' in allMessages) {
 		return (

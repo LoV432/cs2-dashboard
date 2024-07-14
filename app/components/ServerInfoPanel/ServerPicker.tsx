@@ -1,28 +1,28 @@
 'use client';
-import { activeServerStore } from '../../store/active-server-store';
-import { useAtom } from 'jotai';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
+import Link from 'next/link';
 
 export default function ServerPicker({
 	serverNames
 }: {
 	serverNames: string[];
 }) {
-	const [activeServerIndex, setActiveServerIndex] = useAtom(activeServerStore);
 	if (serverNames.length == 1) {
 		return null;
 	}
+	const activeServer = useContext(ActiveServerContext);
 	return (
 		<div className="my-5 flex flex-row flex-wrap justify-center gap-5">
 			{serverNames.map((serverName, index) => (
-				<button
-					key={index}
-					className={`btn btn-outline ${activeServerIndex == index ? 'btn-success' : ''} block`}
-					onClick={() => {
-						setActiveServerIndex(index);
-					}}
-				>
-					{serverName || 'Server ' + (index + 1)}
-				</button>
+				<Link href={`/server/${index}`} key={index}>
+					<button
+						key={index}
+						className={`btn btn-outline ${activeServer == index ? 'btn-success' : ''} block`}
+					>
+						{serverName || 'Server ' + (index + 1)}
+					</button>
+				</Link>
 			))}
 		</div>
 	);

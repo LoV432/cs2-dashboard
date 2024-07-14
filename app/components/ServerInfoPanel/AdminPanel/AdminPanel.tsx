@@ -11,8 +11,8 @@ import {
 	searchSteamIDFromAdminPlugin,
 	searchSteamIDFromNative
 } from '../../../lib/get-steamid';
-import { useAtomValue } from 'jotai';
-import { activeServerStore } from '../../../store/active-server-store';
+import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
+import { useContext } from 'react';
 
 export default function AdminPanel({
 	adminPanelModal,
@@ -212,7 +212,7 @@ function BanPlayerPopUp({
 	banPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const banPlayer = (time: number, reason: string) => {
 		execRcon(`css_ban #${player.id} ${time} "${reason}"`, activeServer);
 		banPlayerModal.current.close();
@@ -244,7 +244,7 @@ function MakeVipPopUp({
 		vipPluginIsEnabled: boolean;
 	};
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const makeVip = async (time: number, group: string) => {
 		let userSteamId = '';
 		if (featureFlags.adminPluginIsEnabled) {
@@ -306,7 +306,7 @@ function KickPlayerPopUp({
 	kickPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const kickPlayer = () => {
 		execRcon(`kickid ${player.id}`, activeServer);
 		kickPlayerModal.current.close();
@@ -332,7 +332,7 @@ function SlayPlayerPopUp({
 	slayPlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const slayPlayer = () => {
 		execRcon(`css_slay #${player.id}`, activeServer);
 		slayPlayerModal.current.close();
@@ -358,7 +358,7 @@ function MutePlayerPopUp({
 	mutePlayerModal: React.MutableRefObject<HTMLDialogElement>;
 	adminPanelModal: React.MutableRefObject<HTMLDialogElement>;
 }) {
-	const activeServer = useAtomValue(activeServerStore);
+	const activeServer = useContext(ActiveServerContext);
 	const mutePlayer = (time: number, reason: string) => {
 		execRcon(`css_mute #${player.id} ${time} "${reason}"`, activeServer);
 		execRcon(`css_gag #${player.id} ${time} "${reason}"`, activeServer);
