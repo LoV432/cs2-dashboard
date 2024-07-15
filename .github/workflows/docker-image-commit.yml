@@ -33,4 +33,4 @@ jobs:
         with:
           platforms: linux/amd64
           push: true
-          tags: lov432/cs2-dashboard:${{ github.ref_name }}-${{ github.sha }}
+          tags: lov432/cs2-dashboard:${{ github.ref_name }}-${{ github.sha }}, lov432/cs2-dashboard:${{ github.ref_name }}
