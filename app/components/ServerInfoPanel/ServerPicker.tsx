@@ -15,7 +15,7 @@ export default function ServerPicker({
 	return (
 		<div className="my-5 flex flex-row flex-wrap justify-center gap-5">
 			{serverNames.map((serverName, index) => (
-				<Link href={`/server/${index}`} key={index}>
+				<Link replace href={`/server/${index}`} key={index}>
 					<button
 						key={index}
 						className={`btn btn-outline ${activeServer == index ? 'btn-success' : ''} block`}
