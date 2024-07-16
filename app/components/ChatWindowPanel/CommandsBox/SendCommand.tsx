@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-	commandHistory,
-	commandChatHistory
-} from '../../../store/command-store';
+import { commandChatHistory } from './CommandBubbles';
 import Suggestions from './Suggestions.server';
 import { execRcon } from '../../../lib/exec-rcon';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
 import { useContext } from 'react';
+
+type commandHistory = string[];
 
 export default function SendCommand({
 	setCommandChatHistory

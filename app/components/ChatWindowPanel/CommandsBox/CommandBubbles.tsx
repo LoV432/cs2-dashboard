@@ -1,9 +1,14 @@
 'use client';
-import { commandChatHistory } from '../../../store/command-store';
 import SendCommand from './SendCommand';
 import { useState, useMemo } from 'react';
 import { ActiveServerContext } from '@/app/providers/ActiveServerContext';
 import { useContext, useEffect } from 'react';
+
+export type commandChatHistory = {
+	id: number;
+	type: 'chat-start' | 'chat-end';
+	text: string;
+}[];
 
 export default function CommandBubbles() {
 	const activeServer = useContext(ActiveServerContext);
