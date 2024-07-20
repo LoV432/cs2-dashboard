@@ -23,16 +23,17 @@ export async function getAdmins(selectedServerIndex: number) {
 		const allAdminsList = (
 			await db.query(
 				`SELECT 
-					id,
+					sa_admins.id as id,
 					player_steamid,
 					player_name,
 					immunity,
-					flags,
+					sa_admins_flags.flag as flags,
 					server_id,
 					UNIX_TIMESTAMP(ends) as ends,
 					UNIX_TIMESTAMP(created) as created
 				FROM 
 					sa_admins 
+				LEFT JOIN sa_admins_flags ON sa_admins.id = sa_admins_flags.admin_id
 				WHERE 
 					(UNIX_TIMESTAMP(ends) > UNIX_TIMESTAMP(NOW()) OR ends IS NULL) AND (server_id=${config.servers[selectedServerIndex].simpleAdminId} OR server_id IS NULL)
 				ORDER BY
